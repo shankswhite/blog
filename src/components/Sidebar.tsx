@@ -1,121 +1,169 @@
 "use client";
-import { navlinks } from "@/constants/navlinks";
-import { Navlink } from "@/types/navlink";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { IconMenu2, IconSparkles, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import React, { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { Heading } from "./Heading";
+import { navlinks } from "@/constants/navlinks";
 import { socials } from "@/constants/socials";
+import { Navlink } from "@/types/navlink";
 import { Badge } from "./Badge";
-import { AnimatePresence, motion } from "framer-motion";
-import { IconLayoutSidebarRightCollapse } from "@tabler/icons-react";
-import { isMobile } from "@/lib/utils";
 
 export const Sidebar = () => {
-  const [open, setOpen] = useState(isMobile() ? false : true);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname() ?? "";
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
     <>
+      <aside className="sticky top-0 hidden h-dvh w-[230px] shrink-0 flex-col px-5 py-7 lg:flex">
+        <SidebarContent />
+      </aside>
+
+      <button
+        type="button"
+        onClick={() => setMobileOpen(true)}
+        className="fixed left-4 top-4 z-[90] inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-[#fffefa]/95 text-slate-700 shadow-lg shadow-slate-900/10 backdrop-blur-lg transition hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 lg:hidden"
+        aria-label="Open navigation"
+        aria-expanded={mobileOpen}
+      >
+        <IconMenu2 size={20} />
+      </button>
+
       <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ x: -200 }}
-            animate={{ x: 0 }}
-            transition={{ duration: 0.2, ease: "linear" }}
-            exit={{ x: -200 }}
-            className="px-6  z-[100] py-10 bg-neutral-100 max-w-[14rem] lg:w-fit  fixed lg:relative  h-screen left-0 flex flex-col justify-between"
-          >
-            <div className="flex-1 overflow-auto">
-              <SidebarHeader />
-              <Navigation setOpen={setOpen} />
-            </div>
-            <div onClick={() => isMobile() && setOpen(false)}>
-              <Badge href="/resume" text="Read Resume" />
-            </div>
-          </motion.div>
+        {mobileOpen && (
+          <>
+            <motion.button
+              type="button"
+              aria-label="Close navigation backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 z-[130] cursor-default bg-slate-950/35 backdrop-blur-sm lg:hidden"
+            />
+            <motion.aside
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="fixed inset-y-0 left-0 z-[140] flex w-[min(86vw,300px)] flex-col bg-[#f6f4ee] px-6 py-6 shadow-2xl lg:hidden"
+            >
+              <button
+                type="button"
+                onClick={() => setMobileOpen(false)}
+                className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-white hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                aria-label="Close navigation"
+              >
+                <IconX size={18} />
+              </button>
+              <SidebarContent onNavigate={() => setMobileOpen(false)} />
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
-      <button
-        className="fixed lg:hidden bottom-4 right-4 h-8 w-8 border border-neutral-200 rounded-full backdrop-blur-sm flex items-center justify-center z-50"
-        onClick={() => setOpen(!open)}
-      >
-        <IconLayoutSidebarRightCollapse className="h-4 w-4 text-secondary" />
-      </button>
     </>
   );
 };
 
-export const Navigation = ({
-  setOpen,
-}: {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const pathname = usePathname();
-
-  const isActive = (href: string) => pathname === href;
-
+function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <div className="flex flex-col space-y-1 my-10 relative z-[100]">
-      {navlinks.map((link: Navlink) => (
-        <Link
-          key={link.href}
-          href={link.href}
-          onClick={() => isMobile() && setOpen(false)}
-          className={twMerge(
-            "text-secondary hover:text-primary transition duration-200 flex items-center space-x-2 py-2 px-2 rounded-md text-sm",
-            isActive(link.href) && "bg-white shadow-lg text-primary"
-          )}
-        >
-          <link.icon
-            className={twMerge(
-              "h-4 w-4 flex-shrink-0",
-              isActive(link.href) && "text-sky-500"
-            )}
-          />
-          <span>{link.label}</span>
-        </Link>
-      ))}
-
-      <Heading as="p" className="text-sm md:text-sm lg:text-sm pt-10 px-2">
-        Socials
-      </Heading>
-      {socials.map((link: Navlink) => (
-        <Link
-          key={link.href}
-          href={link.href}
-          className={twMerge(
-            "text-secondary hover:text-primary transition duration-200 flex items-center space-x-2 py-2 px-2 rounded-md text-sm"
-          )}
-        >
-          <link.icon
-            className={twMerge(
-              "h-4 w-4 flex-shrink-0",
-              isActive(link.href) && "text-sky-500"
-            )}
-          />
-          <span>{link.label}</span>
-        </Link>
-      ))}
-    </div>
-  );
-};
-
-const SidebarHeader = () => {
-  return (
-    <div className="flex space-x-2">
-      <Image
-        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1760&q=80"
-        alt="Avatar"
-        height="40"
-        width="40"
-        className="object-cover object-top rounded-full flex-shrink-0"
-      />
-      <div className="flex text-sm flex-col">
-        <p className="font-bold text-primary">John Doe</p>
-        <p className="font-light text-secondary">Developer</p>
+    <div className="flex min-h-0 flex-1 flex-col">
+      <SidebarHeader />
+      <Navigation onNavigate={onNavigate} />
+      <div onClick={onNavigate} className="mt-auto pt-4">
+        <Badge href="/resume" text="Read Résumé" />
       </div>
     </div>
   );
-};
+}
+
+function Navigation({ onNavigate }: { onNavigate?: () => void }) {
+  const pathname = usePathname() ?? "";
+  const isActive = (href: string) =>
+    href === "/" ? pathname === href : pathname.startsWith(href);
+
+  return (
+    <nav
+      className="my-8 flex min-h-0 flex-1 flex-col overflow-y-auto"
+      aria-label="Main navigation"
+    >
+      <div className="space-y-1">
+        {navlinks.map((link: Navlink) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            onClick={onNavigate}
+            aria-current={isActive(link.href) ? "page" : undefined}
+            className={twMerge(
+              "flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-slate-500 transition hover:bg-white/70 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500",
+              isActive(link.href) &&
+                "bg-white font-medium text-slate-950 shadow-sm ring-1 ring-slate-200/70"
+            )}
+          >
+            <link.icon
+              className={twMerge(
+                "h-4 w-4 shrink-0",
+                isActive(link.href) ? "text-sky-600" : "text-slate-400"
+              )}
+            />
+            <span>{link.label}</span>
+          </Link>
+        ))}
+      </div>
+
+      <p className="mb-2 mt-7 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+        Elsewhere
+      </p>
+      <div className="space-y-1">
+        {socials.map((link: Navlink) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-slate-500 transition hover:bg-white/70 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+          >
+            <link.icon className="h-4 w-4 shrink-0 text-slate-400" />
+            <span>{link.label}</span>
+          </Link>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function SidebarHeader() {
+  return (
+    <Link
+      href="/"
+      className="flex items-center gap-3 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+    >
+      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <Image
+          src="/images/levon-portrait.png"
+          alt="Levon Zhao"
+          fill
+          sizes="48px"
+          className="object-cover object-top"
+          priority
+        />
+      </div>
+      <div className="min-w-0">
+        <p className="truncate text-sm font-semibold tracking-tight text-slate-950">
+          Levon Zhao
+        </p>
+        <p className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-500">
+          <IconSparkles size={11} className="text-sky-600" />
+          Games · AI · Software
+        </p>
+      </div>
+    </Link>
+  );
+}

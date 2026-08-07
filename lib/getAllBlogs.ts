@@ -1,27 +1,35 @@
-import glob from "fast-glob";
-import * as path from "path";
-
-async function importBlog(blogFileNames: any) {
-  let { meta, default: component } = await import(
-    `src/app/blog/${blogFileNames}`
-  );
-  return {
-    slug: blogFileNames.replace(/(\/content)?\.mdx$/, ""),
-    ...meta,
-    component,
-  };
+export interface BlogMeta {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  image: string;
+  tags: string[];
 }
 
-export async function getAllBlogs() {
-  let blogFileNames = await glob(["*.mdx", "*/content.mdx"], {
-    cwd: path.join(process.cwd(), "src/app/blog"),
-  });
+const blogs: BlogMeta[] = [
+  {
+    slug: "beier-neely-image-morphing",
+    title: "Debugging a Beier-Neely Image Morph",
+    description:
+      "What 26 line pairs, five transformation studies, and several coordinate bugs taught me about image warping.",
+    date: "2025-02-01",
+    image: "/media/morphing/miku-midpoint.jpg",
+    tags: ["Computer Graphics", "C++", "Image Processing"],
+  },
+  {
+    slug: "yolo-kan-research",
+    title: "YOLO-KAN: What the Ablation Experiments Taught Me",
+    description:
+      "Introducing Kolmogorov-Arnold Network modules into YOLO11n and testing the architectural trade-offs.",
+    date: "2024-12-08",
+    image: "/media/research/yolo-kan-poster.jpg",
+    tags: ["Computer Vision", "KAN", "YOLO", "Research"],
+  },
+];
 
-  let blogs = await Promise.all(blogFileNames.map(importBlog));
-
-  return blogs.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateB.getTime() - dateA.getTime();
-  });
+export async function getAllBlogs(): Promise<BlogMeta[]> {
+  return [...blogs].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 }

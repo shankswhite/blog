@@ -1,68 +1,70 @@
-"use client";
-import Head from "next/head";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
+import { IconArrowLeft } from "@tabler/icons-react";
 import { formatDate } from "../../lib/formatDate";
-import { Prose } from "@/components/Prose";
 import { Container } from "./Container";
 import { Heading } from "./Heading";
-import Link from "next/link";
 import { Paragraph } from "./Paragraph";
+import { Prose } from "./Prose";
 
-function ArrowLeftIcon(props: any) {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M7.25 11.25 3.75 8m0 0 3.5-3.25M3.75 8h8.5"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+type BlogMeta = {
+  title: string;
+  date: string;
+  image: string;
+  description?: string;
+  tags?: string[];
+};
 
 export function BlogLayout({
   children,
   meta,
-  isRssFeed = false,
-  previousPathname,
-}: any) {
-  let router = useRouter();
-
+}: {
+  children: React.ReactNode;
+  meta: BlogMeta;
+}) {
   return (
     <Container>
       <article>
         <header className="flex flex-col">
           <Link
-            type="button"
             href="/blog"
             aria-label="Go back to articles"
-            className="group mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 transition  "
+            className="group mb-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-slate-300 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
           >
-            <ArrowLeftIcon className="h-4 w-4 stroke-zinc-500 transition group-hover:stroke-zinc-700 d" />
+            <IconArrowLeft size={17} />
           </Link>
 
-          <Heading className=" py-4">{meta.title}</Heading>
-          <time
-            dateTime={meta.date}
-            className="flex items-center text-base text-zinc-400 "
-          >
-            <Paragraph className=" text-zinc-700">
-              {formatDate(meta.date)}
-            </Paragraph>
-          </time>
-          <div className="w-full mt-4 aspect-w-16 aspect-h-10 bg-gray-100 rounded-lg overflow-hidden xl:aspect-w-16 xl:aspect-h-10 relative">
+          <Heading className="py-3">{meta.title}</Heading>
+          {meta.description && (
+            <p className="mt-2 max-w-2xl text-base leading-7 text-slate-600">
+              {meta.description}
+            </p>
+          )}
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <time dateTime={meta.date} className="text-sm text-slate-500">
+              <Paragraph className="text-slate-600">{formatDate(meta.date)}</Paragraph>
+            </time>
+            {meta.tags?.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-medium text-slate-500"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className="relative mt-6 aspect-[16/10] w-full overflow-hidden rounded-[28px] border border-slate-200 bg-slate-100">
             <Image
               src={meta.image}
-              alt="thumbnail"
-              height="800"
-              width="800"
-              className={`object-cover object-left-top w-full max-h-96`}
+              alt={`${meta.title} cover`}
+              fill
+              className="object-cover object-left-top"
+              sizes="(max-width: 1024px) 100vw, 900px"
+              priority
             />
           </div>
         </header>
-        <Prose className="mt-8">{children}</Prose>
+        <Prose className="mt-10">{children}</Prose>
       </article>
     </Container>
   );

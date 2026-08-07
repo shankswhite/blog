@@ -1,26 +1,26 @@
 import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
-import { Highlight } from "@/components/Highlight";
-import { Paragraph } from "@/components/Paragraph";
 import { Products } from "@/components/Products";
-import { Metadata } from "next";
-import Image from "next/image";
+import { createPageMetadata } from "@/lib/siteMetadata";
 
-export const metadata: Metadata = {
-  title: "Projects | John Doe",
+export const metadata = createPageMetadata({
+  title: "Projects",
   description:
-    "John Doe is a developer, writer and speaker. He is a digital nomad and travels around the world while working remotely.",
-};
+    "Selected AI research, interactive algorithms, computer graphics, games, and full-stack projects by Levon Zhao.",
+  path: "/projects",
+});
 
 export default function Projects() {
   return (
     <Container>
-      <span className="text-4xl">⚡</span>
-      <Heading className="font-black mb-10">
-        {" "}
-        What I&apos;ve been working on
-      </Heading>
-
+      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700">
+        Selected work
+      </p>
+      <Heading className="mt-3 font-black">Projects with a point of view.</Heading>
+      <p className="mb-10 mt-4 max-w-2xl text-base leading-7 text-slate-600">
+        Research, games, and software experiments shaped by a game designer&apos;s
+        instinct for systems, feedback, and player-facing clarity.
+      </p>
       <Products />
     </Container>
   );

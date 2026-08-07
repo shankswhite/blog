@@ -2,19 +2,24 @@ import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
 import { Highlight } from "@/components/Highlight";
 import { Paragraph } from "@/components/Paragraph";
-import { Products } from "@/components/Products";
 import { WorkHistory } from "@/components/WorkHistory";
-import Image from "next/image";
+import { createPageMetadata } from "@/lib/siteMetadata";
 
-export default function Home() {
+export const metadata = createPageMetadata({
+  title: "Resume",
+  description:
+    "Levon Zhao's work history - game design, software development, and machine learning.",
+  path: "/resume",
+});
+
+export default function ResumePage() {
   return (
     <Container>
       <span className="text-4xl">💼</span>
       <Heading className="font-black">Work History</Heading>
       <Paragraph className="max-w-xl mt-4">
-        I&apos;m a full-stack developer that loves{" "}
-        <Highlight>building products</Highlight> and web apps that can impact
-        millions of lives
+        From game design to software engineering, exploring the intersection of{" "}
+        <Highlight>AI and gaming</Highlight> while building impactful products.
       </Paragraph>
       <WorkHistory />
     </Container>

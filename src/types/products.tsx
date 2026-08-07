@@ -1,12 +1,18 @@
-import { StaticImageData } from "next/image";
+export type ProjectMetric = {
+  value: string;
+  label: string;
+};
 
 export type Product = {
   title: string;
   description: string;
-  thumbnail: StaticImageData;
-  images: StaticImageData[] | string[];
   href: string;
-  slug?: string;
-  stack?: string[];
-  content?: React.ReactNode | string;
+  actionLabel: string;
+  slug: string;
+  stack: string[];
+  eyebrow: string;
+  year: string;
+  accent: "red" | "sky" | "violet" | "amber" | "emerald" | "slate";
+  metrics?: ProjectMetric[];
+  content: React.ReactNode;
 };
