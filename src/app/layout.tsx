@@ -1,13 +1,9 @@
-import { Sidebar } from "@/components/Sidebar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { twMerge } from "tailwind-merge";
-import { Footer } from "@/components/Footer";
-import { FloatingChat } from "@/components/FloatingChat";
-import { CompanionProvider } from "@/components/companion/CompanionContext";
-import { MotionProvider } from "@/components/MotionProvider";
 import { siteUrl } from "@/lib/siteUrl";
+import { SiteFrame } from "@/components/SiteFrame";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -58,26 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#f0eee8]">
       <body className={twMerge(inter.className, "min-h-dvh antialiased")}>
-        <a
-          href="#main-content"
-          className="fixed left-4 top-4 z-[200] -translate-y-24 rounded-full bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition focus:translate-y-0"
-        >
-          Skip to content
-        </a>
-        <MotionProvider>
-          <CompanionProvider>
-            <div className="flex min-h-dvh bg-[#f0eee8] text-slate-900">
-              <Sidebar />
-              <div className="min-w-0 flex-1 lg:p-2 lg:pl-0">
-                <div className="flex min-h-dvh flex-col overflow-hidden border-slate-200 bg-[#fffefa] lg:min-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border">
-                  <div className="flex-1">{children}</div>
-                  <Footer />
-                </div>
-              </div>
-            </div>
-            <FloatingChat />
-          </CompanionProvider>
-        </MotionProvider>
+        <SiteFrame>{children}</SiteFrame>
       </body>
     </html>
   );

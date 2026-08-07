@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './PathFindingComponent.module.scss';
+import GlowingButton from './GlowingButton';
 import { pathFindingService } from '@/lib/pathFindingService';
 
 const GRID_SIZE = 20;
+const DEFAULT_OBSTACLE_COUNT = 50;
 
 interface NodeType {
   row: number;
@@ -25,11 +27,13 @@ function PathFindingComponent() {
   const [algorithm, setAlgorithm] = useState<number>(0);
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [pathInfo, setPathInfo] = useState<any>(null);
-  const [obstacleCount, setObstacleCount] = useState<number>(GRID_SIZE);
+  const [obstacleCount, setObstacleCount] = useState<number>(DEFAULT_OBSTACLE_COUNT);
   const [visitedCount, setVisitedCount] = useState<number>(0);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const hasMountedAlgorithmEffect = useRef(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const createInitialGrid = useCallback(() => {
     const initialGrid: NodeType[][] = [];
@@ -54,7 +58,8 @@ function PathFindingComponent() {
   useEffect(() => {
     const initializeGrid = async () => {
       try {
-        const { map, pathInformation } = await pathFindingService.generateNewMap(0, GRID_SIZE);
+        const { map, pathInformation } =
+          await pathFindingService.generateNewMap(0, DEFAULT_OBSTACLE_COUNT);
 
         if (map && map.length > 0) {
           const processedMap = map.map((row: number[], rowIndex: number) =>
@@ -76,7 +81,7 @@ function PathFindingComponent() {
       } catch (error) {
         console.error('Failed to initialize grid:', error);
         setGrid(createInitialGrid());
-        setErrorMessage('The live pathfinding service is unavailable. You can still inspect the grid layout and project notes.');
+        setErrorMessage('Pathfinding could not be initialized. Please try again.');
         setIsLoading(false);
       }
     };
@@ -287,6 +292,29 @@ function PathFindingComponent() {
     };
   }, []);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.volume = 0.3;
+    audio.loop = true;
+    audio.pause();
+  }, []);
+
+  const toggleMusic = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isMuted) {
+      void audio.play().then(
+        () => setIsMuted(false),
+        () => setIsMuted(true)
+      );
+    } else {
+      audio.pause();
+      setIsMuted(true);
+    }
+  };
+
   const getNodeClassName = (node: NodeType) => {
     const baseClass = styles.node;
 
@@ -324,16 +352,22 @@ function PathFindingComponent() {
   if (isLoading) {
     return (
       <div className={styles.loading} role="status">
-        <span className={styles.loadingDot} />
-        Preparing the pathfinding grid…
+        Loading...
       </div>
     );
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.workspace}>
-        <div>
+      <audio
+        ref={audioRef}
+        src="/legacy-original/audio/algorithm-music.mp3"
+        preload="metadata"
+        loop
+      />
+
+      <div className={styles.mainContent}>
+        <div className={styles.gridShell}>
           <div
             className={styles.gridContainer}
             role="img"
@@ -351,36 +385,43 @@ function PathFindingComponent() {
               </div>
             ))}
           </div>
-
-          <div className={styles.legend} aria-label="Grid legend">
-            {[
-              [styles.nodeStart, 'Start'],
-              [styles.nodeEnd, 'Goal'],
-              [styles.nodeVisited, 'Visited'],
-              [styles.nodeNext, 'Frontier'],
-              [styles.nodePath, 'Final path'],
-              [styles.nodeObstacle, 'Obstacle'],
-            ].map(([className, label]) => (
-              <span key={label} className={styles.legendItem}>
-                <span className={`${styles.legendSwatch} ${className}`} aria-hidden="true" />
-                {label}
-              </span>
-            ))}
-          </div>
         </div>
 
         <aside className={styles.controls} aria-label="Pathfinding controls">
-          <div>
-            <p className={styles.controlEyebrow}>Experiment controls</p>
-            <h2 className={styles.controlTitle}>Shape the search.</h2>
-            <p className={styles.controlCopy}>
-              Choose an algorithm, generate a map, then reveal the search one
-              step at a time or animate directly to the result.
-            </p>
+          <button
+            type="button"
+            className={styles.musicToggle}
+            onClick={toggleMusic}
+            aria-label="Toggle music"
+            aria-pressed={!isMuted}
+            title={isMuted ? 'Play music' : 'Pause music'}
+          >
+            <span aria-hidden="true">{isMuted ? '🔇' : '🔊'}</span>
+          </button>
+
+          <div className={styles.inputGroup}>
+            <div className={styles.inputWrapper}>
+              <label htmlFor="obstacleCount">Obstacle Num:</label>
+              <input
+                id="obstacleCount"
+                type="number"
+                value={obstacleCount}
+                onChange={(event) =>
+                  setObstacleCount(
+                    Math.max(20, Math.min(200, Number.parseInt(event.target.value) || 20))
+                  )
+                }
+                min="20"
+                max="200"
+                disabled={isProcessing}
+              />
+            </div>
           </div>
 
-          <label className={styles.fieldLabel} htmlFor="pathfinding-algorithm">
-            Algorithm
+          <div className={styles.selectWrapper}>
+            <label className={styles.srOnly} htmlFor="pathfinding-algorithm">
+              Algorithm
+            </label>
             <select
               id="pathfinding-algorithm"
               value={algorithm}
@@ -389,72 +430,37 @@ function PathFindingComponent() {
             >
               <option value={0}>Dijkstra</option>
               <option value={1}>A*</option>
-              <option value={2}>Legacy JPS mode (A* fallback)</option>
+              <option value={2}>JPS</option>
             </select>
-          </label>
-
-          <label className={styles.fieldLabel} htmlFor="obstacleCount">
-            Obstacles
-            <input
-              id="obstacleCount"
-              type="number"
-              value={obstacleCount}
-              onChange={(event) =>
-                setObstacleCount(
-                  Math.max(20, Math.min(200, Number.parseInt(event.target.value) || 20))
-                )
-              }
-              min="20"
-              max="200"
-              disabled={isProcessing}
-            />
-          </label>
-
-          <div className={styles.buttonStack}>
-            <button
-              type="button"
-              className={styles.primaryButton}
-              onClick={regenerateMap}
-              disabled={isProcessing}
-            >
-              Generate new map
-            </button>
-            <div className={styles.buttonRow}>
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                onClick={nextStep}
-                disabled={isProcessing || !pathInfo || currentStep >= pathInfo.length}
-              >
-                Next step
-              </button>
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                onClick={goToEnd}
-                disabled={isProcessing || !pathInfo || currentStep >= pathInfo.length}
-              >
-                {isProcessing ? 'Running…' : 'Go to end'}
-              </button>
-            </div>
           </div>
 
-          <dl className={styles.stats}>
-            <div>
-              <dt>Algorithm</dt>
-              <dd>{['Dijkstra', 'A*', 'JPS → A*'][algorithm]}</dd>
-            </div>
-            <div>
-              <dt>Traversed</dt>
-              <dd>{visitedCount}</dd>
-            </div>
-            <div>
-              <dt>Step</dt>
-              <dd>{currentStep}</dd>
-            </div>
-          </dl>
+          <GlowingButton
+            color="#ff6b6b"
+            onClick={regenerateMap}
+            disabled={isProcessing}
+          >
+            Generate New Map
+          </GlowingButton>
 
-          <p className={styles.liveStatus} aria-live="polite">
+          <GlowingButton
+            color="#2ecc71"
+            onClick={nextStep}
+            disabled={isProcessing || !pathInfo || currentStep >= pathInfo.length}
+          >
+            Next Step
+          </GlowingButton>
+
+          <GlowingButton
+            color="#9c27b0"
+            onClick={goToEnd}
+            disabled={isProcessing || !pathInfo || currentStep >= pathInfo.length}
+          >
+            Go to End
+          </GlowingButton>
+
+          <div className={styles.stats}>Nodes Traversed: {visitedCount}</div>
+
+          <p className={styles.srOnly} aria-live="polite">
             {isProcessing
               ? 'Animating the remaining search steps.'
               : currentStep >= (pathInfo?.length ?? Number.POSITIVE_INFINITY)

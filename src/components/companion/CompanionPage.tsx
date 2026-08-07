@@ -32,7 +32,7 @@ const contextLinks = [
   {
     href: "/legacy",
     label: "Legacy Blog",
-    detail: "Previous site, preserved",
+    detail: "Original site, restored",
     icon: IconArchive,
   },
 ];

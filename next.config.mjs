@@ -10,37 +10,42 @@ const nextConfig = {
     return [
       {
         source: "/yolo-kan",
-        destination: "/legacy/projects/yolo-kan",
+        destination: "/legacy/yolo-kan",
         permanent: true,
       },
       {
         source: "/yolo",
-        destination: "/legacy/projects/yolo-kan",
+        destination: "https://github.com/shankswhite/YOLOwithKAN",
         permanent: true,
       },
       {
         source: "/cg/Morphing",
-        destination: "/legacy/projects/beier-neely-morphing",
+        destination: "/legacy/cg/morphing",
+        permanent: true,
+      },
+      {
+        source: "/cg/morphing",
+        destination: "/legacy/cg/morphing",
         permanent: true,
       },
       {
         source: "/cg/RayTracing",
-        destination: "/legacy/computer-graphics#ray-tracing",
+        destination: "/legacy/cg/ray-tracing",
         permanent: true,
       },
       {
         source: "/cg",
-        destination: "/legacy/computer-graphics",
+        destination: "/legacy/cg",
         permanent: true,
       },
       {
         source: "/morphing.html",
-        destination: "/legacy/projects/beier-neely-morphing",
+        destination: "/legacy-original/morphing.html",
         permanent: true,
       },
       {
         source: "/CG/BeierNeely/:path*",
-        destination: "/legacy/projects/beier-neely-morphing",
+        destination: "/legacy-original/CG/BeierNeely/:path*",
         permanent: true,
       },
       {
@@ -48,40 +53,41 @@ const nextConfig = {
         destination: "/media/research/levon-yolo-kan-poster.pdf",
         permanent: true,
       },
-      { source: "/chatbot", destination: "/legacy/ai-chatbot", permanent: true },
+      { source: "/chatbot", destination: "/legacy/chatbot", permanent: true },
       {
         source: "/ml4t",
-        destination: "/legacy/projects/ml-trading",
+        destination:
+          "https://github.com/shankswhite/Machine-Learning-for-Trading-For-Sharing/tree/main",
         permanent: true,
       },
       {
         source: "/unity",
-        destination: "/legacy/projects/climbing-game",
+        destination: "https://github.com/shankswhite/CS6457---GDD",
         permanent: true,
       },
       {
         source: "/recipe",
-        destination: "/legacy/projects/recipe-app",
+        destination: "https://github.com/shankswhite/OnKitchen-Back-End",
         permanent: true,
       },
       {
         source: "/mahjong",
-        destination: "/legacy/projects/mahjong",
+        destination: "https://github.com/shankswhite/MahjongCalculator",
         permanent: true,
       },
       {
         source: "/qa",
-        destination: "/legacy/projects/job-comparator",
+        destination: "https://github.com/shankswhite/CS6300-Group-Project",
         permanent: true,
       },
       {
         source: "/os",
-        destination: "/legacy/projects/distributed-file-system",
+        destination: "https://github.com/shankswhite/gios",
         permanent: true,
       },
       {
         source: "/cgame",
-        destination: "/legacy/projects/opengl-pathfinding-game",
+        destination: "https://github.com/shankswhite/CS5008GroupProject",
         permanent: true,
       },
       { source: "/blog/clean-code", destination: "/blog", permanent: true },

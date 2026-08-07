@@ -16,8 +16,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/resume",
     "/contact",
     "/legacy",
-    "/legacy/computer-graphics",
-    "/legacy/ai-chatbot",
+    "/legacy/yolo-kan",
+    "/legacy/cg",
+    "/legacy/cg/morphing",
+    "/legacy/cg/ray-tracing",
+    "/legacy/chatbot",
     "/legacy/pathfinding",
   ];
 

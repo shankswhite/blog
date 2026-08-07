@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beier Neely Morphing</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 2rem;
+        background: #f8f7f1;
+        font-family: Arial, sans-serif;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .imageContainer {
+        width: 400px;
+        height: 400px;
+        margin: 2rem auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      .description {
+        max-width: 1200px;
+        margin: 2rem auto;
+        color: #666;
+        line-height: 1.6;
+        text-align: left;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Beier Neely Morphing</h1>
+      <p className="{styles.description}">
+        In this project, I understood and implemented the core concepts of the
+        Beier-Neely Morphing algorithm. This algorithm introduces one or more
+        intermediate frame Line Pairs to find the position of each pixel in the
+        target image within the intermediate frame, and then performs color
+        dissolve to achieve the morphing effect.
+      </p>
+      <p className="{styles.description}">
+        About LinePairs. I chose different LinePairs for different transformation
+        effects and recorded the data in the record.xlsx file. For the humanoid
+        (miku) figure transformation, I selected 26 LinePairs to achieve the effect.
+      </p>
+      <p className="{styles.description}">
+        About the algorithm. As the authors said, color dissolve is the easiest
+        part. It only requires proportional color value distribution based on
+        the intermediate frame. The difficult part is how to find the intermediate
+        frame's LinePairs and how to warp based on these LinePairs.
+      </p>
+      <p className="{styles.description}">
+        For generating intermediate frame LinePairs, I tried multiple blending
+        methods, including linear, sine, and some similar ones. In the end, I
+        found that the linear method worked best with the least distortion.
+        Simple makes beautiful, right?
+      </p>
+      <p className="{styles.description}">
+        In the construction of the warp function, I encountered many challenges.
+        First, I spent about an hour just to realize the coordinate mismatch
+        issue. The Eigen matrix's coordinate distribution is more like the
+        traditional computer science format, where row represents the row, and
+        col represents the column. However, in the algorithm's computation, it
+        uses geometric coordinates, which are the opposite of Eigen's format.
+      </p>
+      <p className="{styles.description}">
+        Second, I noticed an abnormal shaking issue in the intermediate frames
+        during morphing. This problem was caused by inconsistent ways of
+        converting double format coordinates to int format during computation.
+        In the end, I used clamp together with the floor function to fix this problem.
+      </p>
+      <p className="{styles.description}">
+        Finally, my function performed well in translation morphing, but only
+        moderately well in scaling, and had an unexpected rotation direction
+        issue in rotation morphing. I ruled out the possibility of errors in
+        intermediate frame LinePair generation and the Dissolve function, so I
+        suspect that this was caused by the warp function. I even feel that it
+        might be due to a bias in the implementation of getPosition. Since I
+        spent too much time on this without making progress, I decided to use
+        my current algorithm to create a similar morphing effect for my favorite
+        anime characters Miku and Tianyi. Although it doesn't look perfect, I
+        am really happy.
+      </p>
+
+      <h2>F_translated</h2>
+      <div class="imageContainer">
+        <img id="morphingImage1" src="./CG/BeierNeely/translate/output_00.jpg" alt="Morphing Animation 1" />
+      </div>
+      <p class="description">
+        In my initial attempts, the first half of the animation would show
+        up-and-down shaking. Initially, I guessed it was due to the line pair
+        length, but after multiple adjustments, we found no difference. Then we
+        tried various ways to optimize: including adding multiple line pairs for
+        stabilization, using different algorithms to calculate the coordinates
+        endpoint of intermediate line pairs. Finally, we found that after
+        adjusting the std::clamp algorithm and changing the warp coordinate
+        calculation to rounding method, we achieved the smoothest effect.
+      </p>
+
+      <h2>F_translated_scale</h2>
+      <div class="imageContainer">
+        <img id="morphingImage2" src="./CG/BeierNeely/translate_scale/output_00.jpg" alt="Morphing Animation 2" />
+      </div>
+      <p class="description"></p>
+
+      <h2>F_scale_2d</h2>
+      <div class="imageContainer">
+        <img id="morphingImage3" src="./CG/BeierNeely/scale/output_00.jpg" alt="Morphing Animation 3" />
+      </div>
+      <p class="description"></p>
+
+      <h2>F_rotated</h2>
+      <div class="imageContainer">
+        <img id="morphingImage4" src="./CG/BeierNeely/rotate/output_00.jpg" alt="Morphing Animation 4" />
+      </div>
+      <p class="description">
+        I have tried different implementation for warp coordinate calculation,
+        but the result is still not perfect. The rotation direction is opposite
+        to the expected direction.
+      </p>
+
+      <h2>Miku &amp;&amp; Tianyi</h2>
+      <div class="imageContainer">
+        <img id="morphingImage5" src="./CG/BeierNeely/miku/output_00.jpg" alt="Morphing Animation 5" />
+      </div>
+      <p class="description">
+        I just tried two times since I applied 26 Line Pairs for transform the
+        image. The result is ...good except the leg part. There is a little
+        ghosting effect on the left leg. I have tried using different number of
+        line pairs (ex: only 1 line for each leg, or 8 lines for each leg), the
+        results are nearly the same.
+      </p>
+
+      <script>
+        const totalImages = 31;
+        const imageIds = [
+          "morphingImage1",
+          "morphingImage2",
+          "morphingImage3",
+          "morphingImage4",
+          "morphingImage5",
+        ];
+        const folders = ["translate", "translate_scale", "scale", "rotate", "miku"];
+
+        const preloadImages = () => {
+          folders.forEach((folder) => {
+            for (let index = 0; index < totalImages; index += 1) {
+              const image = new Image();
+              const number = index.toString().padStart(2, "0");
+              image.src =
+                "./CG/BeierNeely/" + folder + "/output_" + number + ".jpg";
+            }
+          });
+        };
+
+        window.onload = () => {
+          preloadImages();
+          let currentImage = 0;
+
+          window.setInterval(() => {
+            const number = currentImage.toString().padStart(2, "0");
+            imageIds.forEach((id, index) => {
+              document.getElementById(id).src =
+                "./CG/BeierNeely/" +
+                folders[index] +
+                "/output_" +
+                number +
+                ".jpg";
+            });
+            currentImage = (currentImage + 1) % totalImages;
+          }, 100);
+        };
+      </script>
+    </div>
+  </body>
+</html>

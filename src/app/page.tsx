@@ -75,14 +75,15 @@ export default function Home() {
           </span>
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800">
-              Preserved from the previous site
+              The original site, restored
             </p>
             <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-slate-950">
-              The Legacy Blog now lives inside this portfolio.
+              Open Levon&apos;s original Blog inside this portfolio.
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Browse the old homepage, project records, graphics experiments,
-              pathfinding lab, and a safe replacement for the original AI chatbot.
+              The homepage, poster viewer, graphics experiments, pathfinding UI,
+              and sign-in screen keep the old layout and controls. Retired cloud
+              services remain safely disconnected.
             </p>
           </div>
           <Link

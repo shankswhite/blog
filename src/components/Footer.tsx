@@ -13,7 +13,7 @@ export const Footer = () => {
         href="/legacy"
         className="font-medium text-slate-500 transition hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
       >
-        Legacy Blog archive
+        Original Legacy Blog
       </Link>
     </footer>
   );

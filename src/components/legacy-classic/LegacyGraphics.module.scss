@@ -1,0 +1,282 @@
+.page {
+  color: #183344;
+}
+
+.indexPage {
+  min-height: calc(100vh - 8.6rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  > h1 {
+    margin-bottom: 2rem;
+    color: #183344;
+    font-size: 2rem;
+    text-align: center;
+  }
+}
+
+.articleList {
+  display: grid;
+  gap: 2rem;
+}
+
+.articleCard {
+  display: block;
+  border-radius: 8px;
+  background: #fff;
+  padding: 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 22px rgba(24, 51, 68, 0.13);
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(40, 111, 108, 0.45);
+    outline-offset: 3px;
+  }
+}
+
+.articleContent {
+  h2 {
+    margin: 0 0 1rem;
+    color: #333;
+  }
+}
+
+.summary {
+  margin-bottom: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.publishDate {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.backLink {
+  display: inline-flex;
+  color: #286f6c;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    border-radius: 4px;
+    outline: 3px solid rgba(40, 111, 108, 0.35);
+    outline-offset: 3px;
+  }
+}
+
+.morphingPage {
+  display: flex;
+  min-height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
+
+  > h1 {
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    margin-bottom: 2rem;
+    color: #666;
+    font-size: 1.5rem;
+  }
+}
+
+.imageContainer {
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.description {
+  margin-top: 2rem;
+  max-width: 1200px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.longFormCopy {
+  display: contents;
+
+  p {
+    margin-top: 2rem;
+    max-width: 1200px;
+    color: #666;
+    line-height: 1.6;
+  }
+}
+
+.sequenceFragment {
+  display: contents;
+}
+
+.rayPage {
+  min-height: calc(100vh - 8.6rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.rayRecord {
+  max-width: 780px;
+  margin: 2.5rem auto 0;
+  border-radius: 12px;
+  background: #fff;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  box-shadow: 0 8px 30px rgba(24, 51, 68, 0.1);
+
+  > h1 {
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+}
+
+.recordLabel {
+  margin-bottom: 0.65rem;
+  color: #a56f18;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.rayLead {
+  margin-bottom: 2rem;
+  color: #777;
+  font-size: 1.05rem;
+}
+
+.missingPanel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  border: 1px dashed #d6b56d;
+  border-radius: 10px;
+  background: #fffaf0;
+  padding: 1.35rem;
+
+  h2 {
+    margin-bottom: 0.65rem;
+    color: #51452f;
+    font-size: 1.15rem;
+  }
+
+  p {
+    margin-bottom: 0.8rem;
+    color: #6b6253;
+    line-height: 1.65;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  code {
+    border-radius: 4px;
+    background: rgba(165, 111, 24, 0.1);
+    padding: 0.08rem 0.25rem;
+  }
+}
+
+.missingMark {
+  display: inline-flex;
+  width: 2.1rem;
+  height: 2.1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f1c96f;
+  color: #4a3c20;
+  font-weight: 900;
+}
+
+.rayActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.primaryAction,
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  padding: 0.72rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 3px solid rgba(40, 111, 108, 0.35);
+    outline-offset: 3px;
+  }
+}
+
+.primaryAction {
+  background: #286f6c;
+  color: #fff;
+
+  &:hover {
+    background: #1f5d5a;
+  }
+}
+
+.secondaryAction {
+  border: 1px solid rgba(40, 111, 108, 0.28);
+  background: #fff;
+  color: #286f6c;
+
+  &:hover {
+    background: #edf5f2;
+  }
+}
+
+@media (max-width: 640px) {
+  .missingPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .primaryAction,
+  .secondaryAction {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .articleCard {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
