@@ -1,10 +1,60 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { CompanionShell } from "./companion/CompanionShell";
+
+const CompanionShell = dynamic(
+  () =>
+    import("./companion/CompanionShell").then(
+      (module) => module.CompanionShell
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="flex h-full min-h-64 items-center justify-center rounded-[28px] border border-slate-200 bg-[#fbfaf6] text-sm text-slate-500 shadow-[0_24px_80px_-30px_rgba(15,23,42,0.45)]"
+        role="status"
+      >
+        Loading companion…
+      </div>
+    ),
+  }
+);
+
+const modalBackgroundIds = [
+  "site-navigation-region",
+  "site-page-content",
+  "floating-chat-launcher",
+];
+
+function isolateModalBackground() {
+  const snapshots = modalBackgroundIds.flatMap((id) => {
+    const element = document.getElementById(id);
+    if (!element) return [];
+
+    const snapshot = {
+      element,
+      ariaHidden: element.getAttribute("aria-hidden"),
+      hadInert: element.hasAttribute("inert"),
+    };
+
+    element.setAttribute("aria-hidden", "true");
+    element.setAttribute("inert", "");
+    return [snapshot];
+  });
+
+  return () => {
+    snapshots.forEach(({ element, ariaHidden, hadInert }) => {
+      if (ariaHidden === null) element.removeAttribute("aria-hidden");
+      else element.setAttribute("aria-hidden", ariaHidden);
+
+      if (!hadInert) element.removeAttribute("inert");
+    });
+  };
+}
 
 export function FloatingChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +67,8 @@ export function FloatingChat() {
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    panelRef.current?.focus();
+    const restoreBackground = isolateModalBackground();
 
     const handleKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -45,6 +97,7 @@ export function FloatingChat() {
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
+      restoreBackground();
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen]);
@@ -84,6 +137,7 @@ export function FloatingChat() {
             />
             <motion.div
               ref={panelRef}
+              tabIndex={-1}
               initial={{ opacity: 0, y: 18, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 18, scale: 0.97 }}
@@ -96,32 +150,34 @@ export function FloatingChat() {
         )}
       </AnimatePresence>
 
-      <motion.button
-        ref={launcherRef}
-        type="button"
-        onClick={() => setIsOpen(true)}
-        whileHover={{ y: -2 }}
-        whileTap={{ scale: 0.98 }}
-        aria-label="Open Levon AI companion"
-        aria-expanded={isOpen}
-        aria-controls="levon-companion"
-        title="Ask Levon AI"
-        className="group fixed bottom-4 right-4 z-[100] flex h-14 w-14 items-center justify-center rounded-full border border-slate-700 bg-slate-950 p-2 text-white shadow-[0_16px_42px_-16px_rgba(15,23,42,0.8)] transition hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 sm:bottom-6 sm:right-6"
-      >
-        <span className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full border border-slate-700 bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 sm:block">
-          Ask Levon AI
-        </span>
-        <span className="relative h-9 w-9 overflow-hidden rounded-full border border-white/20 bg-white">
-          <Image
-            src="/images/companion-cat.webp"
-            alt=""
-            fill
-            sizes="36px"
-            className="object-cover"
-          />
-          <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-slate-950 bg-emerald-400" />
-        </span>
-      </motion.button>
+      <div id="floating-chat-launcher">
+        <motion.button
+          ref={launcherRef}
+          type="button"
+          onClick={() => setIsOpen(true)}
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.98 }}
+          aria-label="Open Levon AI companion"
+          aria-expanded={isOpen}
+          aria-controls="levon-companion"
+          title="Ask Levon AI"
+          className="group fixed bottom-4 right-4 z-[100] flex h-14 w-14 items-center justify-center rounded-full border border-slate-700 bg-slate-950 p-2 text-white shadow-[0_16px_42px_-16px_rgba(15,23,42,0.8)] transition hover:bg-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2 sm:bottom-6 sm:right-6"
+        >
+          <span className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full border border-slate-700 bg-slate-950 px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 sm:block">
+            Ask Levon AI
+          </span>
+          <span className="relative h-9 w-9 overflow-hidden rounded-full border border-white/20 bg-white">
+            <Image
+              src="/images/companion-cat.webp"
+              alt=""
+              fill
+              sizes="36px"
+              className="object-cover"
+            />
+            <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-slate-950 bg-emerald-400" />
+          </span>
+        </motion.button>
+      </div>
     </>
   );
 }

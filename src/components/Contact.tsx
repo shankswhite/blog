@@ -9,7 +9,12 @@ const fieldClassName =
   "mt-2 w-full rounded-2xl border border-slate-200 bg-[#fbfaf6] px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100";
 
 export function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+    website: "",
+  });
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -18,17 +23,27 @@ export function Contact() {
     event.preventDefault();
     setStatus("submitting");
 
+    if (formData.website) {
+      setStatus("success");
+      return;
+    }
+
     try {
       const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+        }),
+        signal: AbortSignal.timeout(10_000),
       });
 
       if (!response.ok) throw new Error("Form submission failed");
 
       setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", message: "", website: "" });
     } catch {
       setStatus("error");
     }
@@ -86,8 +101,9 @@ export function Contact() {
             type="text"
             name="name"
             autoComplete="name"
-            placeholder="Your name"
-            required
+          placeholder="Your name"
+          required
+          maxLength={80}
             className={fieldClassName}
             value={formData.name}
             onChange={(event) =>
@@ -102,8 +118,9 @@ export function Contact() {
             type="email"
             name="email"
             autoComplete="email"
-            placeholder="you@example.com"
-            required
+          placeholder="you@example.com"
+          required
+          maxLength={254}
             className={fieldClassName}
             value={formData.email}
             onChange={(event) =>
@@ -124,10 +141,28 @@ export function Contact() {
           placeholder="Tell me about the project, problem, or idea…"
           required
           rows={8}
+          maxLength={5000}
           className={fieldClassName}
           value={formData.message}
           onChange={(event) =>
             setFormData((current) => ({ ...current, message: event.target.value }))
+          }
+        />
+      </label>
+
+      <label className="sr-only" aria-hidden="true">
+        Website (leave this field empty)
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={formData.website}
+          onChange={(event) =>
+            setFormData((current) => ({
+              ...current,
+              website: event.target.value,
+            }))
           }
         />
       </label>
@@ -155,6 +190,10 @@ export function Contact() {
         {status === "submitting" ? "Sending…" : "Send message"}
         {status !== "submitting" && <IconArrowUpRight size={16} />}
       </button>
+      <p className="mt-3 text-center text-[10px] leading-4 text-slate-400">
+        Your name, email, and message are processed by Formspree to deliver this
+        note. Please do not include sensitive information.
+      </p>
     </form>
   );
 }

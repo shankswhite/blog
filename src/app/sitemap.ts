@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
-import { legacyProducts, products } from "@/constants/products";
-import { getAllBlogs } from "../../lib/getAllBlogs";
-import { getNotionBlogs } from "../../lib/notion";
+import { getProjectCards, getWritingCards } from "@/lib/content";
 import { siteUrl } from "@/lib/siteUrl";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogs = await getAllBlogs();
-  const notionBlogs = await getNotionBlogs();
+  const [writing, projects] = await Promise.all([
+    getWritingCards(),
+    Promise.resolve(getProjectCards()),
+  ]);
   const staticRoutes = [
     "",
     "/about",
@@ -18,8 +18,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/legacy",
     "/legacy/yolo-kan",
     "/legacy/cg",
-    "/legacy/cg/morphing",
-    "/legacy/cg/ray-tracing",
     "/legacy/chatbot",
     "/legacy/pathfinding",
   ];
@@ -27,33 +25,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticRoutes.map((route) => ({
       url: `${siteUrl}${route}`,
-      lastModified: new Date(),
       changeFrequency: route === "" ? ("weekly" as const) : ("monthly" as const),
       priority: route === "" ? 1 : 0.7,
     })),
-    ...products.map((project) => ({
+    ...projects.map((project) => ({
       url: `${siteUrl}/projects/${project.slug}`,
-      lastModified: new Date(),
+      ...(project.lastModified
+        ? { lastModified: new Date(project.lastModified) }
+        : {}),
       changeFrequency: "monthly" as const,
-      priority: 0.8,
+      priority: project.featured ? 0.85 : 0.7,
     })),
-    ...legacyProducts.map((project) => ({
-      url: `${siteUrl}/legacy/projects/${project.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "yearly" as const,
-      priority: 0.6,
-    })),
-    ...blogs.map((blog) => ({
-      url: `${siteUrl}/blog/${blog.slug}`,
-      lastModified: new Date(blog.date),
-      changeFrequency: "yearly" as const,
+    ...writing.map((entry) => ({
+      url: `${siteUrl}${entry.href}`,
+      lastModified: new Date(entry.lastModified || entry.date),
+      changeFrequency: "monthly" as const,
       priority: 0.75,
-    })),
-    ...notionBlogs.map((blog) => ({
-      url: `${siteUrl}/blog/notion/${blog.slug}`,
-      lastModified: new Date(blog.date),
-      changeFrequency: "yearly" as const,
-      priority: 0.7,
     })),
   ];
 }

@@ -2,12 +2,12 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { twMerge } from "tailwind-merge";
-import { siteUrl } from "@/lib/siteUrl";
+import { isProductionSite, siteUrl } from "@/lib/siteUrl";
 import { SiteFrame } from "@/components/SiteFrame";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   },
   description:
     "Levon Zhao is a game designer turned software engineer exploring AI, games, computer graphics, and thoughtful product systems.",
+  robots: isProductionSite
+    ? { index: true, follow: true }
+    : { index: false, follow: false, noarchive: true },
   alternates: {
     canonical: "/",
   },
@@ -30,7 +33,7 @@ export const metadata: Metadata = {
     siteName: "Levon Zhao",
     images: [
       {
-        url: "/og.png",
+        url: "/og.jpg",
         width: 1730,
         height: 909,
         alt: "Levon Zhao — Games, AI and Software",
@@ -42,7 +45,7 @@ export const metadata: Metadata = {
     title: "Levon Zhao — Games, AI & Software",
     description:
       "Research, interactive experiments, and software projects at the intersection of AI and games.",
-    images: ["/og.png"],
+    images: ["/og.jpg"],
   },
 };
 

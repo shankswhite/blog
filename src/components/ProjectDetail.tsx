@@ -71,6 +71,9 @@ export function ProjectDetail({
           <ProjectVisual
             slug={project.slug}
             accent={project.accent}
+            title={project.title}
+            eyebrow={project.eyebrow}
+            coverUrl={project.coverUrl}
             className="min-h-[290px] shadow-[0_26px_60px_-35px_rgba(15,23,42,0.65)]"
           />
         </header>

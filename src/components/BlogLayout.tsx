@@ -8,7 +8,7 @@ import { Prose } from "./Prose";
 type BlogMeta = {
   title: string;
   date: string;
-  image: string;
+  image?: string;
   description?: string;
   tags?: string[];
 };
@@ -53,16 +53,27 @@ export function BlogLayout({
               </span>
             ))}
           </div>
-          <div className="relative mt-6 aspect-[16/10] w-full overflow-hidden rounded-[28px] border border-slate-200 bg-slate-100">
-            <Image
-              src={meta.image}
-              alt={`${meta.title} cover`}
-              fill
-              className="object-cover object-left-top"
-              sizes="(max-width: 1024px) 100vw, 900px"
-              priority
-            />
-          </div>
+          {meta.image && (
+            <div className="relative mt-6 aspect-[16/10] w-full overflow-hidden rounded-[28px] border border-slate-200 bg-slate-100">
+              {meta.image.startsWith("/") ? (
+                <Image
+                  src={meta.image}
+                  alt={`${meta.title} cover`}
+                  fill
+                  className="object-cover object-left-top"
+                  sizes="(max-width: 1024px) 100vw, 900px"
+                  priority
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={meta.image}
+                  alt={`${meta.title} cover`}
+                  className="h-full w-full object-cover object-left-top"
+                />
+              )}
+            </div>
+          )}
         </header>
         <Prose className="mt-10">{children}</Prose>
       </article>

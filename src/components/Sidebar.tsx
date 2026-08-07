@@ -12,6 +12,38 @@ import { socials } from "@/constants/socials";
 import { Navlink } from "@/types/navlink";
 import { Badge } from "./Badge";
 
+const modalBackgroundIds = [
+  "site-page-content",
+  "floating-chat-launcher",
+  "mobile-navigation-launcher",
+];
+
+function isolateModalBackground() {
+  const snapshots = modalBackgroundIds.flatMap((id) => {
+    const element = document.getElementById(id);
+    if (!element) return [];
+
+    const snapshot = {
+      element,
+      ariaHidden: element.getAttribute("aria-hidden"),
+      hadInert: element.hasAttribute("inert"),
+    };
+
+    element.setAttribute("aria-hidden", "true");
+    element.setAttribute("inert", "");
+    return [snapshot];
+  });
+
+  return () => {
+    snapshots.forEach(({ element, ariaHidden, hadInert }) => {
+      if (ariaHidden === null) element.removeAttribute("aria-hidden");
+      else element.setAttribute("aria-hidden", ariaHidden);
+
+      if (!hadInert) element.removeAttribute("inert");
+    });
+  };
+}
+
 export const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname() ?? "";
@@ -34,6 +66,7 @@ export const Sidebar = () => {
       'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
     );
     focusable?.[0]?.focus();
+    const restoreBackground = isolateModalBackground();
 
     const handleKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -59,6 +92,7 @@ export const Sidebar = () => {
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
+      restoreBackground();
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [mobileOpen]);
@@ -75,6 +109,7 @@ export const Sidebar = () => {
       </aside>
 
       <button
+        id="mobile-navigation-launcher"
         ref={menuButtonRef}
         type="button"
         onClick={() => setMobileOpen(true)}
@@ -202,7 +237,7 @@ function SidebarHeader() {
       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <Image
           src="/images/levon-portrait.png"
-          alt="Levon Zhao"
+          alt=""
           fill
           sizes="48px"
           className="object-cover object-top"

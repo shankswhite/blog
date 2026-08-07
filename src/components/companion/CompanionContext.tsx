@@ -7,10 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import {
-  CompanionSource,
-  getCompanionReply,
-} from "@/lib/companion/knowledge";
+import type { CompanionSource } from "@/lib/companion/knowledge";
 
 export type CompanionMessage = {
   id: string;
@@ -50,6 +47,7 @@ export function CompanionProvider({ children }: { children: React.ReactNode }) {
 
       try {
         await new Promise((resolve) => window.setTimeout(resolve, 420));
+        const { getCompanionReply } = await import("@/lib/companion/knowledge");
         const reply = getCompanionReply(trimmed);
         setMessages((current) => [
           ...current,

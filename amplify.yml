@@ -9,7 +9,8 @@ frontend:
         - npm ci --cache .npm --prefer-offline
     build:
       commands:
-        - NEXT_PUBLIC_SITE_URL=https://www.levon.blog npm run build
+        - npm run write:runtime-env
+        - npm run build
   artifacts:
     baseDirectory: .next
     files:

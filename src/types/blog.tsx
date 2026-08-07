@@ -3,8 +3,9 @@ export type Blog = {
   description: string;
   date: string;
   slug: string;
-  image: string;
-  tags?: string[];
-  // rest
-  [key: string]: any;
+  href: string;
+  image?: string;
+  tags: string[];
+  lastModified?: string;
+  source: "local" | "notion";
 };

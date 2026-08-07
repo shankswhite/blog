@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
 const accentClasses = {
@@ -12,28 +13,105 @@ const accentClasses = {
 export function ProjectVisual({
   slug,
   accent,
+  title,
+  eyebrow,
+  coverUrl,
   className,
 }: {
   slug: string;
   accent: keyof typeof accentClasses;
+  title?: string;
+  eyebrow?: string;
+  coverUrl?: string;
   className?: string;
 }) {
   return (
     <div
+      aria-hidden="true"
       className={twMerge(
         "relative isolate min-h-[220px] overflow-hidden rounded-[24px] bg-gradient-to-br p-4 sm:p-5",
         accentClasses[accent],
         className
       )}
     >
-      <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.3)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.3)_1px,transparent_1px)] [background-size:28px_28px]" />
-      <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/15 blur-3xl" />
-      <VisualContent slug={slug} />
+      {coverUrl ? (
+        <>
+          {coverUrl.startsWith("/") ? (
+            <Image
+              src={coverUrl}
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 100vw, 420px"
+              className="object-cover"
+            />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={coverUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          )}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent" />
+        </>
+      ) : (
+        <>
+          <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(255,255,255,.3)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.3)_1px,transparent_1px)] [background-size:28px_28px]" />
+          <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/15 blur-3xl" />
+          <VisualContent slug={slug} title={title} eyebrow={eyebrow} />
+        </>
+      )}
     </div>
   );
 }
 
-function VisualContent({ slug }: { slug: string }) {
+function VisualContent({
+  slug,
+  title,
+  eyebrow,
+}: {
+  slug: string;
+  title?: string;
+  eyebrow?: string;
+}) {
+  if (slug === "live-service-anomaly-detection") {
+    return (
+      <div className="relative flex min-h-[180px] flex-col justify-between">
+        <div className="flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-100/70">
+          <span>Live-service telemetry</span>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-2.5 py-1 text-emerald-200">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
+            Production
+          </span>
+        </div>
+        <div className="grid grid-cols-[1fr_auto] items-end gap-5">
+          <div>
+            <p className="text-4xl font-semibold tracking-[-0.07em] sm:text-5xl">
+              50+
+            </p>
+            <p className="mt-1 text-xs text-emerald-100/65">
+              monitored service KPIs
+            </p>
+          </div>
+          <div className="flex h-20 items-end gap-1.5 rounded-xl border border-white/15 bg-black/15 px-3 py-2">
+            {[28, 42, 35, 58, 48, 76, 46, 88].map((height, index) => (
+              <span
+                key={`${height}-${index}`}
+                className={twMerge(
+                  "w-2 rounded-sm bg-emerald-200/45",
+                  index === 5 && "bg-amber-300",
+                  index === 7 && "bg-emerald-300"
+                )}
+                style={{ height: `${height}%` }}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.14em] text-emerald-100/55">
+          <span>Detect</span>
+          <span>Investigate</span>
+          <span>Report</span>
+        </div>
+      </div>
+    );
+  }
+
   if (slug === "yolo-kan") {
     return (
       <div className="relative flex h-full min-h-[180px] flex-col justify-between">
@@ -336,15 +414,17 @@ function VisualContent({ slug }: { slug: string }) {
   return (
     <div className="relative flex min-h-[180px] flex-col justify-between">
       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
-        Unity systems prototype
+        {eyebrow || "Project case study"}
       </p>
       <div>
-        <p className="text-6xl font-semibold tracking-[-0.09em] text-white/90">UP</p>
+        <p className="max-w-[15ch] text-3xl font-semibold leading-tight tracking-[-0.055em] text-white/90">
+          {title || "Engineering work"}
+        </p>
         <div className="mt-1 h-1.5 w-28 rounded-full bg-white/15">
           <div className="h-full w-3/4 rounded-full bg-sky-300" />
         </div>
       </div>
-      <p className="text-xs text-white/60">climb · aim · iterate</p>
+      <p className="text-xs text-white/60">design · build · evaluate</p>
     </div>
   );
 }

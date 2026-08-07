@@ -26,8 +26,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
-.env*.local
+# local env files and generated CMS snapshots
+.env*
+/.notion-cache/
+/public/notion-generated/
+/public/.notion-generated-*/
 
 # vercel
 .vercel

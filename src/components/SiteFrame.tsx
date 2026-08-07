@@ -29,8 +29,13 @@ export function SiteFrame({ children }: { children: React.ReactNode }) {
           Skip to content
         </a>
         <div className="flex min-h-dvh bg-[#f0eee8] text-slate-900">
-          <Sidebar />
-          <div className="min-w-0 flex-1 lg:p-2 lg:pl-0">
+          <div id="site-navigation-region" className="contents">
+            <Sidebar />
+          </div>
+          <div
+            id="site-page-content"
+            className="min-w-0 flex-1 lg:p-2 lg:pl-0"
+          >
             <div className="flex min-h-dvh flex-col overflow-hidden border-slate-200 bg-[#fffefa] lg:min-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border">
               <div className="flex-1">{children}</div>
               <Footer />

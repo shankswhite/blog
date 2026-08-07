@@ -11,8 +11,8 @@ const evidence = [
     title: "Live-service anomaly detection",
     description:
       "Activision Blizzard: PB-scale monitoring for 50+ KPIs; 40%+ lower analyst response latency.",
-    href: "/resume#activision",
-    action: "Experience",
+    href: "/projects/live-service-anomaly-detection",
+    action: "Case study",
     icon: IconActivityHeartbeat,
     tone: "sky",
   },

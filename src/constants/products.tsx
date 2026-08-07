@@ -2,6 +2,47 @@ import type { Product } from "@/types/products";
 
 export const products: Product[] = [
   {
+    href: "/resume#activision",
+    actionLabel: "View the work experience",
+    title: "Live-Service Anomaly Detection",
+    description:
+      "A production AI investigation system for PB-scale game telemetry, monitoring 50+ service KPIs and shortening analyst response latency by more than 40%.",
+    stack: ["Databricks", "Azure", "Python", "Airflow", "LangGraph"],
+    slug: "live-service-anomaly-detection",
+    eyebrow: "Production AI Systems",
+    year: "2025",
+    accent: "emerald",
+    metrics: [
+      { value: "PB-scale", label: "telemetry analyzed" },
+      { value: "50+", label: "live-service KPIs" },
+      { value: "40%+", label: "lower response latency" },
+    ],
+    content: (
+      <>
+        <p>
+          At Activision Blizzard, the practical challenge was not simply
+          detecting an unusual metric. Analysts needed to understand which live
+          service changed, gather relevant context, and move from an alert to a
+          useful investigation while the signal was still actionable.
+        </p>
+        <p>
+          The resulting workflow processed PB-scale telemetry in Databricks and
+          Azure and monitored more than 50 service KPIs. Anomaly signals were
+          connected to a research layer combining retrieval, deep-research
+          patterns, LangGraph orchestration, and a Slack-based MCP agent. That
+          reduced analyst response latency by more than 40%.
+        </p>
+        <p>
+          Airflow and GitHub Actions moved the system from a proof of concept to
+          daily automated reporting. The work was the only intern project
+          selected for the 2025 Microsoft Xbox Game Studios Data &amp; Applied
+          Science Summit. This public case study intentionally omits proprietary
+          data, model settings, and internal service details.
+        </p>
+      </>
+    ),
+  },
+  {
     href: "https://github.com/shankswhite/YOLOwithKAN",
     actionLabel: "View source on GitHub",
     title: "YOLO-KAN",

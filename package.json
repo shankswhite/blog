@@ -3,13 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "npm run sync:notion",
     "dev": "next dev",
+    "prebuild": "npm run sync:notion",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "sync:notion": "tsx scripts/sync-notion.ts",
+    "write:runtime-env": "tsx scripts/write-runtime-env.ts",
+    "test:unit": "tsx --test src/lib/*.test.ts"
   },
   "dependencies": {
-    "@notionhq/client": "^5.6.0",
+    "@aws-sdk/client-ssm": "^3.1105.0",
+    "@notionhq/client": "^5.23.0",
     "@tabler/icons-react": "^2.32.0",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.1",
@@ -17,6 +23,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^10.1.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^1.14.0"
   },

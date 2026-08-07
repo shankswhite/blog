@@ -96,8 +96,8 @@ export function getCompanionReply(message: string): CompanionReply {
   ) {
     return {
       content: isChinese
-        ? "**Portfolio AI Companion** 是旧站登录式 Bedrock 聊天机器人的重新设计。旧版通过 Amplify Authenticator 与 AWS Bedrock 回答简历问题；新版公开模式改用整理过的双语知识层，不要求登录，也不会调用付费 AI 后端。\n\n它覆盖经历、技能与 11 个项目，并把回答链接回对应页面。这样做牺牲了开放式生成能力，但换来了更清晰的范围、更快的响应、可预测的答案和更好的隐私。"
-        : "The **Portfolio AI Companion** redesigns the old site's login-gated Bedrock chatbot. The original used Amplify Authenticator and AWS Bedrock for résumé questions; the new public mode uses a curated bilingual knowledge layer, requires no account, and does not call a paid AI backend.\n\nIt covers experience, skills, and 11 project records, linking answers back to their source pages. The trade-off is deliberate: less open-ended generation in exchange for clear scope, speed, privacy, and predictable answers.",
+        ? "**Portfolio AI Companion** 是旧站登录式 Bedrock 聊天机器人的重新设计。旧版通过 Amplify Authenticator 与 AWS Bedrock 回答简历问题；新版公开模式改用整理过的双语知识层，不要求登录，也不会调用付费 AI 后端。\n\n它覆盖经历、技能与精选项目，并把回答链接回对应页面。这样做牺牲了开放式生成能力，但换来了更清晰的范围、更快的响应、可预测的答案和更好的隐私。"
+        : "The **Portfolio AI Companion** redesigns the old site's login-gated Bedrock chatbot. The original used Amplify Authenticator and AWS Bedrock for résumé questions; the new public mode uses a curated bilingual knowledge layer, requires no account, and does not call a paid AI backend.\n\nIt covers experience, skills, and selected project records, linking answers back to their source pages. The trade-off is deliberate: less open-ended generation in exchange for clear scope, speed, privacy, and predictable answers.",
       sources: [sources.companion, sources.legacy],
     };
   }
@@ -228,8 +228,8 @@ export function getCompanionReply(message: string): CompanionReply {
   ) {
     return {
       content: isChinese
-        ? "**Legacy Blog** 是旧作品集在新站中的完整归档副本，包含旧首页内容、研究海报、图形学实验、本地运行的寻路交互、项目记录和 AI Chatbot 的安全替代。\n\n迁移例外也被明确记录：无公开许可的背景音乐与角色素材被移除；公开界面不调用旧 Bedrock / Cognito / API Gateway 后端；旧仓库缺失的 Ray Tracing 实现不会被虚构。旧仓库与旧 Amplify 应用继续保留作为回滚副本。"
-        : "The **Legacy Blog** is an in-site archive of the previous portfolio, including the original homepage material, research poster, graphics experiment, browser-local pathfinding interaction, project records, and a safe substitute for the old AI chatbot.\n\nIts exceptions are explicit: background music and character media without publishable rights are removed; the public interface does not call the old Bedrock, Cognito, or API Gateway backend; and the missing Ray Tracing implementation is not invented. The old repository and Amplify app remain intact as a rollback copy.",
+        ? "**Legacy Blog** 是旧作品集在新站中的站内归档副本，保留原来的视觉、研究海报、图形学实验、寻路交互、项目记录与按钮行为。旧版登录式 AI 后端不会被新站静默调用；旧仓库和旧 Amplify 应用也继续保留作为回滚副本。\n\n涉及第三方音乐、角色素材和个人联系方式的公开发布决定会在正式切换域名前单独确认，不会被迁移过程静默删除。"
+        : "The **Legacy Blog** is an in-site archive of the previous portfolio, preserving its visual treatment, research poster, graphics experiments, pathfinding interaction, project records, and button behavior. The retired login-gated AI backend is not called silently by the new site, and the original repository and Amplify app remain available as a rollback copy.\n\nPublic-release decisions for third-party music, character media, and personal contact details are explicitly held for approval before the production domain is switched; the migration does not silently delete them.",
       sources: [sources.legacy],
     };
   }

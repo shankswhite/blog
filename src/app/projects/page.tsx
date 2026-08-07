@@ -1,6 +1,7 @@
 import { Container } from "@/components/Container";
 import { PageHeader } from "@/components/PageHeader";
 import { Products } from "@/components/Products";
+import { getProjectCards } from "@/lib/content";
 import { createPageMetadata } from "@/lib/siteMetadata";
 
 export const metadata = createPageMetadata({
@@ -11,6 +12,8 @@ export const metadata = createPageMetadata({
 });
 
 export default function Projects() {
+  const projects = getProjectCards();
+
   return (
     <Container>
       <PageHeader
@@ -24,7 +27,7 @@ export default function Projects() {
           </p>
         }
       />
-      <Products />
+      <Products products={projects} />
     </Container>
   );
 }

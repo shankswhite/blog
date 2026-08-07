@@ -1,12 +1,11 @@
 import type { MetadataRoute } from "next";
-import { siteUrl } from "@/lib/siteUrl";
+import { isProductionSite, siteUrl } from "@/lib/siteUrl";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
+    rules: isProductionSite
+      ? { userAgent: "*", allow: "/" }
+      : { userAgent: "*", disallow: "/" },
     sitemap: `${siteUrl}/sitemap.xml`,
   };
 }
