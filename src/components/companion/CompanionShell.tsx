@@ -28,7 +28,7 @@ type CompanionShellProps = {
 const suggestedPrompts = [
   "What did the YOLO-KAN experiments find?",
   "Show me Levon's strongest projects",
-  "Tell me about his game design experience",
+  "What did Levon build at Activision?",
   "如何联系 Levon？",
 ];
 
@@ -75,7 +75,7 @@ export function CompanionShell({
       aria-label="Levon AI companion"
       className={`relative flex min-h-0 flex-col overflow-hidden border border-slate-200/80 bg-[#fbfaf6] shadow-[0_24px_80px_-30px_rgba(15,23,42,0.45)] ${
         isFloating
-          ? "h-[min(680px,calc(100dvh-7rem))] w-full rounded-[28px]"
+          ? "h-full w-full rounded-[28px] sm:h-[min(680px,calc(100dvh-7rem))]"
           : "h-[min(760px,calc(100dvh-8rem))] min-h-[620px] rounded-[32px]"
       }`}
     >
@@ -202,7 +202,7 @@ export function CompanionShell({
                       </div>
                       {message.sources && message.sources.length > 0 && (
                         <div className="mt-4 border-t border-slate-100 pt-3">
-                          <p className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+                          <p className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
                             <IconBook2 size={13} />
                             Explore the sources
                           </p>
@@ -273,7 +273,7 @@ export function CompanionShell({
             <IconArrowUp size={18} stroke={2.2} />
           </button>
         </div>
-        <p className="mt-2 px-1 text-[10px] leading-4 text-slate-400">
+        <p className="mt-2 px-1 text-[10px] leading-4 text-slate-500">
           Curated portfolio answers · Enter to send · Shift+Enter for a new line
         </p>
       </form>

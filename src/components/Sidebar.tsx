@@ -5,7 +5,7 @@ import { IconMenu2, IconSparkles, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { navlinks } from "@/constants/navlinks";
 import { socials } from "@/constants/socials";
@@ -15,10 +15,58 @@ import { Badge } from "./Badge";
 export const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname() ?? "";
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileDrawerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // The router is external state; route changes must dismiss an open drawer.
     setMobileOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const drawer = mobileDrawerRef.current;
+    const focusable = drawer?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    focusable?.[0]?.focus();
+
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMobileOpen(false);
+        window.setTimeout(() => menuButtonRef.current?.focus(), 0);
+        return;
+      }
+
+      if (event.key !== "Tab" || !focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [mobileOpen]);
+
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+    window.setTimeout(() => menuButtonRef.current?.focus(), 0);
+  };
 
   return (
     <>
@@ -27,6 +75,7 @@ export const Sidebar = () => {
       </aside>
 
       <button
+        ref={menuButtonRef}
         type="button"
         onClick={() => setMobileOpen(true)}
         className="fixed left-4 top-4 z-[90] inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-[#fffefa]/95 text-slate-700 shadow-lg shadow-slate-900/10 backdrop-blur-lg transition hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 lg:hidden"
@@ -42,13 +91,18 @@ export const Sidebar = () => {
             <motion.button
               type="button"
               aria-label="Close navigation backdrop"
+              tabIndex={-1}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setMobileOpen(false)}
+              onClick={closeMobileMenu}
               className="fixed inset-0 z-[130] cursor-default bg-slate-950/35 backdrop-blur-sm lg:hidden"
             />
             <motion.aside
+              ref={mobileDrawerRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site navigation"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
@@ -57,7 +111,7 @@ export const Sidebar = () => {
             >
               <button
                 type="button"
-                onClick={() => setMobileOpen(false)}
+                onClick={closeMobileMenu}
                 className="absolute right-4 top-4 inline-flex h-9 w-9 items-center justify-center rounded-xl text-slate-500 transition hover:bg-white hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
                 aria-label="Close navigation"
               >
@@ -118,7 +172,7 @@ function Navigation({ onNavigate }: { onNavigate?: () => void }) {
         ))}
       </div>
 
-      <p className="mb-2 mt-7 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+      <p className="mb-2 mt-7 px-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
         Elsewhere
       </p>
       <div className="space-y-1">

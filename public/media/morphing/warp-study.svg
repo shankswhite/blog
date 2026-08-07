@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640" role="img" aria-labelledby="title description">
+  <title id="title">Abstract Beier-Neely warp field study</title>
+  <desc id="description">Two original geometric forms connected by line-pair guides around a blended midpoint.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="0.55" stop-color="#312e81"/>
+      <stop offset="1" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="left-form" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fef3c7"/>
+      <stop offset="1" stop-color="#fb7185"/>
+    </linearGradient>
+    <linearGradient id="right-form" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bae6fd"/>
+      <stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+    </pattern>
+  </defs>
+
+  <rect width="960" height="640" rx="38" fill="url(#background)"/>
+  <rect width="960" height="640" rx="38" fill="url(#grid)"/>
+  <circle cx="480" cy="330" r="190" fill="#38bdf8" opacity="0.14" filter="url(#glow)"/>
+
+  <g font-family="Inter, ui-sans-serif, system-ui" fill="#e0f2fe">
+    <text x="54" y="62" font-size="15" font-weight="700" letter-spacing="4">BEIER–NEELY / FIELD STUDY</text>
+    <text x="54" y="91" font-size="13" opacity="0.62" letter-spacing="1.5">ORIGINAL GEOMETRY · LINE-PAIR WARP · T = 0.50</text>
+  </g>
+
+  <g opacity="0.98">
+    <path d="M118 246C146 165 261 142 324 196C378 242 359 347 304 412C249 478 136 447 104 368C86 323 98 289 118 246Z" fill="url(#left-form)"/>
+    <circle cx="205" cy="292" r="35" fill="#fff7ed" opacity="0.72"/>
+    <path d="M156 368C190 329 247 331 294 373" fill="none" stroke="#fff7ed" stroke-width="15" stroke-linecap="round" opacity="0.72"/>
+  </g>
+
+  <g opacity="0.98">
+    <path d="M642 190C724 145 842 185 864 275C887 369 805 463 713 449C617 435 575 328 605 246C615 219 627 203 642 190Z" fill="url(#right-form)"/>
+    <path d="M674 274L742 225L811 278L784 368L689 380L653 318Z" fill="#eff6ff" opacity="0.7"/>
+    <circle cx="741" cy="307" r="28" fill="#312e81" opacity="0.58"/>
+  </g>
+
+  <g opacity="0.72">
+    <path d="M391 210C440 167 527 172 571 225C616 278 599 379 539 425C479 471 395 429 373 360C351 291 356 240 391 210Z" fill="#e0f2fe" opacity="0.32"/>
+    <path d="M416 267C449 230 512 224 550 268L537 361C505 396 449 395 414 357Z" fill="#f8fafc" opacity="0.26"/>
+    <circle cx="480" cy="309" r="24" fill="#f8fafc" opacity="0.32"/>
+  </g>
+
+  <g fill="none" stroke="#f8fafc" stroke-width="2" stroke-linecap="round" opacity="0.7">
+    <path d="M137 224L669 184"/>
+    <path d="M100 305L604 251"/>
+    <path d="M117 391L640 426"/>
+    <path d="M212 166L755 172"/>
+    <path d="M302 207L850 259"/>
+    <path d="M330 319L866 335"/>
+    <path d="M280 426L778 454"/>
+    <path d="M176 448L684 447"/>
+  </g>
+
+  <g fill="#f8fafc">
+    <circle cx="137" cy="224" r="5"/><circle cx="669" cy="184" r="5"/>
+    <circle cx="100" cy="305" r="5"/><circle cx="604" cy="251" r="5"/>
+    <circle cx="117" cy="391" r="5"/><circle cx="640" cy="426" r="5"/>
+    <circle cx="212" cy="166" r="5"/><circle cx="755" cy="172" r="5"/>
+    <circle cx="302" cy="207" r="5"/><circle cx="850" cy="259" r="5"/>
+    <circle cx="330" cy="319" r="5"/><circle cx="866" cy="335" r="5"/>
+    <circle cx="280" cy="426" r="5"/><circle cx="778" cy="454" r="5"/>
+    <circle cx="176" cy="448" r="5"/><circle cx="684" cy="447" r="5"/>
+  </g>
+
+  <g font-family="Inter, ui-sans-serif, system-ui" font-size="12" font-weight="700" letter-spacing="2.5" fill="#e0f2fe">
+    <text x="104" y="532">SOURCE A</text>
+    <text x="430" y="532">WARP FIELD</text>
+    <text x="754" y="532">SOURCE B</text>
+  </g>
+  <g font-family="Inter, ui-sans-serif, system-ui" font-size="12" fill="#bae6fd" opacity="0.68">
+    <text x="54" y="594">Abstract replacement for third-party character imagery · public archive edition</text>
+  </g>
+</svg>

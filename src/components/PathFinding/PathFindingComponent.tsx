@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './PathFindingComponent.module.scss';
-import GlowingButton from './GlowingButton';
 import { pathFindingService } from '@/lib/pathFindingService';
 
 const GRID_SIZE = 20;
@@ -29,8 +28,7 @@ function PathFindingComponent() {
   const [obstacleCount, setObstacleCount] = useState<number>(GRID_SIZE);
   const [visitedCount, setVisitedCount] = useState<number>(0);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const hasMountedAlgorithmEffect = useRef(false);
 
   const createInitialGrid = useCallback(() => {
@@ -51,14 +49,6 @@ function PathFindingComponent() {
       initialGrid.push(currentRow);
     }
     return initialGrid;
-  }, []);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.3;
-      audioRef.current.loop = true;
-      audioRef.current.pause();
-    }
   }, []);
 
   useEffect(() => {
@@ -86,6 +76,7 @@ function PathFindingComponent() {
       } catch (error) {
         console.error('Failed to initialize grid:', error);
         setGrid(createInitialGrid());
+        setErrorMessage('The live pathfinding service is unavailable. You can still inspect the grid layout and project notes.');
         setIsLoading(false);
       }
     };
@@ -96,6 +87,7 @@ function PathFindingComponent() {
   const regenerateMap = async () => {
     try {
       setIsLoading(true);
+      setErrorMessage(null);
       const response = await pathFindingService.generateNewMap(algorithm, obstacleCount);
 
       if (response.map && response.map.length > 0) {
@@ -117,6 +109,7 @@ function PathFindingComponent() {
       setIsLoading(false);
     } catch (error) {
       console.error('Failed to regenerate map:', error);
+      setErrorMessage('A new map could not be generated. Please try again in a moment.');
       setIsLoading(false);
     }
   };
@@ -201,7 +194,10 @@ function PathFindingComponent() {
 
     const newGrid = grid.map(row => row.map(cell => ({ ...cell })));
     let newVisitedCount = visitedCount;
-    const animationDelay = algorithm === 1 ? 2 : 50;
+    const animationDelay = Math.max(
+      2,
+      Math.min(18, Math.floor(1600 / Math.max(pathInfo.length, 1)))
+    );
 
     for (let step = currentStep; step < pathInfo.length - 1; step++) {
       const currentLevelInfo = pathInfo[step];
@@ -325,116 +321,153 @@ function PathFindingComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [algorithm]);
 
-  const toggleMusic = () => {
-    if (audioRef.current) {
-      if (isMuted) {
-        audioRef.current.play().catch(error => {
-          console.log('Audio playback failed:', error);
-        });
-      } else {
-        audioRef.current.pause();
-      }
-      setIsMuted(!isMuted);
-    }
-  };
-
   if (isLoading) {
-    return <div className="flex items-center justify-center h-96 text-lg">Loading...</div>;
+    return (
+      <div className={styles.loading} role="status">
+        <span className={styles.loadingDot} />
+        Preparing the pathfinding grid…
+      </div>
+    );
   }
 
   return (
     <div className={styles.container}>
-      <audio
-        ref={audioRef}
-        src="/audio/algorithm-music.mp3"
-        preload="none"
-        loop
-      />
-
-      <div className={styles.mainContent}>
-        <div className={styles['grid-container']}>
-          {grid.map((row, rowIndex) => (
-            <div key={rowIndex} className={styles.row}>
-              {row.map((node, nodeIndex) => {
-                const inlineStyle = node.status === 4 ? {
-                  backgroundColor: '#00f',
-                  border: '2px solid yellow',
-                  zIndex: 10,
-                  position: 'relative' as const,
-                  boxShadow: '0 0 10px blue'
-                } : undefined;
-
-                return (
-                  <div
+      <div className={styles.workspace}>
+        <div>
+          <div
+            className={styles.gridContainer}
+            role="img"
+            aria-label={`20 by 20 ${['Dijkstra', 'A star', 'legacy JPS compatibility mode using A star'][algorithm]} search grid. ${visitedCount} nodes traversed.`}
+          >
+            {grid.map((row, rowIndex) => (
+              <div key={rowIndex} className={styles.row}>
+                {row.map((node, nodeIndex) => (
+                  <span
                     key={`${rowIndex}-${nodeIndex}`}
                     className={getNodeClassName(node)}
-                    style={inlineStyle}
+                    aria-hidden="true"
                   />
-                );
-              })}
-            </div>
-          ))}
+                ))}
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.legend} aria-label="Grid legend">
+            {[
+              [styles.nodeStart, 'Start'],
+              [styles.nodeEnd, 'Goal'],
+              [styles.nodeVisited, 'Visited'],
+              [styles.nodeNext, 'Frontier'],
+              [styles.nodePath, 'Final path'],
+              [styles.nodeObstacle, 'Obstacle'],
+            ].map(([className, label]) => (
+              <span key={label} className={styles.legendItem}>
+                <span className={`${styles.legendSwatch} ${className}`} aria-hidden="true" />
+                {label}
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className={styles.controls}>
-          <div className={styles.selectWrapper}>
+        <aside className={styles.controls} aria-label="Pathfinding controls">
+          <div>
+            <p className={styles.controlEyebrow}>Experiment controls</p>
+            <h2 className={styles.controlTitle}>Shape the search.</h2>
+            <p className={styles.controlCopy}>
+              Choose an algorithm, generate a map, then reveal the search one
+              step at a time or animate directly to the result.
+            </p>
+          </div>
+
+          <label className={styles.fieldLabel} htmlFor="pathfinding-algorithm">
+            Algorithm
             <select
+              id="pathfinding-algorithm"
               value={algorithm}
-              onChange={(e) => setAlgorithm(Number(e.target.value))}
+              onChange={(event) => setAlgorithm(Number(event.target.value))}
+              disabled={isProcessing}
             >
               <option value={0}>Dijkstra</option>
               <option value={1}>A*</option>
-              <option value={2}>JPS</option>
+              <option value={2}>Legacy JPS mode (A* fallback)</option>
             </select>
-          </div>
+          </label>
 
-          <div className={styles.inputGroup}>
-            <div className={styles.inputWrapper}>
-              <label htmlFor="obstacleCount">Obstacle Num:</label>
-              <input
-                id="obstacleCount"
-                type="number"
-                value={obstacleCount}
-                onChange={(e) => setObstacleCount(Math.max(20, Math.min(200, parseInt(e.target.value) || 20)))}
-                min="20"
-                max="200"
-              />
+          <label className={styles.fieldLabel} htmlFor="obstacleCount">
+            Obstacles
+            <input
+              id="obstacleCount"
+              type="number"
+              value={obstacleCount}
+              onChange={(event) =>
+                setObstacleCount(
+                  Math.max(20, Math.min(200, Number.parseInt(event.target.value) || 20))
+                )
+              }
+              min="20"
+              max="200"
+              disabled={isProcessing}
+            />
+          </label>
+
+          <div className={styles.buttonStack}>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={regenerateMap}
+              disabled={isProcessing}
+            >
+              Generate new map
+            </button>
+            <div className={styles.buttonRow}>
               <button
-                className={styles.musicToggle}
-                onClick={toggleMusic}
-                aria-label="Toggle music"
+                type="button"
+                className={styles.secondaryButton}
+                onClick={nextStep}
+                disabled={isProcessing || !pathInfo || currentStep >= pathInfo.length}
               >
-                {isMuted ? '🔇' : '🔊'}
+                Next step
+              </button>
+              <button
+                type="button"
+                className={styles.secondaryButton}
+                onClick={goToEnd}
+                disabled={isProcessing || !pathInfo || currentStep >= pathInfo.length}
+              >
+                {isProcessing ? 'Running…' : 'Go to end'}
               </button>
             </div>
           </div>
 
-          <GlowingButton
-            color="#ff6b6b"
-            onClick={regenerateMap}
-          >
-            Generate New Map
-          </GlowingButton>
+          <dl className={styles.stats}>
+            <div>
+              <dt>Algorithm</dt>
+              <dd>{['Dijkstra', 'A*', 'JPS → A*'][algorithm]}</dd>
+            </div>
+            <div>
+              <dt>Traversed</dt>
+              <dd>{visitedCount}</dd>
+            </div>
+            <div>
+              <dt>Step</dt>
+              <dd>{currentStep}</dd>
+            </div>
+          </dl>
 
-          <GlowingButton
-            color="#2ecc71"
-            onClick={nextStep}
-          >
-            Next Step
-          </GlowingButton>
+          <p className={styles.liveStatus} aria-live="polite">
+            {isProcessing
+              ? 'Animating the remaining search steps.'
+              : currentStep >= (pathInfo?.length ?? Number.POSITIVE_INFINITY)
+                ? 'Search complete. The final route is highlighted.'
+                : 'Ready for the next step.'}
+          </p>
 
-          <GlowingButton
-            color="#9c27b0"
-            onClick={goToEnd}
-            disabled={isProcessing}
-          >
-            Go to End
-          </GlowingButton>
-
-          <div className={styles.stats}>
-            Nodes Traversed: {visitedCount}
-          </div>
-        </div>
+          {errorMessage && (
+            <p className={styles.error} role="alert">
+              {errorMessage}
+            </p>
+          )}
+        </aside>
       </div>
     </div>
   );

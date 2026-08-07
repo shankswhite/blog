@@ -1,6 +1,4 @@
 import { Container } from "@/components/Container";
-import { Heading } from "@/components/Heading";
-import { Paragraph } from "@/components/Paragraph";
 import { Prose } from "@/components/Prose";
 import { getNotionBlogs, getNotionBlogBySlug } from "../../../../../lib/notion";
 import { notFound } from "next/navigation";
@@ -8,6 +6,8 @@ import { Metadata } from "next";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { createPageMetadata } from "@/lib/siteMetadata";
+import Link from "next/link";
+import { IconArrowLeft } from "@tabler/icons-react";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -48,10 +48,17 @@ export default async function NotionBlogPage({ params }: Props) {
 
   return (
     <Container>
-      <article className="max-w-3xl">
-        <header className="mb-8">
+      <article>
+        <header className="mb-10 flex flex-col">
+          <Link
+            href="/blog"
+            aria-label="Go back to articles"
+            className="group mb-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-slate-300 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+          >
+            <IconArrowLeft size={17} />
+          </Link>
           {blog.image && (
-            <div className="relative w-full h-64 mb-6 rounded-lg overflow-hidden">
+            <div className="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded-[28px] border border-slate-200 bg-slate-100">
               {/* Notion image hosts vary, so keep this source portable. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -62,10 +69,16 @@ export default async function NotionBlogPage({ params }: Props) {
             </div>
           )}
 
-          <Heading className="font-black">{blog.title}</Heading>
+          <h1 className="max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-slate-950 sm:text-5xl">
+            {blog.title}
+          </h1>
 
-          <div className="flex items-center gap-4 mt-4 text-sm text-secondary">
-            <time dateTime={blog.date}>
+          <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+            {blog.description}
+          </p>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-slate-600">
+            <time dateTime={blog.date} className="text-slate-600">
               {new Date(blog.date).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
@@ -74,11 +87,11 @@ export default async function NotionBlogPage({ params }: Props) {
             </time>
 
             {blog.tags.length > 0 && (
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {blog.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-1 bg-neutral-200 rounded-md text-xs"
+                    className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[10px] font-medium text-slate-500"
                   >
                     {tag}
                   </span>
@@ -87,12 +100,9 @@ export default async function NotionBlogPage({ params }: Props) {
             )}
           </div>
 
-          <Paragraph className="mt-4 text-secondary">
-            {blog.description}
-          </Paragraph>
         </header>
 
-        <Prose>
+        <Prose className="mt-10">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
         </Prose>
       </article>

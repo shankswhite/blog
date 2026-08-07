@@ -1,25 +1,34 @@
-## AWS Amplify Next.js (App Router) Starter Template
+# Levon Zhao — Portfolio and Legacy Blog
 
-This repository provides a starter template for creating applications using Next.js (App Router) and AWS Amplify, emphasizing easy setup for authentication, API, and database capabilities.
+This repository contains the current Next.js portfolio, its curated AI Companion, and an in-site migration of the previous portfolio under `/legacy`.
 
-## Overview
+## Local development
 
-This template equips you with a foundational Next.js application integrated with AWS Amplify, streamlined for scalability and performance. It is ideal for developers looking to jumpstart their project with pre-configured AWS services like Cognito, AppSync, and DynamoDB.
+```bash
+npm ci
+npm run dev
+```
 
-## Features
+Before releasing a change, run:
 
-- **Authentication**: Setup with Amazon Cognito for secure user authentication.
-- **API**: Ready-to-use GraphQL endpoint with AWS AppSync.
-- **Database**: Real-time database powered by Amazon DynamoDB.
+```bash
+npm run lint
+npm run build
+npm audit --omit=dev
+```
 
-## Deploying to AWS
+The project is pinned to the latest supported Next.js 15 release for AWS Amplify Hosting. Patched PostCSS and Sharp versions are locked through npm overrides.
 
-For detailed instructions on deploying your application, refer to the [deployment section](https://docs.amplify.aws/nextjs/start/quickstart/nextjs-app-router-client-components/#deploy-a-fullstack-app-to-aws) of our documentation.
+## Hosting boundary
 
-## Security
+`amplify.yml` is deliberately frontend-only. It installs dependencies and builds the Next.js app; it does not run `ampx pipeline-deploy` or provision Cognito, AppSync, DynamoDB, API Gateway, or Bedrock resources.
 
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+The public AI Companion and Pathfinding Lab run locally in the browser. The contact form sends only after a visitor explicitly submits it to the existing Formspree endpoint.
 
-## License
+The production build command sets `NEXT_PUBLIC_SITE_URL=https://www.levon.blog` so canonical metadata, `robots.txt`, and `sitemap.xml` use the public HTTPS domain. `env.example` documents the same value for other environments.
 
-This library is licensed under the MIT-0 License. See the LICENSE file.
+See [MIGRATION.md](MIGRATION.md) for the Legacy URL map, release checklist, exceptions, and rollback plan.
+
+## Content and media
+
+Portfolio text, project material, and original visuals remain the property of their respective owners. No blanket open-source license is granted for personal content or media by this repository. Third-party music and character imagery without a retained publication license are excluded from the public build.

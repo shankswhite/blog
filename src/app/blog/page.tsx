@@ -1,7 +1,5 @@
 import { Container } from "@/components/Container";
-import { Heading } from "@/components/Heading";
-import { Highlight } from "@/components/Highlight";
-import { Paragraph } from "@/components/Paragraph";
+import { PageHeader } from "@/components/PageHeader";
 import { getAllBlogs, BlogMeta } from "../../../lib/getAllBlogs";
 import { getNotionBlogs } from "../../../lib/notion";
 import { Blogs } from "@/components/Blogs";
@@ -34,37 +32,43 @@ export default async function Blog() {
 
   return (
     <Container>
-      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700">
-        Field notes
-      </p>
-      <Heading className="pb-4 pt-3 font-black">Writing from the workbench.</Heading>
-      <Paragraph className="max-w-2xl pb-10">
-        Research notes and honest postmortems on <Highlight>AI</Highlight>,{" "}
-        <Highlight>computer graphics</Highlight>, and the systems behind games
-        and software.
-      </Paragraph>
+      <PageHeader
+        eyebrow="Field notes"
+        title="Writing from the workbench."
+        description={
+          <p>
+            Research notes and honest postmortems on AI, computer graphics, and
+            the systems behind games and software.
+          </p>
+        }
+      />
 
       {/* Notion blogs section */}
       {notionBlogs.length > 0 && (
-        <div className="mb-10">
-          <h2 className="text-xl font-semibold mb-4 text-primary">
+        <section className="mb-14">
+          <h2 className="mb-5 text-2xl font-semibold tracking-[-0.035em] text-slate-950">
             Latest notes
           </h2>
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             {notionBlogs.map((blog) => (
               <Link
                 key={blog.id}
                 href={`/blog/notion/${blog.slug}`}
-                className="block p-4 rounded-lg border border-neutral-200 hover:border-neutral-400 transition-colors bg-white hover:shadow-md"
+                className="group flex min-h-44 flex-col rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
               >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-semibold text-primary">{blog.title}</h3>
-                    <p className="text-sm text-secondary mt-1 line-clamp-2">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-sky-700">
+                      Notion note
+                    </p>
+                    <h3 className="mt-2 font-semibold tracking-[-0.025em] text-slate-950">
+                      {blog.title}
+                    </h3>
+                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">
                       {blog.description}
                     </p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <time className="text-xs text-secondary">
+                    <div className="mt-4 flex flex-wrap items-center gap-2">
+                      <time className="text-[10px] font-medium text-slate-500">
                         {new Date(blog.date).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "short",
@@ -74,7 +78,7 @@ export default async function Blog() {
                       {blog.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs px-2 py-0.5 bg-neutral-100 rounded"
+                          className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] text-slate-600"
                         >
                           {tag}
                         </span>
@@ -82,12 +86,12 @@ export default async function Blog() {
                     </div>
                   </div>
                   {blog.image && (
-                    <div className="w-20 h-20 rounded-md overflow-hidden flex-shrink-0 ml-4">
+                    <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl border border-slate-100 bg-slate-100">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={blog.image}
                         alt={blog.title}
-                        className="w-full h-full object-cover"
+                        className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]"
                       />
                     </div>
                   )}
@@ -95,11 +99,13 @@ export default async function Blog() {
               </Link>
             ))}
           </div>
-        </div>
+        </section>
       )}
 
       {/* Local MDX blogs */}
-      <h2 className="mb-4 text-xl font-semibold text-primary">Migrated case studies</h2>
+      <h2 className="mb-5 text-2xl font-semibold tracking-[-0.035em] text-slate-950">
+        Migrated case studies
+      </h2>
       <Blogs blogs={blogsData} />
     </Container>
   );

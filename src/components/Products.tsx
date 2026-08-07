@@ -31,7 +31,7 @@ export const Products = ({ limit }: { limit?: number }) => {
               className="transition duration-300 group-hover:scale-[0.995]"
             />
             <div className="flex flex-1 flex-col p-4 pb-3">
-              <div className="flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+              <div className="flex items-center justify-between gap-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
                 <span>{product.eyebrow}</span>
                 <span>{product.year}</span>
               </div>

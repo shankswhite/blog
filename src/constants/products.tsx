@@ -42,18 +42,18 @@ export const products: Product[] = [
     ),
   },
   {
-    href: "/pathfinding",
+    href: "/legacy/pathfinding",
     actionLabel: "Open the interactive lab",
     title: "Pathfinding Visualizer",
     description:
-      "An interactive search lab that exposes each exploration step across Dijkstra, A*, and Jump Point Search.",
+      "A browser-local search lab that exposes every Dijkstra and A* exploration step while preserving the old JPS control as a documented compatibility mode.",
     stack: ["TypeScript", "React", "Algorithms", "Visualization"],
     slug: "pathfinding",
     eyebrow: "Interactive Algorithms",
     year: "2024",
     accent: "sky",
     metrics: [
-      { value: "3", label: "search algorithms" },
+      { value: "3", label: "search modes" },
       { value: "20×20", label: "interactive grid" },
       { value: "Stepwise", label: "search playback" },
     ],
@@ -61,15 +61,58 @@ export const products: Product[] = [
       <>
         <p>
           Pathfinding algorithms are easiest to understand when their search
-          frontier is visible. This lab turns Dijkstra, A*, and Jump Point
-          Search into an interactive 20×20 grid with generated obstacles,
-          visited nodes, candidate nodes, and the final shortest path.
+          frontier is visible. This lab turns Dijkstra and A* into an
+          interactive 20×20 grid with generated obstacles, visited nodes,
+          candidate nodes, and the final shortest path. The archived JPS
+          selector is retained as an explicitly labeled A* fallback because
+          the original implementation only existed behind the retired API.
         </p>
         <p>
           Visitors can regenerate a map, switch algorithms, advance one step at
           a time, or animate directly to the result. Each state uses a distinct
           visual treatment, making the trade-off between exhaustive and
           heuristic search tangible rather than abstract.
+        </p>
+      </>
+    ),
+  },
+  {
+    href: "/chat",
+    actionLabel: "Open the companion",
+    title: "Portfolio AI Companion",
+    description:
+      "A bilingual, source-linked guide that turns a static portfolio into a focused conversation about the work.",
+    stack: ["Next.js", "TypeScript", "Information Design", "AI UX"],
+    slug: "portfolio-companion",
+    eyebrow: "Conversational Interface",
+    year: "2024–26",
+    accent: "sky",
+    metrics: [
+      { value: "2", label: "languages" },
+      { value: "0", label: "sign-ins required" },
+      { value: "Linked", label: "answer sources" },
+    ],
+    content: (
+      <>
+        <p>
+          The first version of this portfolio assistant used AWS Bedrock to
+          answer résumé questions behind an authenticated form. For the new
+          site, the experience was reframed around a simpler product question:
+          how can a visitor understand the most relevant evidence in a few
+          minutes, without creating an account?
+        </p>
+        <p>
+          The current public mode uses a curated bilingual knowledge layer. It
+          recognizes questions about Levon&apos;s experience, skills, research,
+          and projects, then links each answer back to the relevant page. That
+          makes the scope explicit and keeps the interaction fast, predictable,
+          and privacy-conscious.
+        </p>
+        <p>
+          The interface is available as both a focused full-page experience and
+          a floating panel throughout the site. Keyboard navigation, clear
+          source labels, mobile layouts, and reduced-motion preferences are
+          treated as core interaction requirements rather than polish.
         </p>
       </>
     ),
@@ -113,6 +156,13 @@ export const products: Product[] = [
           and rotation exposed remaining limitations in the warp function. The
           case study keeps those imperfect results because they make the
           engineering process—and the next questions—visible.
+        </p>
+        <p>
+          The character sequence also retained a small ghosting artifact around
+          the left leg. Comparing a single leg line pair with a denser set of
+          eight produced nearly the same result, suggesting that the remaining
+          issue lived in the warp behavior rather than simply in line-pair
+          count.
         </p>
       </>
     ),
@@ -239,4 +289,124 @@ export const products: Product[] = [
       </>
     ),
   },
+  {
+    href: "https://github.com/shankswhite/CS5008GroupProject",
+    actionLabel: "View source on GitHub",
+    title: "Pathfinding Agents Game",
+    description:
+      "A C and OpenGL game that lets players place obstacles and compare how search agents navigate a 20×20 grid.",
+    stack: ["C", "OpenGL", "DFS / BFS", "A*"],
+    slug: "opengl-pathfinding-game",
+    eyebrow: "Algorithms as Gameplay",
+    year: "Coursework",
+    accent: "emerald",
+    metrics: [
+      { value: "20×20", label: "grid map" },
+      { value: "10", label: "player obstacles" },
+      { value: "4+", label: "search agents" },
+    ],
+    content: (
+      <>
+        <p>
+          This earlier team project turns pathfinding into a game rather than a
+          passive visualization. Players choose an algorithm-controlled agent,
+          place up to ten obstacles, and advance the simulation one round at a
+          time while the score tracks the route taken.
+        </p>
+        <p>
+          The interface and rendering were built in C with OpenGL. The project
+          compares depth-first search, breadth-first search, Greedy search, and
+          A* inside the same 20×20 environment, making algorithm behavior
+          visible through player-agent interaction.
+        </p>
+        <p>
+          It is distinct from the newer web Pathfinding Visualizer: this version
+          emphasizes game rules, scoring, obstacle placement, and a custom
+          desktop rendering loop.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "Distributed File System",
+    description:
+      "A C++ and gRPC file service exploring synchronous and asynchronous RPCs, concurrency, and workload-aware testing.",
+    stack: ["C++", "gRPC", "Distributed Systems", "Stress Testing"],
+    slug: "distributed-file-system",
+    eyebrow: "Systems Engineering",
+    year: "Coursework",
+    accent: "slate",
+    metrics: [
+      { value: "100", label: "concurrent clients" },
+      { value: "2", label: "RPC modes" },
+      { value: "Small→Large", label: "file workloads" },
+    ],
+    availabilityNote:
+      "The original course repository is not public; the project record is preserved here from the previous portfolio.",
+    content: (
+      <>
+        <p>
+          This systems project implements a distributed file service in C++
+          with gRPC. Both synchronous and asynchronous RPC paths were used to
+          examine how request handling changes as concurrency increases.
+        </p>
+        <p>
+          Testing covered small and large file workloads and stress runs with
+          up to 100 concurrent clients. The work focused on practical trade-offs
+          between throughput, coordination, and predictable behavior under
+          load.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: "Job Comparator App",
+    description:
+      "An Android job-comparison workflow built with test-driven development and a leaner SQLite persistence model.",
+    stack: ["Android", "Java", "SQLite", "TDD"],
+    slug: "job-comparator",
+    eyebrow: "Test-Driven Product",
+    year: "Coursework",
+    accent: "violet",
+    metrics: [
+      { value: "100%", label: "black-box coverage" },
+      { value: "80%", label: "branch coverage" },
+      { value: "−90%", label: "data package size" },
+    ],
+    availabilityNote:
+      "The original course repository is not public; the project record is preserved here from the previous portfolio.",
+    content: (
+      <>
+        <p>
+          Levon led the development of an Android application for comparing job
+          offers across compensation and preference criteria. The team used
+          test-driven development to turn the product rules into explicit,
+          verifiable behavior.
+        </p>
+        <p>
+          The test suite reached full black-box coverage and 80% branch
+          coverage. Moving persistence from SharedPreferences to SQLite reduced
+          the stored data package size by 90% while giving the comparison data a
+          clearer structure.
+        </p>
+      </>
+    ),
+  },
 ];
+
+export const legacyProjectSlugs = [
+  "yolo-kan",
+  "pathfinding",
+  "beier-neely-morphing",
+  "mahjong",
+  "ml-trading",
+  "recipe-app",
+  "climbing-game",
+  "opengl-pathfinding-game",
+  "distributed-file-system",
+  "job-comparator",
+] as const;
+
+export const legacyProducts = products.filter(({ slug }) =>
+  (legacyProjectSlugs as readonly string[]).includes(slug)
+);

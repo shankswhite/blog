@@ -70,6 +70,19 @@ export function Certifications() {
             </Link>
           ))}
         </div>
+        <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+              Additional background
+            </p>
+            <p className="mt-1 text-xs font-medium text-slate-700">
+              CFA Level I exam passed
+            </p>
+          </div>
+          <span className="rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-semibold text-amber-800">
+            Finance
+          </span>
+        </div>
       </div>
 
       <div className="rounded-[28px] border border-slate-800 bg-slate-950 p-5 text-white shadow-sm sm:p-6">

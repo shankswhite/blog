@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
-import { IconArrowRight, IconSparkles } from "@tabler/icons-react";
+import { IconArchive, IconArrowRight, IconSparkles } from "@tabler/icons-react";
 import { Certifications } from "@/components/Certifications";
 import { Container } from "@/components/Container";
+import { HeroSignalConsole } from "@/components/HeroSignalConsole";
 import { Products } from "@/components/Products";
 
 export default function Home() {
@@ -45,31 +45,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[320px]">
-            <div className="absolute -inset-3 rotate-3 rounded-[36px] bg-gradient-to-br from-sky-500 to-violet-600 opacity-80" />
-            <div className="relative overflow-hidden rounded-[32px] border border-white/70 bg-slate-950 shadow-2xl">
-              <div className="relative h-[360px]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_55%_30%,#38bdf8_0,transparent_35%),linear-gradient(155deg,#0f172a_20%,#312e81_100%)]" />
-                <div className="absolute inset-x-0 bottom-0 h-3/4 bg-[linear-gradient(125deg,transparent_35%,rgba(255,255,255,.12)_36%,rgba(255,255,255,.12)_43%,transparent_44%)]" />
-                <Image
-                  src="/images/levon-portrait.png"
-                  alt="Portrait of Levon Zhao"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 320px, 320px"
-                  className="z-10 object-contain object-bottom"
-                />
-                <div className="absolute inset-x-4 bottom-4 z-20 rounded-2xl border border-white/15 bg-slate-950/75 p-4 text-white backdrop-blur-xl">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-300">
-                    Current focus
-                  </p>
-                  <p className="mt-1 text-sm font-medium">
-                    AI systems · games · visual computing
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <HeroSignalConsole />
         </div>
 
         <dl className="relative mt-10 grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-3">
@@ -79,7 +55,7 @@ export default function Home() {
             ["2", "AWS certifications"],
           ].map(([value, label]) => (
             <div key={label} className="bg-white/85 px-4 py-4 backdrop-blur-sm">
-              <dt className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400">
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-500">
                 {label}
               </dt>
               <dd className="mt-1 text-xl font-semibold tracking-[-0.04em] text-slate-950">
@@ -91,6 +67,33 @@ export default function Home() {
       </section>
 
       <Certifications />
+
+      <section className="mt-16 overflow-hidden rounded-[28px] border border-amber-200 bg-amber-50 p-5 shadow-sm sm:p-6">
+        <div className="grid items-center gap-5 sm:grid-cols-[auto_minmax(0,1fr)_auto]">
+          <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-900">
+            <IconArchive size={20} />
+          </span>
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-800">
+              Preserved from the previous site
+            </p>
+            <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-slate-950">
+              The Legacy Blog now lives inside this portfolio.
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Browse the old homepage, project records, graphics experiments,
+              pathfinding lab, and a safe replacement for the original AI chatbot.
+            </p>
+          </div>
+          <Link
+            href="/legacy"
+            className="inline-flex items-center justify-center justify-self-start gap-2 rounded-full bg-slate-950 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2"
+          >
+            Open Legacy Blog
+            <IconArrowRight size={15} />
+          </Link>
+        </div>
+      </section>
 
       <section className="mt-20">
         <div className="mb-7 flex items-end justify-between gap-4">

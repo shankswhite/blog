@@ -1,35 +1,34 @@
 "use client";
-import React, { useState } from "react";
+
+import { useState } from "react";
+import { IconArrowUpRight, IconCheck } from "@tabler/icons-react";
 
 const FORMSPREE_ID = "mpqqwdgr";
 
-export const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+const fieldClassName =
+  "mt-2 w-full rounded-2xl border border-slate-200 bg-[#fbfaf6] px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-sky-400 focus:ring-4 focus:ring-sky-100";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+export function Contact() {
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setStatus("submitting");
 
     try {
       const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
-      } else {
-        setStatus("error");
-      }
+      if (!response.ok) throw new Error("Form submission failed");
+
+      setStatus("success");
+      setFormData({ name: "", email: "", message: "" });
     } catch {
       setStatus("error");
     }
@@ -37,92 +36,125 @@ export const Contact = () => {
 
   if (status === "success") {
     return (
-      <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-        <div className="text-green-600 text-lg font-semibold mb-2">✓ Message Sent!</div>
-        <p className="text-green-700">Thank you for reaching out. I&apos;ll get back to you soon!</p>
+      <div
+        role="status"
+        className="flex min-h-[430px] flex-col items-center justify-center rounded-[28px] border border-emerald-200 bg-emerald-50 p-8 text-center"
+      >
+        <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-white shadow-sm">
+          <IconCheck size={22} stroke={2.5} />
+        </span>
+        <h2 className="mt-5 text-2xl font-semibold tracking-[-0.035em] text-emerald-950">
+          Message sent.
+        </h2>
+        <p className="mt-2 max-w-sm text-sm leading-6 text-emerald-800">
+          Thanks for reaching out. I&apos;ll get back to you as soon as I can.
+        </p>
         <button
+          type="button"
           onClick={() => setStatus("idle")}
-          className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+          className="mt-6 rounded-full border border-emerald-300 bg-white px-4 py-2.5 text-sm font-semibold text-emerald-800 transition hover:border-emerald-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
         >
-          Send Another Message
+          Send another message
         </button>
       </div>
     );
   }
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
-      <div className="flex flex-col md:flex-row justify-between gap-5">
-        <label htmlFor="contact-name" className="sr-only">
-          Your name
-        </label>
-        <input
-          id="contact-name"
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          required
-          className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 px-2 py-2 rounded-md text-sm text-neutral-700 w-full"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-        />
-        <label htmlFor="contact-email" className="sr-only">
-          Your email address
-        </label>
-        <input
-          id="contact-email"
-          type="email"
-          name="email"
-          placeholder="Your email address"
-          required
-          className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 px-2 py-2 rounded-md text-sm text-neutral-700 w-full"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        />
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
+    >
+      <div className="mb-6">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-700">
+          Send a note
+        </p>
+        <h2 className="mt-2 text-2xl font-semibold tracking-[-0.035em] text-slate-950">
+          What are you working on?
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
+          A little context about the goal, timeline, and where you think I can
+          help makes for a useful first conversation.
+        </p>
       </div>
-      <div>
-        <label htmlFor="contact-message" className="sr-only">
-          Your message
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <label className="text-xs font-semibold text-slate-700" htmlFor="contact-name">
+          Name
+          <input
+            id="contact-name"
+            type="text"
+            name="name"
+            autoComplete="name"
+            placeholder="Your name"
+            required
+            className={fieldClassName}
+            value={formData.name}
+            onChange={(event) =>
+              setFormData((current) => ({ ...current, name: event.target.value }))
+            }
+          />
         </label>
+        <label className="text-xs font-semibold text-slate-700" htmlFor="contact-email">
+          Email
+          <input
+            id="contact-email"
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+            required
+            className={fieldClassName}
+            value={formData.email}
+            onChange={(event) =>
+              setFormData((current) => ({ ...current, email: event.target.value }))
+            }
+          />
+        </label>
+      </div>
+
+      <label
+        className="mt-5 block text-xs font-semibold text-slate-700"
+        htmlFor="contact-message"
+      >
+        Message
         <textarea
           id="contact-message"
           name="message"
-          placeholder="Your Message"
+          placeholder="Tell me about the project, problem, or idea…"
           required
-          rows={10}
-          className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 px-2 mt-4 py-2 rounded-md text-sm text-neutral-700 w-full"
+          rows={8}
+          className={fieldClassName}
           value={formData.message}
-          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+          onChange={(event) =>
+            setFormData((current) => ({ ...current, message: event.target.value }))
+          }
         />
+      </label>
+
+      <div aria-live="polite">
+        {status === "error" && (
+          <div
+            role="alert"
+            className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-3 text-sm leading-6 text-red-700"
+          >
+            The message could not be sent. Please try again or email{" "}
+            <a className="font-semibold underline" href="mailto:zhao.levon@gmail.com">
+              zhao.levon@gmail.com
+            </a>
+            .
+          </div>
+        )}
       </div>
 
-      {status === "error" && (
-        <div
-          role="alert"
-          className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md text-red-600 text-sm"
-        >
-          Failed to send message. Please try again or email me at{" "}
-          <a
-            className="font-semibold underline underline-offset-2"
-            href="mailto:zhao.levon@gmail.com"
-          >
-            zhao.levon@gmail.com
-          </a>
-          .
-        </div>
-      )}
-
       <button
-        className={`w-full px-2 py-2 mt-4 rounded-md font-bold transition-colors ${
-          status === "submitting"
-            ? "bg-neutral-200 text-neutral-400 cursor-not-allowed"
-            : "bg-neutral-800 text-white hover:bg-neutral-700"
-        }`}
         type="submit"
         disabled={status === "submitting"}
+        className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:translate-y-0 disabled:bg-slate-300"
       >
-        {status === "submitting" ? "Sending..." : "Submit"}
+        {status === "submitting" ? "Sending…" : "Send message"}
+        {status !== "submitting" && <IconArrowUpRight size={16} />}
       </button>
     </form>
   );
-};
+}

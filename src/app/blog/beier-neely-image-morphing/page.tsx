@@ -8,7 +8,7 @@ const meta = {
   title: "Debugging a Beier-Neely Image Morph",
   description:
     "What 26 line pairs, five transformation studies, and several coordinate bugs taught me about image warping.",
-  image: "/media/morphing/miku-midpoint.jpg",
+  image: "/media/morphing/warp-study.png",
   tags: ["Computer Graphics", "C++", "Image Processing"],
 };
 

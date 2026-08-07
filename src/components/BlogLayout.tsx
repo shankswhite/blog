@@ -3,8 +3,6 @@ import Link from "next/link";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { formatDate } from "../../lib/formatDate";
 import { Container } from "./Container";
-import { Heading } from "./Heading";
-import { Paragraph } from "./Paragraph";
 import { Prose } from "./Prose";
 
 type BlogMeta = {
@@ -34,15 +32,17 @@ export function BlogLayout({
             <IconArrowLeft size={17} />
           </Link>
 
-          <Heading className="py-3">{meta.title}</Heading>
+          <h1 className="max-w-3xl py-3 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-slate-950 sm:text-5xl">
+            {meta.title}
+          </h1>
           {meta.description && (
             <p className="mt-2 max-w-2xl text-base leading-7 text-slate-600">
               {meta.description}
             </p>
           )}
           <div className="mt-4 flex flex-wrap items-center gap-3">
-            <time dateTime={meta.date} className="text-sm text-slate-500">
-              <Paragraph className="text-slate-600">{formatDate(meta.date)}</Paragraph>
+            <time dateTime={meta.date} className="text-sm text-slate-600">
+              {formatDate(meta.date)}
             </time>
             {meta.tags?.map((tag) => (
               <span

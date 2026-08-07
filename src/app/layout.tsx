@@ -6,13 +6,13 @@ import { twMerge } from "tailwind-merge";
 import { Footer } from "@/components/Footer";
 import { FloatingChat } from "@/components/FloatingChat";
 import { CompanionProvider } from "@/components/companion/CompanionContext";
+import { MotionProvider } from "@/components/MotionProvider";
+import { siteUrl } from "@/lib/siteUrl";
 
 const inter = Inter({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://levon.blog";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -58,18 +58,26 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#f0eee8]">
       <body className={twMerge(inter.className, "min-h-dvh antialiased")}>
-        <CompanionProvider>
-          <div className="flex min-h-dvh bg-[#f0eee8] text-slate-900">
-            <Sidebar />
-            <div className="min-w-0 flex-1 lg:p-2 lg:pl-0">
-              <div className="min-h-dvh overflow-hidden border-slate-200 bg-[#fffefa] lg:rounded-2xl lg:border">
-                {children}
-                <Footer />
+        <a
+          href="#main-content"
+          className="fixed left-4 top-4 z-[200] -translate-y-24 rounded-full bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition focus:translate-y-0"
+        >
+          Skip to content
+        </a>
+        <MotionProvider>
+          <CompanionProvider>
+            <div className="flex min-h-dvh bg-[#f0eee8] text-slate-900">
+              <Sidebar />
+              <div className="min-w-0 flex-1 lg:p-2 lg:pl-0">
+                <div className="flex min-h-dvh flex-col overflow-hidden border-slate-200 bg-[#fffefa] lg:min-h-[calc(100dvh-1rem)] lg:rounded-2xl lg:border">
+                  <div className="flex-1">{children}</div>
+                  <Footer />
+                </div>
               </div>
             </div>
-          </div>
-          <FloatingChat />
-        </CompanionProvider>
+            <FloatingChat />
+          </CompanionProvider>
+        </MotionProvider>
       </body>
     </html>
   );

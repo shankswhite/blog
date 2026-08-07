@@ -8,41 +8,80 @@ const nextConfig = {
   outputFileTracingRoot: projectRoot,
   async redirects() {
     return [
-      { source: "/yolo-kan", destination: "/projects/yolo-kan", permanent: true },
-      { source: "/yolo", destination: "/projects/yolo-kan", permanent: true },
+      {
+        source: "/yolo-kan",
+        destination: "/legacy/projects/yolo-kan",
+        permanent: true,
+      },
+      {
+        source: "/yolo",
+        destination: "/legacy/projects/yolo-kan",
+        permanent: true,
+      },
       {
         source: "/cg/Morphing",
-        destination: "/projects/beier-neely-morphing",
+        destination: "/legacy/projects/beier-neely-morphing",
         permanent: true,
       },
       {
         source: "/cg/RayTracing",
-        destination: "/projects",
+        destination: "/legacy/computer-graphics#ray-tracing",
         permanent: true,
       },
       {
         source: "/cg",
-        destination: "/projects/beier-neely-morphing",
+        destination: "/legacy/computer-graphics",
         permanent: true,
       },
-      { source: "/chatbot", destination: "/chat", permanent: true },
-      { source: "/ml4t", destination: "/projects/ml-trading", permanent: true },
-      { source: "/unity", destination: "/projects/climbing-game", permanent: true },
-      { source: "/recipe", destination: "/projects/recipe-app", permanent: true },
-      { source: "/mahjong", destination: "/projects/mahjong", permanent: true },
+      {
+        source: "/morphing.html",
+        destination: "/legacy/projects/beier-neely-morphing",
+        permanent: true,
+      },
+      {
+        source: "/CG/BeierNeely/:path*",
+        destination: "/legacy/projects/beier-neely-morphing",
+        permanent: true,
+      },
+      {
+        source: "/Research/Levon_Poster.pdf",
+        destination: "/media/research/levon-yolo-kan-poster.pdf",
+        permanent: true,
+      },
+      { source: "/chatbot", destination: "/legacy/ai-chatbot", permanent: true },
+      {
+        source: "/ml4t",
+        destination: "/legacy/projects/ml-trading",
+        permanent: true,
+      },
+      {
+        source: "/unity",
+        destination: "/legacy/projects/climbing-game",
+        permanent: true,
+      },
+      {
+        source: "/recipe",
+        destination: "/legacy/projects/recipe-app",
+        permanent: true,
+      },
+      {
+        source: "/mahjong",
+        destination: "/legacy/projects/mahjong",
+        permanent: true,
+      },
       {
         source: "/qa",
-        destination: "/projects",
+        destination: "/legacy/projects/job-comparator",
         permanent: true,
       },
       {
         source: "/os",
-        destination: "/projects",
+        destination: "/legacy/projects/distributed-file-system",
         permanent: true,
       },
       {
         source: "/cgame",
-        destination: "https://github.com/shankswhite/CS5008GroupProject",
+        destination: "/legacy/projects/opengl-pathfinding-game",
         permanent: true,
       },
       { source: "/blog/clean-code", destination: "/blog", permanent: true },

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import {
   IconArrowUpRight,
+  IconArchive,
   IconFileText,
   IconFlask,
   IconRoute,
@@ -17,24 +18,33 @@ const contextLinks = [
     icon: IconFlask,
   },
   {
-    href: "/projects/pathfinding",
+    href: "/legacy/pathfinding",
     label: "Pathfinding lab",
-    detail: "A*, Dijkstra, JPS",
+    detail: "Dijkstra, A*, legacy JPS mode",
     icon: IconRoute,
   },
   {
     href: "/resume",
     label: "Experience",
-    detail: "Games, AI, engineering",
+    detail: "Activision, Handshake, games",
     icon: IconFileText,
+  },
+  {
+    href: "/legacy",
+    label: "Legacy Blog",
+    detail: "Previous site, preserved",
+    icon: IconArchive,
   },
 ];
 
 export function CompanionPage() {
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-20 sm:px-6 lg:px-10 lg:py-10">
+    <main
+      id="main-content"
+      className="mx-auto w-full max-w-6xl px-4 pb-16 pt-20 sm:px-6 lg:px-10 lg:py-10"
+    >
       <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <aside className="rounded-[28px] border border-slate-200 bg-slate-950 p-5 text-white shadow-[0_24px_70px_-42px_rgba(15,23,42,0.9)] lg:p-6">
+        <aside className="order-2 rounded-[28px] border border-slate-200 bg-slate-950 p-5 text-white shadow-[0_24px_70px_-42px_rgba(15,23,42,0.9)] lg:order-1 lg:p-6">
           <div className="flex h-full min-h-[230px] flex-col">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-300">
               Context shelf
@@ -67,20 +77,22 @@ export function CompanionPage() {
                   </span>
                   <IconArrowUpRight
                     size={14}
-                    className="text-slate-500 transition group-hover:text-sky-300"
+                    className="text-slate-400 transition group-hover:text-sky-300"
                   />
                 </Link>
               ))}
             </nav>
 
-            <p className="mt-auto pt-7 text-[11px] leading-5 text-slate-500">
+            <p className="mt-auto pt-7 text-[11px] leading-5 text-slate-400">
               This public mode answers from curated portfolio content. It does
               not require an account or expose private information.
             </p>
           </div>
         </aside>
 
-        <CompanionShell variant="page" />
+        <div className="order-1 lg:order-2">
+          <CompanionShell variant="page" />
+        </div>
       </div>
     </main>
   );

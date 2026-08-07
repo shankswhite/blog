@@ -1,6 +1,7 @@
 import {
   IconBolt,
   IconBriefcase2,
+  IconArchive,
   IconFileDescription,
   IconMail,
   IconMessage2,
@@ -28,6 +29,11 @@ export const navlinks = [
     href: "/blog",
     label: "Writing",
     icon: IconNotes,
+  },
+  {
+    href: "/legacy",
+    label: "Legacy Blog",
+    icon: IconArchive,
   },
   {
     href: "/chat",

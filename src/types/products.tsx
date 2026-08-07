@@ -6,8 +6,9 @@ export type ProjectMetric = {
 export type Product = {
   title: string;
   description: string;
-  href: string;
-  actionLabel: string;
+  href?: string;
+  actionLabel?: string;
+  availabilityNote?: string;
   slug: string;
   stack: string[];
   eyebrow: string;
