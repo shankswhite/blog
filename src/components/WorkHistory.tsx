@@ -20,7 +20,12 @@ export function WorkHistory() {
         {timeline.map((item) => (
           <li
             key={`${item.company}-${item.title}`}
-            className="relative grid gap-3 pl-12 sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-8 sm:pl-0"
+            id={
+              item.company === "Activision Blizzard (Microsoft Gaming)"
+                ? "activision"
+                : undefined
+            }
+            className="relative grid scroll-mt-20 gap-3 pl-12 sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-8 sm:pl-0"
           >
             <span className="absolute left-[10px] top-7 z-10 h-4 w-4 rounded-full border-4 border-[#fffefa] bg-sky-600 shadow-sm sm:left-[144px]" />
             <time className="pt-1 text-xs font-semibold leading-5 text-slate-500 sm:pt-7 sm:text-right">

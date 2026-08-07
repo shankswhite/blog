@@ -55,7 +55,7 @@ export default function ResumePage() {
       </section>
 
       <WorkHistory />
-      <Certifications />
+      <Certifications showAdditionalBackground />
     </Container>
   );
 }

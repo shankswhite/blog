@@ -1,8 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { IconArrowUpRight, IconCertificate2 } from "@tabler/icons-react";
+import {
+  IconArrowUpRight,
+  IconBrandDatabricks,
+  IconCloudComputing,
+  IconContainer,
+} from "@tabler/icons-react";
 
-const credentials = [
+const awsCredentials = [
   {
     name: "AWS Certified Machine Learning — Specialty",
     short: "Machine Learning — Specialty",
@@ -17,60 +22,111 @@ const credentials = [
   },
 ];
 
-const tools = [
-  "C/C++",
-  "Python",
-  "Java",
-  "TypeScript",
-  "PyTorch",
-  "React / Next.js",
-  "Unity",
-  "AWS",
-];
-
-export function Certifications() {
+export function Certifications({
+  showAdditionalBackground = false,
+}: {
+  showAdditionalBackground?: boolean;
+} = {}) {
   return (
-    <section className="mt-16 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-      <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <div className="mb-5 flex items-center justify-between gap-3">
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-700">
-              Verified credentials
-            </p>
-            <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-slate-950">
-              AWS certified in ML and cloud
-            </h2>
-          </div>
-          <IconCertificate2 size={24} className="text-sky-600" />
-        </div>
+    <section className="mt-16" aria-labelledby="credentials-title">
+      <div className="mb-6 max-w-2xl">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-sky-700">
+          Credentials
+        </p>
+        <h2
+          id="credentials-title"
+          className="mt-2 text-3xl font-semibold tracking-[-0.045em] text-slate-950 sm:text-4xl"
+        >
+          Certified across the AI delivery stack.
+        </h2>
+      </div>
 
-        <div className="grid gap-3 sm:grid-cols-2">
-          {credentials.map((credential) => (
-            <Link
-              key={credential.name}
-              href={credential.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-[#fbfaf6] p-3 transition hover:-translate-y-0.5 hover:border-sky-300 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-            >
-              <Image
-                src={credential.image}
-                alt={credential.name}
-                width={58}
-                height={58}
-                className="h-14 w-14 object-contain"
-              />
-              <span className="min-w-0 flex-1 text-xs font-medium leading-5 text-slate-700">
-                {credential.short}
-              </span>
-              <IconArrowUpRight
-                size={14}
-                className="text-slate-300 transition group-hover:text-sky-600"
-              />
-            </Link>
-          ))}
-        </div>
-        <div className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
+      <div className="grid gap-4 xl:grid-cols-3">
+        <article className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.17em] text-slate-500">
+                01 · Cloud Computing
+              </p>
+              <h3 className="mt-1 text-lg font-semibold tracking-[-0.025em] text-slate-950">
+                Amazon Web Services
+              </h3>
+            </div>
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-700">
+              <IconCloudComputing size={20} stroke={1.7} />
+            </span>
+          </div>
+
+          <div className="mt-5 space-y-2.5">
+            {awsCredentials.map((credential) => (
+              <Link
+                key={credential.name}
+                href={credential.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${credential.name} — view verified credential`}
+                className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-[#fbfaf6] p-2.5 transition hover:border-amber-300 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+              >
+                <Image
+                  src={credential.image}
+                  alt=""
+                  width={46}
+                  height={46}
+                  className="h-11 w-11 shrink-0 object-contain"
+                />
+                <span className="min-w-0 flex-1 text-xs font-medium leading-5 text-slate-700">
+                  {credential.short}
+                </span>
+                <IconArrowUpRight
+                  size={14}
+                  className="shrink-0 text-slate-300 transition group-hover:text-amber-700"
+                />
+              </Link>
+            ))}
+          </div>
+        </article>
+
+        <article className="flex flex-col rounded-[24px] border border-slate-200 bg-[#fbfaf6] p-5 shadow-sm xl:min-h-[230px]">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.17em] text-slate-500">
+              02 · Data
+            </p>
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600">
+              <IconBrandDatabricks size={20} stroke={1.7} />
+            </span>
+          </div>
+          <div className="mt-auto pt-10">
+            <span className="inline-flex rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-rose-700">
+              Data engineering
+            </span>
+            <h3 className="mt-3 max-w-[15rem] text-xl font-semibold leading-7 tracking-[-0.035em] text-slate-950">
+              Databricks Certified Data Engineer Associate
+            </h3>
+          </div>
+        </article>
+
+        <article className="flex flex-col rounded-[24px] border border-slate-800 bg-slate-950 p-5 text-white shadow-sm xl:min-h-[230px]">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.17em] text-slate-400">
+              03 · Deployment
+            </p>
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300">
+              <IconContainer size={20} stroke={1.7} />
+            </span>
+          </div>
+          <div className="mt-auto pt-10">
+            <span className="inline-flex rounded-full border border-sky-300/20 bg-sky-300/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-sky-300">
+              CKAD
+            </span>
+            <h3 className="mt-3 max-w-[16rem] text-xl font-semibold leading-7 tracking-[-0.035em]">
+              Certified Kubernetes Application Developer
+            </h3>
+          </div>
+        </article>
+      </div>
+
+      {showAdditionalBackground && (
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
               Additional background
@@ -83,26 +139,7 @@ export function Certifications() {
             Finance
           </span>
         </div>
-      </div>
-
-      <div className="rounded-[28px] border border-slate-800 bg-slate-950 p-5 text-white shadow-sm sm:p-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-300">
-          Working stack
-        </p>
-        <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em]">
-          Tools follow the problem.
-        </h2>
-        <div className="mt-5 flex flex-wrap gap-2">
-          {tools.map((tool) => (
-            <span
-              key={tool}
-              className="rounded-full border border-white/10 bg-white/[0.07] px-3 py-1.5 text-xs text-slate-300"
-            >
-              {tool}
-            </span>
-          ))}
-        </div>
-      </div>
+      )}
     </section>
   );
 }
