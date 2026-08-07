@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { products } from "@/constants/products";
+import { legacyProducts, products } from "@/constants/products";
 import { getAllBlogs } from "../../lib/getAllBlogs";
 import { getNotionBlogs } from "../../lib/notion";
 import { siteUrl } from "@/lib/siteUrl";
@@ -33,6 +33,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    ...legacyProducts.map((project) => ({
+      url: `${siteUrl}/legacy/projects/${project.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
     })),
     ...blogs.map((blog) => ({
       url: `${siteUrl}/blog/${blog.slug}`,

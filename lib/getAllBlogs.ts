@@ -14,7 +14,7 @@ const blogs: BlogMeta[] = [
     description:
       "What 26 line pairs, five transformation studies, and several coordinate bugs taught me about image warping.",
     date: "2025-02-01",
-    image: "/media/morphing/miku-midpoint.jpg",
+    image: "/media/morphing/warp-study.png",
     tags: ["Computer Graphics", "C++", "Image Processing"],
   },
   {
