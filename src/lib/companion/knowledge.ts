@@ -228,8 +228,8 @@ export function getCompanionReply(message: string): CompanionReply {
   ) {
     return {
       content: isChinese
-        ? "**Legacy Blog** 是旧作品集在新站中的站内归档副本，保留原来的视觉、研究海报、图形学实验、寻路交互、项目记录与按钮行为。旧版登录式 AI 后端不会被新站静默调用；旧仓库和旧 Amplify 应用也继续保留作为回滚副本。\n\n涉及第三方音乐、角色素材和个人联系方式的公开发布决定会在正式切换域名前单独确认，不会被迁移过程静默删除。"
-        : "The **Legacy Blog** is an in-site archive of the previous portfolio, preserving its visual treatment, research poster, graphics experiments, pathfinding interaction, project records, and button behavior. The retired login-gated AI backend is not called silently by the new site, and the original repository and Amplify app remain available as a rollback copy.\n\nPublic-release decisions for third-party music, character media, and personal contact details are explicitly held for approval before the production domain is switched; the migration does not silently delete them.",
+        ? "**Legacy Blog** 是旧作品集在新站中的站内归档副本，保留原来的视觉、研究海报、图形学实验、寻路交互、项目记录与按钮行为。旧版登录式 AI 后端不会被新站静默调用；原始源码仍保留作参考，但旧 Amplify 应用已在迁移验证完成后删除。\n\n涉及第三方音乐、角色素材和个人联系方式的公开发布决定不会被迁移过程静默更改。"
+        : "The **Legacy Blog** is an in-site archive of the previous portfolio, preserving its visual treatment, research poster, graphics experiments, pathfinding interaction, project records, and button behavior. The retired login-gated AI backend is not called silently by the new site; the original source remains preserved for reference, while the old Amplify app was deleted after the migration was verified.\n\nThe migration does not silently change publication decisions for third-party music, character media, or personal contact details.",
       sources: [sources.legacy],
     };
   }
@@ -349,8 +349,8 @@ export function getCompanionReply(message: string): CompanionReply {
   ) {
     return {
       content: isChinese
-        ? "Pathfinding Visualizer 是一个完全在浏览器本地运行的算法实验，比较 **Dijkstra 与 A\***。你可以重新生成障碍地图、逐步查看搜索前沿，或直接播放到最短路径。旧站的 JPS 选项也被保留，但界面会明确标注它使用 A\* 兼容回退，不会暗中调用旧 API。"
-        : "The Pathfinding Visualizer is a browser-local comparison of **Dijkstra and A***. You can regenerate obstacles, step through each search frontier, or play directly to the shortest path. The old JPS option is preserved as an explicitly labeled A* compatibility fallback, with no hidden call to the retired API.",
+        ? "Pathfinding Visualizer 继续调用旧站保留下来的 AWS API Gateway 与 `pathfinding-generator` Lambda，生成新的 20×20 障碍地图和搜索轨迹。你可以比较 **Dijkstra、A\* 与 JPS**，逐步查看搜索前沿，或直接播放到最短路径。该服务不保存访问者数据。"
+        : "The Pathfinding Visualizer continues to call the preserved AWS API Gateway and `pathfinding-generator` Lambda from the original site to generate fresh 20×20 obstacle maps and search traces. You can compare **Dijkstra, A*, and JPS**, step through the frontier, or play directly to the shortest path. The service does not persist visitor data.",
       sources: [sources.pathfinding],
     };
   }

@@ -42,10 +42,11 @@ Do not connect or transfer `levon.blog` during staging. Preview builds derive th
 | `/os` | `/legacy/projects/distributed-file-system` |
 | `/cgame` | `/legacy/projects/opengl-pathfinding-game` |
 
-## Explicit migration exceptions and release blockers
+## Explicit migration exceptions and release decisions
 
-- Per the preservation requirement, the current Legacy copy retains the original background track, Miku/Tianyi character frames, and original contact details, including a personal phone number. Their publication rights and privacy intent have not been confirmed. They must not be moved to the production domain until the owner explicitly approves them or approves replacements/removal.
-- The old login-gated Bedrock interaction is represented by a curated, account-free public companion. Existing backend configuration is outside this frontend deployment.
+- Per the preservation requirement, the Legacy copy retains the original background track, Miku/Tianyi character frames, and original contact details, including a personal phone number. The owner explicitly approved retaining and continuing to publish them during the production migration; this privacy and rights decision should be reviewed again before any later redesign republishes the assets elsewhere.
+- The old login-gated Bedrock interaction is represented by a curated, account-free public companion. Its Cognito/AppSync backend was removed with the retired Amplify app after migration verification.
+- The Pathfinding interaction intentionally retains its existing public API Gateway and `pathfinding-generator` Lambda. The new frontend calls that service directly; it has no persistent user-data store and remains an independently managed, usage-billed AWS resource.
 - The old Computer Graphics index named a Ray Tracing demo, but the implementation is absent from the source repository. The archive records the missing implementation instead of inventing one.
 - Unlinked course submissions, raw PSD files, starter assets, inactive template sections, and Lorem Ipsum testimonials are not part of the navigable migration.
 
@@ -57,4 +58,4 @@ Do not connect or transfer `levon.blog` during staging. Preview builds derive th
 - Push the frontend-only release to the new Amplify app and verify its default domain before changing DNS.
 - During the approved cutover window, detach the custom domain from the old app, attach it to the new app, and make the apex permanently redirect to `https://www.levon.blog`.
 - Verify HTTPS, apex and `www`, Legacy redirects, `robots.txt`, and `sitemap.xml` after cutover.
-- Do not delete the old repository or Amplify app. Its default Amplify domain is the rollback target if the cutover fails.
+- Keep the old source repository and local migration copy as historical references. The retired Amplify app was deleted after the new site, Legacy routes, and retained Pathfinding service were verified.

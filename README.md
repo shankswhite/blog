@@ -50,9 +50,11 @@ security boundary, and optional automatic Amplify rebuild setup.
 app; it does not run `ampx pipeline-deploy` or provision Cognito, AppSync,
 DynamoDB, API Gateway, or Bedrock resources.
 
-The public AI Companion and Pathfinding Lab run locally in the browser. The
-contact form sends only after a visitor explicitly submits it to the existing
-Formspree endpoint.
+The public AI Companion runs locally in the browser. The Pathfinding Lab calls
+the existing public API Gateway and `pathfinding-generator` Lambda retained
+from the original site; it stores no visitor data, but its requests remain
+subject to the existing AWS usage-based billing. The contact form sends only
+after a visitor explicitly submits it to the existing Formspree endpoint.
 
 Preview builds derive their canonical URL from Amplify and are `noindex`. The
 production branch must explicitly set
