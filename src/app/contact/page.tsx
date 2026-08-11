@@ -25,7 +25,7 @@ export default function ContactPage() {
       icon: IconMail,
     },
     {
-      href: "https://linkedin.com/in/levonzhao",
+      href: "https://linkedin.com/in/levon-zhao",
       label: "LinkedIn",
       value: "/in/levonzhao",
       icon: IconBrandLinkedin,

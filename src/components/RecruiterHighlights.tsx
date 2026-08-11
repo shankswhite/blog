@@ -8,29 +8,35 @@ import {
 
 const evidence = [
   {
-    title: "Live-service anomaly detection",
+    title: "Microsoft Gaming AI Project",
     description:
-      "Activision Blizzard: PB-scale monitoring for 50+ KPIs; 40%+ lower analyst response latency.",
+      "At Activision Blizzard, built a PB-scale anomaly-detection and agent-assisted investigation system for 50+ live-service KPIs, reducing analyst response latency by 40%+. Productionized daily ML workflows from detection to reporting.",
+    stack: ["Databricks", "Airflow", "RAG", "Agentic AI", "ML Workflow"],
+    status: null,
     href: "/projects/live-service-anomaly-detection",
     action: "Case study",
     icon: IconActivityHeartbeat,
     tone: "sky",
   },
   {
-    title: "YOLO-KAN research",
+    title: "YOLO-KAN Research",
     description:
-      "First-author IEEE CAI 2025 research; +1.84 pp precision with fewer layers.",
+      "First-authored an IEEE CAI 2025 short paper integrating KAN modules into YOLOv11n for Microsoft COCO object detection. The best KAN-2-5 configuration reached 65.83% precision (+1.84 pp over the 63.99% baseline) while reducing network depth from 319 to 299 layers.",
+    stack: ["YOLOv11", "KAN", "PyTorch", "Microsoft COCO", "IEEE CAI 2025"],
+    status: null,
     href: "/projects/yolo-kan",
     action: "Research",
     icon: IconMicroscope,
     tone: "rose",
   },
   {
-    title: "Portfolio AI Companion",
+    title: "AI Companion",
     description:
-      "Bilingual, source-linked navigation across my work—live without sign-in.",
+      "A bilingual portfolio companion currently in development, answering focused questions about my experience, research, and projects from curated site content with direct links to supporting pages.",
+    stack: ["Next.js", "TypeScript", "Bilingual UX", "Source-linked"],
+    status: "WIP",
     href: "/chat",
-    action: "Try it",
+    action: "Preview WIP",
     icon: IconMessageChatbot,
     tone: "violet",
   },
@@ -80,14 +86,37 @@ export function RecruiterHighlights() {
                 >
                   <Icon size={18} stroke={1.8} />
                 </span>
-                <h3 className="text-sm font-semibold leading-5 tracking-[-0.015em] text-slate-950">
-                  {item.title}
-                </h3>
+                <div className="flex min-w-0 flex-wrap items-center gap-2">
+                  <h3 className="text-sm font-semibold leading-5 tracking-[-0.015em] text-slate-950">
+                    {item.title}
+                  </h3>
+                  {item.status && (
+                    <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-amber-800">
+                      {item.status}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <p className="mt-3 text-xs leading-5 text-slate-600">
                 {item.description}
               </p>
+
+              {item.stack.length > 0 && (
+                <ul
+                  className="mt-3 flex flex-wrap gap-1.5"
+                  aria-label={`${item.title} technology stack`}
+                >
+                  {item.stack.map((technology) => (
+                    <li
+                      key={technology}
+                      className="rounded-full border border-sky-100 bg-sky-50 px-2 py-1 text-[10px] font-semibold leading-none text-sky-800"
+                    >
+                      {technology}
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               <Link
                 href={item.href}

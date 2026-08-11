@@ -4,6 +4,7 @@ import {
   IconArrowRight,
   IconBrandLinkedin,
   IconFileDescription,
+  IconFileTypePdf,
   IconMail,
 } from "@tabler/icons-react";
 import { Certifications } from "@/components/Certifications";
@@ -21,7 +22,7 @@ export const metadata = createPageMetadata({
 export default function Home() {
   return (
     <Container>
-      <section className="border-b border-slate-200 pb-8 pt-4 lg:pt-0">
+      <section className="pt-4 lg:pt-0">
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700">
           Levon Zhao · AI / ML Engineer
         </p>
@@ -53,7 +54,7 @@ export default function Home() {
             </Link>
           </div>
           <Link
-            href="https://linkedin.com/in/levonzhao"
+            href="https://linkedin.com/in/levon-zhao"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-2 py-2 text-sm font-semibold text-slate-500 transition hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
@@ -64,16 +65,63 @@ export default function Home() {
         </div>
       </section>
 
-      <Certifications className="mt-5" />
+      <Certifications className="mt-8" />
       <RecruiterHighlights />
 
-      <section className="mt-8 border-t border-slate-200 pt-5">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-700">
+      <section className="mt-8" aria-labelledby="education-title">
+        <h2
+          id="education-title"
+          className="text-lg font-semibold tracking-[-0.025em] text-slate-950"
+        >
           Education
-        </p>
-        <p className="mt-1.5 text-sm font-semibold text-slate-800">
-          Georgia Tech MSCS (AI) · Northeastern MSCS
-        </p>
+        </h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-6">
+          <div>
+            <p className="text-sm font-semibold text-slate-800">
+              Georgia Tech MSCS (AI)
+              <span className="ml-2 font-medium text-slate-500">
+                GPA 3.87 / 4.00
+              </span>
+            </p>
+            <p className="mt-1 text-xs leading-5 text-slate-500">
+              NVIDIA Sponsored Agentic AI · Artificial Intelligence · Game AI ·
+              Game Design &amp; Development · GPU Hardware &amp; Software · Machine
+              Learning for Trading
+            </p>
+            <Link
+              href="/media/education/georgia-tech-mscs-degree-audit.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Georgia Tech degree audit PDF"
+              className="mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-semibold text-sky-700 transition hover:text-sky-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+            >
+              <IconFileTypePdf size={13} />
+              Degree audit (PDF)
+            </Link>
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-slate-800">
+              Northeastern MSCS
+              <span className="ml-2 font-medium text-slate-500">
+                GPA 3.97 / 4.00
+              </span>
+            </p>
+            <p className="mt-1 text-xs leading-5 text-slate-500">
+              Data Visualization &amp; GenAI · Distributed Systems · Cloud Computing ·
+              Deep Learning Research
+            </p>
+            <Link
+              href="/media/education/northeastern-mscs-unofficial-transcript.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Northeastern unofficial transcript PDF"
+              className="mt-1.5 inline-flex items-center gap-1.5 text-[11px] font-semibold text-sky-700 transition hover:text-sky-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+            >
+              <IconFileTypePdf size={13} />
+              Unofficial transcript (PDF)
+            </Link>
+          </div>
+        </div>
       </section>
 
       <div className="mt-7">
