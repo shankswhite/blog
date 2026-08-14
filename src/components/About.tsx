@@ -46,19 +46,19 @@ export default function About() {
     <div className="space-y-16">
       <section className="grid items-stretch gap-6 lg:grid-cols-[310px_minmax(0,1fr)]">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.28 }}
           className="relative min-h-[390px] overflow-hidden rounded-[30px] border border-slate-800 bg-slate-950 shadow-[0_26px_70px_-42px_rgba(15,23,42,0.9)]"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_24%,rgba(56,189,248,.65),transparent_30%),linear-gradient(155deg,#0f172a_28%,#312e81_100%)]" />
           <Image
-            src="/images/levon-portrait.png"
-            alt="Portrait of Levon Zhao"
+            src="/images/ai-companion/kira-comms.webp"
+            alt="Anime portrait representing Levon Zhao"
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 310px"
-            className="z-10 object-contain object-bottom"
+            className="z-10 object-cover object-[50%_20%]"
           />
           <div className="absolute inset-x-4 bottom-4 z-20 rounded-2xl border border-white/15 bg-slate-950/75 p-4 text-white backdrop-blur-xl">
             <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-sky-300">

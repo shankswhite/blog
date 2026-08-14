@@ -32,6 +32,23 @@ yarn-error.log*
 /public/notion-generated/
 /public/.notion-generated-*/
 
+# local-only companion event/lead persistence used when DynamoDB is unset
+/.local-data/
+
+# licensed avatar assets are local-only and must never be committed
+/.local-assets/
+/public/models/companion/private/
+/public/models/companion/*.vrm
+/public/models/companion/*.glb
+/public/models/companion/*.gltf
+
+# Python caches must never enter a release commit
+__pycache__/
+*.py[cod]
+
+# optional private voice-agent context
+/voice-agent/companion_context.md
+
 # vercel
 .vercel
 

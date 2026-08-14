@@ -97,7 +97,7 @@ export function getCompanionReply(message: string): CompanionReply {
     return {
       content: isChinese
         ? "**Portfolio AI Companion** 是旧站登录式 Bedrock 聊天机器人的重新设计。旧版通过 Amplify Authenticator 与 AWS Bedrock 回答简历问题；新版公开模式改用整理过的双语知识层，不要求登录，也不会调用付费 AI 后端。\n\n它覆盖经历、技能与精选项目，并把回答链接回对应页面。这样做牺牲了开放式生成能力，但换来了更清晰的范围、更快的响应、可预测的答案和更好的隐私。"
-        : "The **Portfolio AI Companion** redesigns the old site's login-gated Bedrock chatbot. The original used Amplify Authenticator and AWS Bedrock for résumé questions; the new public mode uses a curated bilingual knowledge layer, requires no account, and does not call a paid AI backend.\n\nIt covers experience, skills, and selected project records, linking answers back to their source pages. The trade-off is deliberate: less open-ended generation in exchange for clear scope, speed, privacy, and predictable answers.",
+        : "The **Portfolio AI Companion** redesigns the old site's login-gated Bedrock chatbot. The original used Amplify Authenticator and AWS Bedrock for résumé questions; the new public mode uses one persistent LiveKit session for realtime text and voice, requires no account, and grounds KIRA in the page a visitor is viewing.\n\nSilero handles turn detection, Deepgram transcribes speech through LiveKit Inference, Gemini generates the reply, and ElevenLabs speaks it. The licensed 3D avatar remains outside the first production release while its animation work continues.",
       sources: [sources.companion, sources.legacy],
     };
   }
@@ -296,6 +296,8 @@ export function getCompanionReply(message: string): CompanionReply {
       "tap4fun",
       "career",
       "经历",
+      "经验",
+      "人工智能工程",
       "游戏设计",
       "工作",
     ])
@@ -328,7 +330,9 @@ export function getCompanionReply(message: string): CompanionReply {
     };
   }
 
-  if (includesAny(normalized, ["yolo", "kan", "object detection", "目标检测"])) {
+  if (
+    includesAny(normalized, ["yolo", "kan", "object detection", "目标检测"])
+  ) {
     return {
       content: isChinese
         ? "**YOLO-KAN** 研究把 Kolmogorov-Arnold Network 模块引入 YOLO11n，并在 Microsoft COCO 上进行消融实验。研究海报记录的结果包括：\n\n- 最佳实验精度达到 **65.83%**，相对基线提升最高 **1.84 个百分点**\n- KAN-2-5 在准确率与特征关注范围之间取得了较好的平衡\n- Flatten 层的结构会显著影响 KAN 模块效果\n- 在提升准确率的同时，网络层数从 319 降至 299\n\n项目页保留了完整研究海报与 GitHub 链接。"
@@ -403,7 +407,37 @@ export function getCompanionReply(message: string): CompanionReply {
   }
 
   if (
-    includesAny(normalized, ["project", "portfolio", "best work", "项目", "作品"])
+    includesAny(normalized, [
+      "ai project",
+      "ai work",
+      "strongest ai",
+      "machine learning project",
+      "人工智能项目",
+      "ai 项目",
+      "机器学习项目",
+    ])
+  ) {
+    return {
+      content: isChinese
+        ? "Levon 最有代表性的 AI 工作覆盖了三个层次：\n\n1. **Activision Blizzard AI Systems** — 在 PB 级遥测数据上构建异常检测，并把 RAG、Deep Research、LangGraph 与 Slack MCP Agent 串成生产分析流程\n2. **YOLO-KAN** — 把 KAN 模块引入 YOLO11n，在 COCO 上做系统消融并取得最高 1.84 个百分点的精度提升\n3. **Machine Learning for Trading** — 比较决策树、随机森林与 Q-learning，同时明确区分样本内和样本外表现\n\nPortfolio AI Companion 则展示了另一种产品判断：在公开作品集里用有来源、可预测的整理知识层替代不受控的付费模型调用。"
+        : "Levon's strongest AI work spans three levels:\n\n1. **Activision Blizzard AI Systems** — PB-scale anomaly detection plus a production investigation workflow combining RAG, Deep Research, LangGraph, and a Slack MCP agent\n2. **YOLO-KAN** — systematic COCO ablations that introduced KAN modules into YOLO11n and improved precision by up to 1.84 percentage points\n3. **Machine Learning for Trading** — a comparison of decision trees, random forests, and Q-learning that keeps in-sample and out-of-sample results distinct\n\nThe Portfolio AI Companion demonstrates a separate product judgment: using bounded page context and one persistent voice/text session instead of an unscoped public chatbot.",
+      sources: [
+        sources.resume,
+        sources.yolo,
+        sources.trading,
+        sources.companion,
+      ],
+    };
+  }
+
+  if (
+    includesAny(normalized, [
+      "project",
+      "portfolio",
+      "best work",
+      "项目",
+      "作品",
+    ])
   ) {
     return {
       content: isChinese

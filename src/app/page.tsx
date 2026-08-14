@@ -2,10 +2,7 @@ import Link from "next/link";
 import {
   IconArchive,
   IconArrowRight,
-  IconBrandLinkedin,
-  IconFileDescription,
   IconFileTypePdf,
-  IconMail,
 } from "@tabler/icons-react";
 import { Certifications } from "@/components/Certifications";
 import { Container } from "@/components/Container";
@@ -28,41 +25,19 @@ export default function Home() {
         </p>
 
         <h1 className="mt-4 max-w-4xl text-[2.3rem] font-semibold leading-[1.03] tracking-[-0.055em] text-slate-950 sm:text-5xl xl:text-6xl">
-          I build production AI systems.
+          I Focus on Game &amp; AI.
         </h1>
 
         <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
-          AI Fellow at Handshake AI, evaluating frontier models. Previously built
-          anomaly detection and agentic analytics at Activision Blizzard.
+          Part-time AI Fellow at{" "}
+          <strong className="font-semibold text-slate-800">Handshake AI</strong>,
+          evaluating frontier models. Previously built anomaly detection and
+          agentic analytics at{" "}
+          <strong className="font-semibold text-slate-800">
+            Activision Blizzard
+          </strong>.
         </p>
 
-        <div className="mt-6 flex flex-col items-start gap-2.5 sm:flex-row sm:items-center">
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href="/resume"
-              className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2"
-            >
-              <IconFileDescription size={16} />
-              View résumé
-            </Link>
-            <Link
-              href="mailto:zhao.levon@gmail.com"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-            >
-              <IconMail size={16} />
-              Email me
-            </Link>
-          </div>
-          <Link
-            href="https://linkedin.com/in/levon-zhao"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-2 py-2 text-sm font-semibold text-slate-500 transition hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-          >
-            <IconBrandLinkedin size={16} />
-            LinkedIn
-          </Link>
-        </div>
       </section>
 
       <Certifications className="mt-8" />

@@ -9,12 +9,20 @@ export const Footer = () => {
         <span className="font-semibold">{new Date().getFullYear()} </span>
         &#8212; Levon Zhao
       </p>
-      <Link
-        href="/legacy"
-        className="font-medium text-slate-500 transition hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-      >
-        Original Legacy Blog
-      </Link>
+      <nav className="flex items-center gap-4" aria-label="Footer links">
+        <Link
+          href="/privacy"
+          className="font-medium text-slate-500 transition hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+        >
+          Privacy
+        </Link>
+        <Link
+          href="/legacy"
+          className="font-medium text-slate-500 transition hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+        >
+          Original Legacy Blog
+        </Link>
+      </nav>
     </footer>
   );
 };

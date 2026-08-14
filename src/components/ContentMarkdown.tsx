@@ -1,4 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
@@ -87,6 +88,11 @@ export function normalizeNotionMarkdown(markdown: string): string {
 
 function MarkdownLink({ href = "", ...props }: ComponentPropsWithoutRef<"a">) {
   const external = /^https?:\/\//i.test(href);
+
+  if (href.startsWith("/") && !href.startsWith("//") && !props.download) {
+    return <Link href={href} {...props} />;
+  }
+
   return (
     <a
       href={href}

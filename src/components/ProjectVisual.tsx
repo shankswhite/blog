@@ -176,7 +176,7 @@ function VisualContent({
         <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.2em] text-sky-100/65">
           <span>Curated context</span>
           <span className="rounded-full border border-emerald-300/25 bg-emerald-300/10 px-2.5 py-1 text-emerald-200">
-            EN / 中文
+            ENGLISH
           </span>
         </div>
         <div className="mx-auto w-full max-w-[270px] space-y-2.5">

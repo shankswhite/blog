@@ -11,6 +11,10 @@
     scroll-behavior: smooth;
   }
 
+  html[data-companion-calm="true"] {
+    scroll-behavior: auto;
+  }
+
   body {
     margin: 0;
     background: #f0eee8;

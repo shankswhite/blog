@@ -36,7 +36,7 @@ export const navlinks = [
     icon: IconArchive,
   },
   {
-    href: "/chat",
+    href: "/ai-companion",
     label: "AI Companion",
     icon: IconRobot,
   },

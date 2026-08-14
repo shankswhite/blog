@@ -1,93 +1,57 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-} from "react";
+import { useMemo } from "react";
+import { useVoiceSession } from "@/components/companion-voice/VoiceSessionProvider";
 import type { CompanionSource } from "@/lib/companion/knowledge";
 
-export type CompanionMessage = {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  sources?: CompanionSource[];
-};
-
-type CompanionContextValue = {
-  messages: CompanionMessage[];
-  isThinking: boolean;
-  sendMessage: (content: string) => Promise<void>;
-  resetConversation: () => void;
-};
-
-const CompanionContext = createContext<CompanionContextValue | null>(null);
-
-const createId = () =>
-  typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-
+/**
+ * Compatibility surface for the full-page companion experiences. The former
+ * rule-based chatbot has been removed; every message now uses the same KIRA
+ * LiveKit AgentSession as voice input.
+ */
 export function CompanionProvider({ children }: { children: React.ReactNode }) {
-  const [messages, setMessages] = useState<CompanionMessage[]>([]);
-  const [isThinking, setIsThinking] = useState(false);
-
-  const sendMessage = useCallback(
-    async (content: string) => {
-      const trimmed = content.trim();
-      if (!trimmed || isThinking) return;
-
-      setMessages((current) => [
-        ...current,
-        { id: createId(), role: "user", content: trimmed },
-      ]);
-      setIsThinking(true);
-
-      try {
-        await new Promise((resolve) => window.setTimeout(resolve, 420));
-        const { getCompanionReply } = await import("@/lib/companion/knowledge");
-        const reply = getCompanionReply(trimmed);
-        setMessages((current) => [
-          ...current,
-          {
-            id: createId(),
-            role: "assistant",
-            content: reply.content,
-            sources: reply.sources,
-          },
-        ]);
-      } finally {
-        setIsThinking(false);
-      }
-    },
-    [isThinking]
-  );
-
-  const value = useMemo(
-    () => ({
-      messages,
-      isThinking,
-      sendMessage,
-      resetConversation: () => setMessages([]),
-    }),
-    [isThinking, messages, sendMessage]
-  );
-
-  return (
-    <CompanionContext.Provider value={value}>
-      {children}
-    </CompanionContext.Provider>
-  );
+  return children;
 }
 
 export function useCompanion() {
-  const context = useContext(CompanionContext);
+  const {
+    messages,
+    isThinking,
+    isSendingText,
+    sendText,
+    resetConversation,
+    microphoneEnabled,
+    toggleMicrophone,
+    error,
+  } = useVoiceSession();
 
-  if (!context) {
-    throw new Error("useCompanion must be used within CompanionProvider");
-  }
-
-  return context;
+  return useMemo(
+    () => ({
+      messages: messages.map((message) => ({
+        id: message.id,
+        role: message.role,
+        content: message.content,
+        sources: undefined as CompanionSource[] | undefined,
+        deliveryStatus: message.deliveryStatus,
+      })),
+      isThinking: isThinking || isSendingText,
+      sendMessage: sendText,
+      microphoneEnabled,
+      toggleMicrophone,
+      error,
+      resetConversation: () => {
+        void resetConversation();
+      },
+    }),
+    [
+      isSendingText,
+      isThinking,
+      messages,
+      microphoneEnabled,
+      error,
+      resetConversation,
+      sendText,
+      toggleMicrophone,
+    ]
+  );
 }

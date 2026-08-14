@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { twMerge } from "tailwind-merge";
 import { isProductionSite, siteUrl } from "@/lib/siteUrl";
 import { SiteFrame } from "@/components/SiteFrame";
+import { VoiceSessionProvider } from "@/components/companion-voice";
+import { FloatingChat } from "@/components/FloatingChat";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -55,9 +57,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-[#f0eee8]">
+    <html lang="en" className="bg-[#f0eee8]" data-scroll-behavior="smooth">
       <body className={twMerge(inter.className, "min-h-dvh antialiased")}>
-        <SiteFrame>{children}</SiteFrame>
+        <VoiceSessionProvider>
+          <SiteFrame>{children}</SiteFrame>
+          <FloatingChat />
+        </VoiceSessionProvider>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 # Levon Zhao — Portfolio, Writing, and Legacy Blog
 
-This repository contains the current Next.js portfolio, a curated AI Companion,
+This repository contains the current Next.js portfolio, a realtime AI Companion,
 Notion-backed Writing and Projects, and an in-site copy of the previous portfolio
 under `/legacy`.
 
@@ -46,15 +46,22 @@ security boundary, and optional automatic Amplify rebuild setup.
 
 ## Hosting boundary
 
-`amplify.yml` is frontend-only. It installs dependencies and builds the Next.js
-app; it does not run `ampx pipeline-deploy` or provision Cognito, AppSync,
-DynamoDB, API Gateway, or Bedrock resources.
+`amplify.yml` builds the Next.js app and does not run `ampx pipeline-deploy`.
+Cognito, AppSync, API Gateway, and Bedrock remain unused. KIRA's production
+engagement and interest-form store is an externally provisioned DynamoDB table
+reached only by server routes through the Amplify SSR Compute role.
 
-The public AI Companion runs locally in the browser. The Pathfinding Lab calls
-the existing public API Gateway and `pathfinding-generator` Lambda retained
-from the original site; it stores no visitor data, but its requests remain
-subject to the existing AWS usage-based billing. The contact form sends only
-after a visitor explicitly submits it to the existing Formspree endpoint.
+The Pathfinding Lab calls the existing public API Gateway and
+`pathfinding-generator` Lambda retained from the original site; it stores no
+visitor data, but its requests remain subject to the existing AWS usage-based
+billing. The contact form sends only after a visitor explicitly submits it to
+the existing Formspree endpoint.
+
+KIRA uses a separately deployed persistent LiveKit worker for realtime text and
+voice. It stores no raw audio. The KIRA interest form sends only after explicit
+visitor consent; the existing standalone contact form still uses Formspree.
+See [docs/AI_COMPANION.md](docs/AI_COMPANION.md) for service flow, configuration,
+privacy boundaries, and the DynamoDB/Amplify production checklist.
 
 Preview builds derive their canonical URL from Amplify and are `noindex`. The
 production branch must explicitly set

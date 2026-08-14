@@ -122,14 +122,14 @@ export const products: Product[] = [
     actionLabel: "Open the companion",
     title: "Portfolio AI Companion",
     description:
-      "A bilingual, source-linked guide that turns a static portfolio into a focused conversation about the work.",
-    stack: ["Next.js", "TypeScript", "Information Design", "AI UX"],
+      "An English voice and text companion that follows visitors across the portfolio and answers from the page they are viewing.",
+    stack: ["Next.js", "LiveKit", "Gemini", "Voice AI"],
     slug: "portfolio-companion",
     eyebrow: "Conversational Interface",
     year: "2024–26",
     accent: "sky",
     metrics: [
-      { value: "2", label: "languages" },
+      { value: "EN", label: "response language" },
       { value: "0", label: "sign-ins required" },
       { value: "Linked", label: "answer sources" },
     ],
@@ -143,16 +143,17 @@ export const products: Product[] = [
           minutes, without creating an account?
         </p>
         <p>
-          The current public mode uses a curated bilingual knowledge layer. It
-          recognizes questions about Levon&apos;s experience, skills, research,
-          and projects, then links each answer back to the relevant page. That
-          makes the scope explicit and keeps the interaction fast, predictable,
-          and privacy-conscious.
+          The current public mode uses one persistent LiveKit session for text
+          and voice. It gives KIRA bounded context from the page a visitor is
+          viewing, then uses Gemini and ElevenLabs to answer and speak. The
+          first production release uses a lightweight 2D KIRA launcher; the
+          licensed 3D avatar stays outside the deploy artifact until its
+          animation and performance work is complete.
         </p>
         <p>
           The interface is available as both a focused full-page experience and
           a floating panel throughout the site. Keyboard navigation, clear
-          source labels, mobile layouts, and reduced-motion preferences are
+          page highlights, mobile layouts, and reduced-motion preferences are
           treated as core interaction requirements rather than polish.
         </p>
       </>

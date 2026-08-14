@@ -32,11 +32,11 @@ const evidence = [
   {
     title: "AI Companion",
     description:
-      "A bilingual portfolio companion currently in development, answering focused questions about my experience, research, and projects from curated site content with direct links to supporting pages.",
-    stack: ["Next.js", "TypeScript", "Bilingual UX", "Source-linked"],
-    status: "WIP",
-    href: "/chat",
-    action: "Preview WIP",
+      "An English, source-linked voice and text companion that follows visitors across the portfolio and answers focused questions about my experience, research, and projects.",
+    stack: ["Next.js", "LiveKit", "Gemini", "Voice AI", "Source-linked"],
+    status: "LIVE",
+    href: "/ai-companion",
+    action: "Open companion",
     icon: IconMessageChatbot,
     tone: "violet",
   },

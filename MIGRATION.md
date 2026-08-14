@@ -7,7 +7,7 @@
 - The migrated copy lives inside this site under `/legacy`; it is not an external-link-only archive.
 - Duplicate Legacy project-detail pages remain browsable but use the main project URL as canonical and are excluded from the sitemap.
 - The new app must pass staging checks at its Amplify URL before `levon.blog` is detached from the old app.
-- This migration does not add or subscribe to a new service. Existing Amplify Hosting usage still follows the account's current billing plan.
+- The current development branch adds the KIRA LiveKit worker and a required externally provisioned DynamoDB engagement table for interaction retention and the interest form. Neither is provisioned by `amplify.yml`; production activation follows `docs/AI_COMPANION.md`.
 
 ## Amplify deployment boundary
 
@@ -19,7 +19,7 @@
 
 It does not run `ampx pipeline-deploy`. The existing `amplify/` directory contains auth, data, and Bedrock-related configuration, but the public portfolio build neither deploys nor calls those resources. Keep those files out of the frontend release commit.
 
-The AI Companion is curated and runs locally in the browser. Publishing the portfolio therefore requires no Cognito, AppSync, DynamoDB, or Bedrock provisioning.
+The AI Companion now uses a named persistent LiveKit worker for text and voice. It does not use Cognito, AppSync, or Bedrock. Production interaction and lead retention require the DynamoDB table, TTL, and least-privilege SSR Compute role described in `docs/AI_COMPANION.md`.
 
 Do not connect or transfer `levon.blog` during staging. Preview builds derive their canonical URL from Amplify and emit `noindex`; set `NEXT_PUBLIC_SITE_URL=https://www.levon.blog` on the production branch only for an approved domain cutover.
 

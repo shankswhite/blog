@@ -14,11 +14,14 @@
     "test:unit": "tsx --test src/lib/*.test.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1108.0",
     "@aws-sdk/client-ssm": "^3.1105.0",
     "@notionhq/client": "^5.23.0",
     "@tabler/icons-react": "^2.32.0",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.1",
+    "livekit-client": "^2.21.0",
+    "livekit-server-sdk": "^2.17.0",
     "next": "15.5.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

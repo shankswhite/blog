@@ -175,8 +175,17 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
 function Navigation({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname() ?? "";
-  const isActive = (href: string) =>
-    href === "/" ? pathname === href : pathname.startsWith(href);
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === href;
+    if (href === "/ai-companion") {
+      return (
+        pathname === "/chat" ||
+        pathname === href ||
+        pathname.startsWith(`${href}/`)
+      );
+    }
+    return pathname.startsWith(href);
+  };
 
   return (
     <nav
@@ -236,11 +245,11 @@ function SidebarHeader() {
     >
       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         <Image
-          src="/images/levon-portrait.png"
+          src="/images/ai-companion/kira-comms.webp"
           alt=""
           fill
           sizes="48px"
-          className="object-cover object-top"
+          className="origin-[50%_22%] scale-[1.55] object-cover object-[50%_18%]"
           priority
         />
       </div>

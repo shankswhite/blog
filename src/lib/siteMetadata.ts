@@ -8,7 +8,14 @@ type PageMetadataInput = {
   publishedTime?: string;
   modifiedTime?: string;
   tags?: string[];
-  image?: string;
+  image?:
+    | string
+    | {
+        url: string;
+        width?: number;
+        height?: number;
+        alt?: string;
+      };
 };
 
 const socialImage = {
@@ -29,7 +36,7 @@ export function createPageMetadata({
   image,
 }: PageMetadataInput): Metadata {
   const imageMetadata = image
-    ? [{ url: image, alt: title }]
+    ? [typeof image === "string" ? { url: image, alt: title } : image]
     : [socialImage];
 
   return {
@@ -56,7 +63,7 @@ export function createPageMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [image || socialImage.url],
+      images: imageMetadata,
     },
   };
 }
