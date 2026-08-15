@@ -145,6 +145,8 @@ class TokenRequestError extends Error {
 // Crypto UUID API is available anywhere this client can establish a session.
 const createId = () => globalThis.crypto.randomUUID();
 const MAX_LIVEKIT_TEXT_BYTES = 15_500;
+const AGENT_READY_TIMEOUT_MS = 40_000;
+const AGENT_READY_POLL_MS = 100;
 
 function utf8Length(value: string) {
   return new TextEncoder().encode(value).byteLength;
@@ -817,12 +819,15 @@ export function VoiceSessionProvider({
 
   const waitForAgent = useCallback(async () => {
     const generation = runGenerationRef.current;
-    for (let attempt = 0; attempt < 150; attempt += 1) {
+    const deadline = Date.now() + AGENT_READY_TIMEOUT_MS;
+    while (Date.now() < deadline) {
       if (agentReadyRef.current && agentIdentityRef.current) return;
       if (!mountedRef.current || generation !== runGenerationRef.current) {
         throw new DOMException("Session changed", "AbortError");
       }
-      await new Promise((resolve) => window.setTimeout(resolve, 100));
+      await new Promise((resolve) =>
+        window.setTimeout(resolve, AGENT_READY_POLL_MS)
+      );
     }
     throw new Error("agent_not_ready");
   }, []);
