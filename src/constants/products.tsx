@@ -118,7 +118,7 @@ export const products: Product[] = [
     ),
   },
   {
-    href: "/chat",
+    href: "/ai-companion",
     actionLabel: "Open the companion",
     title: "Portfolio AI Companion",
     description:

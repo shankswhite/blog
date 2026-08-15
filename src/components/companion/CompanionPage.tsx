@@ -40,7 +40,7 @@ const contextLinks = [
 export function CompanionPage() {
   return (
     <main
-      id="main-content"
+      id="companion-workspace"
       className="mx-auto w-full max-w-6xl px-4 pb-16 pt-20 sm:px-6 lg:px-10 lg:py-10"
     >
       <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]">

@@ -161,7 +161,7 @@ export function ProjectDetail({
             </p>
           )}
           <Link
-            href="/chat"
+            href="/ai-companion"
             className="inline-flex items-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
           >
             Ask the companion about this work
