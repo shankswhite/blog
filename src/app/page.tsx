@@ -55,7 +55,7 @@ export default function Home() {
             <p className="text-sm font-semibold text-slate-800">
               Georgia Tech MSCS (AI)
               <span className="ml-2 font-medium text-slate-500">
-                GPA 3.87 / 4.00
+                GPA 3.88 / 4.00
               </span>
             </p>
             <p className="mt-1 text-xs leading-5 text-slate-500">
