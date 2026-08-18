@@ -37,10 +37,8 @@ yarn-error.log*
 
 # licensed avatar assets are local-only and must never be committed
 /.local-assets/
-/public/models/companion/private/
-/public/models/companion/*.vrm
-/public/models/companion/*.glb
-/public/models/companion/*.gltf
+/public/models/companion/*
+!/public/models/companion/README.md
 
 # Python caches must never enter a release commit
 __pycache__/

@@ -60,15 +60,24 @@ route. Railway's production command remains `python main.py start`.
 
 ## Avatar delivery
 
-The current production release uses the tracked 2D KIRA artwork and does not
-load WebGL, VRM, or GLB assets. Purchased model files, conversion packages, and
-the experimental Three.js avatar runtime remain local and gitignored until the
-3D experience is ready for a separate release review.
+The 3D launcher is fail-closed and requires both public build variables:
 
-When that work resumes, the optimized display model must be delivered through
-licensed artifact storage or a browser-readable HTTPS object URL. The original
-source package and high-resolution authoring assets must never enter Git or the
-frontend deploy artifact.
+```text
+NEXT_PUBLIC_COMPANION_3D_ENABLED=true
+NEXT_PUBLIC_COMPANION_AVATAR_URL=https://<cdn>/<versioned-model>.glb
+```
+
+When either value is absent, invalid, or the browser cannot load WebGL/model
+data, the same button and conversation state remain available through the
+tracked 2D KIRA artwork. The model URL is deliberately public because a browser
+must download the model to render it.
+
+Only the optimized web-display derivative belongs on the CDN. Purchased model
+files, source VRMs, FBX/Unity packages, textures, licenses, and conversion
+workspaces remain local and gitignored. The current asset is stored behind a
+private S3 origin and served through CloudFront with a content-hashed immutable
+key; CloudFront origin access prevents direct S3 reads but cannot prevent a
+visitor from saving the browser-delivered derivative.
 
 ## DynamoDB setup
 
@@ -147,8 +156,11 @@ Before production, verify:
 - microphone permission appears only after pressing the microphone button and
   the browser capture indicator clears when it is turned off;
 - route changes update the page highlight and KIRA answers from the new page;
-- no `.vrm`, `.glb`, or `.gltf` request is made by the current 2D production
-  launcher;
+- with the 3D flag disabled, no Three.js or model request is made;
+- with it enabled, the hashed CDN model loads once, direct S3 access is denied,
+  and a blocked/failed model request leaves the 2D launcher usable;
+- dragging closes the panel, waits one second after release, returns without
+  opening the panel, and never places the launcher outside the visual viewport;
 - DynamoDB writes succeed and TTL is enabled on `expiresAt`;
 - Formspree success and failure return distinct UI messages;
 - the privacy/retention wording matches the deployed backup and retention policy.

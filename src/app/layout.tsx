@@ -6,6 +6,7 @@ import { isProductionSite, siteUrl } from "@/lib/siteUrl";
 import { SiteFrame } from "@/components/SiteFrame";
 import { VoiceSessionProvider } from "@/components/companion-voice";
 import { FloatingChat } from "@/components/FloatingChat";
+import { FloatingAvatarChat } from "@/components/FloatingAvatarChat";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,12 +57,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const avatarModelUrl =
+    process.env.NEXT_PUBLIC_COMPANION_AVATAR_URL?.trim() ?? "";
+  const avatar3DEnabled =
+    process.env.NEXT_PUBLIC_COMPANION_3D_ENABLED === "true" &&
+    avatarModelUrl.startsWith("https://");
+
   return (
     <html lang="en" className="bg-[#f0eee8]" data-scroll-behavior="smooth">
       <body className={twMerge(inter.className, "min-h-dvh antialiased")}>
-        <VoiceSessionProvider>
+        <VoiceSessionProvider avatarAudioEnabled={avatar3DEnabled}>
           <SiteFrame>{children}</SiteFrame>
-          <FloatingChat />
+          {avatar3DEnabled ? (
+            <FloatingAvatarChat modelUrl={avatarModelUrl} />
+          ) : (
+            <FloatingChat />
+          )}
         </VoiceSessionProvider>
       </body>
     </html>

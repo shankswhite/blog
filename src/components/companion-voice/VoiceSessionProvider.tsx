@@ -30,6 +30,7 @@ import {
   collectCompanionPageContext,
   type CompanionPageContext,
 } from "@/lib/companion/page-context";
+import { AgentAudioAnalyser } from "@/lib/agentAudioAnalyser";
 
 export type VoiceSessionPhase =
   | "idle"
@@ -86,7 +87,7 @@ export type VoiceSessionContextValue = {
   isThinking: boolean;
   isSendingText: boolean;
   microphoneEnabled: boolean;
-  /** Reserved for the deferred 3D lip-sync layer; remains zero in 2D mode. */
+  /** Smoothed 0..1 level sampled from the remote agent audio track. */
   mouthLevelRef: MutableRefObject<number>;
   canStart: boolean;
   canEnd: boolean;
@@ -100,6 +101,7 @@ export type VoiceSessionContextValue = {
 };
 
 export type VoiceSessionProviderProps = {
+  avatarAudioEnabled?: boolean;
   children: ReactNode;
   tokenEndpoint?: string;
 };
@@ -348,6 +350,7 @@ function isAgentInputReady(participant: RemoteParticipant) {
 }
 
 export function VoiceSessionProvider({
+  avatarAudioEnabled = false,
   children,
   tokenEndpoint = "/api/livekit/token",
 }: VoiceSessionProviderProps) {
@@ -376,6 +379,10 @@ export function VoiceSessionProvider({
   const tokenAbortRef = useRef<AbortController | null>(null);
   const audioContainerRef = useRef<HTMLDivElement>(null);
   const mouthLevelRef = useRef(0);
+  const agentAudioAnalyserRef = useRef<AgentAudioAnalyser | null>(null);
+  if (avatarAudioEnabled && !agentAudioAnalyserRef.current) {
+    agentAudioAnalyserRef.current = new AgentAudioAnalyser(mouthLevelRef);
+  }
   const agentReadyRef = useRef(false);
   const agentIdentityRef = useRef<string | null>(null);
   const pageContextRef = useRef<CompanionPageContext | null>(null);
@@ -458,6 +465,7 @@ export function VoiceSessionProvider({
   }, []);
 
   const clearPlayback = useCallback(() => {
+    void agentAudioAnalyserRef.current?.dispose().catch(() => undefined);
     const container = audioContainerRef.current;
     if (container) {
       container.querySelectorAll("audio, video").forEach((element) => {
@@ -625,16 +633,27 @@ export function VoiceSessionProvider({
         const onTrackSubscribed = (
           track: RemoteTrack,
           _publication: RemoteTrackPublication,
-          _participant: RemoteParticipant
+          participant: RemoteParticipant
         ) => {
           if (!isCurrentRun() || track.kind !== Track.Kind.Audio) return;
           const element = track.attach();
           element.autoplay = true;
           element.setAttribute("playsinline", "true");
           audioContainerRef.current?.appendChild(element);
+          if (
+            participant.isAgent ||
+            participant.identity === agentIdentityRef.current
+          ) {
+            void agentAudioAnalyserRef.current
+              ?.attach(track.mediaStreamTrack)
+              .catch(() => undefined);
+          }
         };
 
         const onTrackUnsubscribed = (track: RemoteTrack) => {
+          if (track.kind === Track.Kind.Audio) {
+            agentAudioAnalyserRef.current?.detach(track.mediaStreamTrack);
+          }
           track.detach().forEach((element) => element.remove());
         };
 
@@ -697,6 +716,7 @@ export function VoiceSessionProvider({
         const onParticipantDisconnected = (participant: RemoteParticipant) => {
           if (participant.identity !== agentIdentityRef.current) return;
           agentIdentityRef.current = null;
+          agentAudioAnalyserRef.current?.detach();
           agentReadyRef.current = false;
           setAgentReady(false);
           setAgentState("offline");
@@ -788,8 +808,8 @@ export function VoiceSessionProvider({
         tokenAbortRef.current = null;
         if (roomRef.current === room) roomRef.current = null;
         room?.removeAllListeners();
-        if (room) await room.disconnect().catch(() => undefined);
         clearPlayback();
+        if (room) await room.disconnect().catch(() => undefined);
         transition("error", {
           error: describeError(error),
           roomName: null,
@@ -833,6 +853,7 @@ export function VoiceSessionProvider({
   }, []);
 
   const enableMicrophone = useCallback(async () => {
+    void agentAudioAnalyserRef.current?.prepare().catch(() => undefined);
     const requestGeneration = ++microphoneRequestGenerationRef.current;
     const isCurrentRequest = () =>
       mountedRef.current &&
@@ -918,6 +939,7 @@ export function VoiceSessionProvider({
     async (content: string, retryMessageId?: string) => {
       const text = normalizeCompanionPrompt(content);
       if (!text || isSendingTextRef.current) return;
+      void agentAudioAnalyserRef.current?.prepare().catch(() => undefined);
       isSendingTextRef.current = true;
       const context = collectCompanionPageContext(pathname);
       if (context) applyPageContext(context);
@@ -1006,8 +1028,8 @@ export function VoiceSessionProvider({
     const room = roomRef.current;
     roomRef.current = null;
     room?.removeAllListeners();
-    if (room) await room.disconnect().catch(() => undefined);
     clearPlayback();
+    if (room) await room.disconnect().catch(() => undefined);
     agentIdentityRef.current = null;
     agentReadyRef.current = false;
     setAgentReady(false);

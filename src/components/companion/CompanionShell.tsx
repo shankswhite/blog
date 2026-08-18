@@ -195,7 +195,7 @@ export function CompanionShell({
       aria-label="KIRA portfolio companion"
       className={`relative flex min-h-0 flex-col border border-slate-200/80 bg-[#fbfaf6] shadow-[0_24px_80px_-30px_rgba(15,23,42,0.45)] ${
         isFloating
-          ? "h-[min(410px,calc(100dvh-2rem))] min-h-[300px] w-full overflow-visible rounded-[22px]"
+          ? "h-full min-h-0 w-full overflow-visible rounded-[22px]"
           : "h-[min(780px,calc(100dvh-8rem))] min-h-[620px] overflow-hidden rounded-[32px]"
       }`}
     >
