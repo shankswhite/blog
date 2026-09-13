@@ -1,0 +1,345 @@
+{
+  "checkedAt": "2026-09-13T10:30:11.527Z",
+  "pages": [
+    {
+      "url": "https://www.levon.blog/",
+      "status": 200,
+      "title": "Levon Blog — AI, Games & Software by Levon Zhao",
+      "description": "Levon Blog by Levon Zhao, an AI / ML engineer. Explore notes on AI, computer graphics, and games, plus engineering projects and research.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/about",
+      "status": 200,
+      "title": "About | Levon Blog",
+      "description": "Meet Levon Zhao, a game designer turned software engineer working across AI, games, and interactive systems.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/ai-companion",
+      "status": 200,
+      "title": "AI Companion | Levon Blog",
+      "description": "Explore Levon Zhao's game design, AI research, software projects, and experience through a source-linked portfolio companion.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/blog",
+      "status": 200,
+      "title": "Levon Blog — Research & Engineering Notes",
+      "description": "Read Levon Blog by Levon Zhao: hands-on research notes and engineering postmortems on AI, computer graphics, games, and production systems.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/blog/beier-neely-image-morphing",
+      "status": 200,
+      "title": "Debugging a Beier-Neely Image Morph | Levon Blog",
+      "description": "What 26 line pairs, five transformation studies, and several coordinate bugs taught me about image warping.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person",
+        "BlogPosting",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/blog/yolo-kan-research",
+      "status": 200,
+      "title": "YOLO-KAN: What the Ablation Experiments Taught Me | Levon Blog",
+      "description": "A concise research note on introducing Kolmogorov-Arnold Network modules into YOLO11n, testing flatten strategies, and reading the resulting trade-offs.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person",
+        "BlogPosting",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/contact",
+      "status": 200,
+      "title": "Contact | Levon Blog",
+      "description": "Get in touch with Levon Zhao - software engineer, game designer, and ML enthusiast.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/legacy",
+      "status": 200,
+      "title": "Levon's AllBlue — Legacy Blog | Levon Blog",
+      "description": "The original Levon's AllBlue portfolio, preserved inside the new site.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/legacy/cg",
+      "status": 200,
+      "title": "Computer Graphics — Legacy Blog | Levon Blog",
+      "description": "The Computer Graphics project index preserved from Levon Zhao's previous blog.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/legacy/chatbot",
+      "status": 200,
+      "title": "AI ChatBot — Legacy Blog | Levon Blog",
+      "description": "An archive-only recreation of the original Cognito-gated Levon AI Agent interface, with no AWS authentication or paid model request.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/legacy/pathfinding",
+      "status": 200,
+      "title": "Pathfinding — Legacy Blog | Levon Blog",
+      "description": "The original 20 by 20 pathfinding interface, restored with browser-local Dijkstra, A*, and JPS-compatible controls.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/legacy/yolo-kan",
+      "status": 200,
+      "title": "YOLO-KAN — Legacy Blog | Levon Blog",
+      "description": "The original YOLO-KAN research-poster viewer preserved inside Levon's Legacy Blog.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/privacy",
+      "status": 200,
+      "title": "KIRA Privacy | Levon Blog",
+      "description": "How the KIRA portfolio companion processes conversations, page context, voice, and optional contact details.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects",
+      "status": 200,
+      "title": "Projects | Levon Blog",
+      "description": "Selected AI research, interactive algorithms, computer graphics, games, and full-stack projects by Levon Zhao.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/beier-neely-morphing",
+      "status": 200,
+      "title": "Beier-Neely Image Morphing | Levon Blog",
+      "description": "A computer graphics experiment in line-pair warping, coordinate systems, interpolation, and artifact reduction.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/climbing-game",
+      "status": 200,
+      "title": "3D Climbing & Shooting Game | Levon Blog",
+      "description": "A Unity game prototype with physics-based climbing, root-motion animation, playtesting, and a multidisciplinary team.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/distributed-file-system",
+      "status": 200,
+      "title": "Distributed File System | Levon Blog",
+      "description": "A C++ and gRPC file service exploring synchronous and asynchronous RPCs, concurrency, and workload-aware testing.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/job-comparator",
+      "status": 200,
+      "title": "Job Comparator App | Levon Blog",
+      "description": "An Android job-comparison workflow built with test-driven development and a leaner SQLite persistence model.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/live-service-anomaly-detection",
+      "status": 200,
+      "title": "Live-Service Anomaly Detection | Levon Blog",
+      "description": "A production AI investigation system for PB-scale game telemetry, monitoring 50+ service KPIs and shortening analyst response latency by more than 40%.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/mahjong",
+      "status": 200,
+      "title": "Mini Riichi Mahjong | Levon Blog",
+      "description": "A single-player Riichi Mahjong game against three AI opponents, recognized as the course's best project.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/ml-trading",
+      "status": 200,
+      "title": "Machine Learning for Trading | Levon Blog",
+      "description": "A quantitative trading study using decision trees, random forests, and Q-learning under conservative evaluation constraints.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/opengl-pathfinding-game",
+      "status": 200,
+      "title": "Pathfinding Agents Game | Levon Blog",
+      "description": "A C and OpenGL game that lets players place obstacles and compare how search agents navigate a 20×20 grid.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/pathfinding",
+      "status": 200,
+      "title": "Pathfinding Visualizer | Levon Blog",
+      "description": "A browser-local search lab that exposes every Dijkstra and A* exploration step while preserving the old JPS control as a documented compatibility mode.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/portfolio-companion",
+      "status": 200,
+      "title": "Portfolio AI Companion | Levon Blog",
+      "description": "An English voice and text companion that follows visitors across the portfolio and answers from the page they are viewing.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/recipe-app",
+      "status": 200,
+      "title": "OnKitchen Recipe Platform | Levon Blog",
+      "description": "A full-stack recipe workflow built with React, Spring Boot, MongoDB, and an AWS deployment pipeline.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/projects/yolo-kan",
+      "status": 200,
+      "title": "YOLO-KAN | Levon Blog",
+      "description": "Researching how Kolmogorov-Arnold Network modules can improve YOLO11n accuracy while reducing network depth.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/resume",
+      "status": 200,
+      "title": "Resume | Levon Blog",
+      "description": "Levon Zhao's work history - game design, software development, and machine learning.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person"
+      ]
+    }
+  ],
+  "failures": [],
+  "warnings": [],
+  "baseOrigin": "http://127.0.0.1:3007",
+  "expectedOrigin": "https://www.levon.blog",
+  "mode": "production",
+  "summary": {
+    "sitemapPages": 27,
+    "auditedPages": 27,
+    "failures": 0,
+    "warnings": 0,
+    "passed": true
+  }
+}

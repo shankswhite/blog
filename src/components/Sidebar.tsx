@@ -259,7 +259,7 @@ function SidebarHeader() {
         </p>
         <p className="mt-0.5 flex items-center gap-1 text-[11px] text-slate-500">
           <IconSparkles size={11} className="text-sky-600" />
-          AI · Data · Systems
+          Levon Blog
         </p>
       </div>
     </Link>

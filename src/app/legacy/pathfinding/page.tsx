@@ -9,5 +9,12 @@ export const metadata = createPageMetadata({
 });
 
 export default function LegacyPathfindingPage() {
-  return <PathFindingComponent />;
+  return (
+    <>
+      <h1 className="px-4 pt-6 text-2xl font-bold leading-snug sm:px-8">
+        Pathfinding Lab
+      </h1>
+      <PathFindingComponent />
+    </>
+  );
 }

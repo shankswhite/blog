@@ -5,6 +5,7 @@ import { createPageMetadata } from "@/lib/siteMetadata";
 
 const meta = {
   date: "2025-02-01",
+  modifiedDate: "2026-09-13",
   title: "Debugging a Beier-Neely Image Morph",
   description:
     "What 26 line pairs, five transformation studies, and several coordinate bugs taught me about image warping.",
@@ -17,11 +18,15 @@ export const metadata = createPageMetadata({
   description: meta.description,
   path: "/blog/beier-neely-image-morphing",
   type: "article",
+  publishedTime: meta.date,
+  modifiedTime: meta.modifiedDate,
+  image: meta.image,
+  tags: meta.tags,
 });
 
 export default function Page() {
   return (
-    <BlogLayout meta={meta}>
+    <BlogLayout meta={meta} path="/blog/beier-neely-image-morphing">
       <p>
         Beier-Neely morphing creates a smooth transition between two images by
         using corresponding line pairs as geometric constraints. Each
@@ -76,9 +81,16 @@ export default function Page() {
         calculation.
       </p>
       <p>
-        Those outputs remain in the case study. They document the boundary
-        between what the implementation solved and what should be investigated
-        next.
+        The <Link href="/legacy/cg/morphing">archived morphing study</Link>{" "}
+        preserves five original 31-frame sequences: translation, translation
+        with scale, 2D scaling, rotation, and the character morph. The character
+        sequence retained a small ghosting artifact around the left leg.
+        Comparing one line pair per leg with eight produced nearly the same
+        result, so increasing line count alone did not resolve it. Those
+        original frames document both the improvements and the remaining
+        defects. The abstract warp field and four clips below are replacement
+        visuals and reconstructed demonstrations. Use the archive to inspect
+        the actual outputs behind this debugging account.
       </p>
 
       <MorphingShowcase />

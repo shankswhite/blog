@@ -7,21 +7,26 @@ import {
 import { Certifications } from "@/components/Certifications";
 import { Container } from "@/components/Container";
 import { RecruiterHighlights } from "@/components/RecruiterHighlights";
+import { getWritingCards } from "@/lib/content";
 import { createPageMetadata } from "@/lib/siteMetadata";
+import { formatDate } from "../../lib/formatDate";
 
 export const metadata = createPageMetadata({
-  title: "AI / ML Engineer",
+  title: "Levon Blog — AI, Games & Software by Levon Zhao",
+  absoluteTitle: true,
   description:
-    "Levon Zhao is an AI / ML engineer working across frontier-model evaluation, production anomaly detection, agentic analytics, and computer-vision research.",
+    "Levon Blog by Levon Zhao, an AI / ML engineer. Explore notes on AI, computer graphics, and games, plus engineering projects and research.",
   path: "/",
 });
 
-export default function Home() {
+export default async function Home() {
+  const latestWriting = (await getWritingCards()).slice(0, 3);
+
   return (
     <Container>
       <section className="pt-4 lg:pt-0">
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700">
-          Levon Zhao · AI / ML Engineer
+          Levon Blog · Levon Zhao
         </p>
 
         <h1 className="mt-4 max-w-4xl text-[2.3rem] font-semibold leading-[1.03] tracking-[-0.055em] text-slate-950 sm:text-5xl xl:text-6xl">
@@ -38,6 +43,10 @@ export default function Home() {
           </strong>.
         </p>
 
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-500">
+          My personal blog and portfolio as an AI / ML engineer, with notes on
+          AI, computer graphics, and the systems behind games and software.
+        </p>
       </section>
 
       <Certifications className="mt-8" />
@@ -98,6 +107,52 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {latestWriting.length > 0 && (
+        <section
+          className="mt-10 border-t border-slate-200 pt-7"
+          aria-labelledby="latest-writing-title"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2
+              id="latest-writing-title"
+              className="text-lg font-semibold tracking-[-0.025em] text-slate-950"
+            >
+              Latest from the blog
+            </h2>
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-700 transition hover:text-sky-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+            >
+              View all articles
+              <IconArrowRight size={14} aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="mt-4 divide-y divide-slate-200">
+            {latestWriting.map((article) => (
+              <article key={article.href} className="py-4 first:pt-0 last:pb-0">
+                <time
+                  dateTime={article.date}
+                  className="text-[11px] font-medium text-slate-500"
+                >
+                  {formatDate(article.date)}
+                </time>
+                <h3 className="mt-1 text-base font-semibold leading-6 tracking-[-0.02em] text-slate-900">
+                  <Link
+                    href={article.href}
+                    className="rounded-sm transition hover:text-sky-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
+                  >
+                    {article.title}
+                  </Link>
+                </h3>
+                <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">
+                  {article.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="mt-7">
         <Link

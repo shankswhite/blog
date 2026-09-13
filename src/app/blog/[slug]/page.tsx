@@ -7,7 +7,6 @@ import {
   getWritingCards,
 } from "@/lib/content";
 import { createPageMetadata } from "@/lib/siteMetadata";
-import { siteUrl } from "@/lib/siteUrl";
 
 type WritingPageProps = {
   params: Promise<{ slug: string }>;
@@ -48,43 +47,19 @@ export default async function WritingPage({ params }: WritingPageProps) {
 
   if (!entry) notFound();
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: entry.title,
-    description: entry.description,
-    datePublished: entry.date,
-    dateModified: entry.lastEditedAt,
-    mainEntityOfPage: `${siteUrl}/blog/${entry.slug}`,
-    author: {
-      "@type": "Person",
-      name: "Levon Zhao",
-      url: siteUrl,
-    },
-    ...(entry.coverUrl
-      ? { image: new URL(entry.coverUrl, siteUrl).toString() }
-      : {}),
-  };
-
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-        }}
-      />
-      <BlogLayout
-        meta={{
-          title: entry.title,
-          description: entry.description,
-          date: entry.date,
-          image: entry.coverUrl,
-          tags: entry.tags,
-        }}
-      >
-        <ContentMarkdown markdown={entry.markdown} />
-      </BlogLayout>
-    </>
+    <BlogLayout
+      path={`/blog/${entry.slug}`}
+      meta={{
+        title: entry.title,
+        description: entry.description,
+        date: entry.date,
+        modifiedDate: entry.lastEditedAt,
+        image: entry.coverUrl,
+        tags: entry.tags,
+      }}
+    >
+      <ContentMarkdown markdown={entry.markdown} />
+    </BlogLayout>
   );
 }

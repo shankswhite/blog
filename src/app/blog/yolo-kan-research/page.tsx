@@ -4,6 +4,7 @@ import { createPageMetadata } from "@/lib/siteMetadata";
 
 const meta = {
   date: "2024-12-08",
+  modifiedDate: "2026-09-13",
   title: "YOLO-KAN: What the Ablation Experiments Taught Me",
   description:
     "A concise research note on introducing Kolmogorov-Arnold Network modules into YOLO11n, testing flatten strategies, and reading the resulting trade-offs.",
@@ -16,11 +17,15 @@ export const metadata = createPageMetadata({
   description: meta.description,
   path: "/blog/yolo-kan-research",
   type: "article",
+  publishedTime: meta.date,
+  modifiedTime: meta.modifiedDate,
+  image: meta.image,
+  tags: meta.tags,
 });
 
 export default function Page() {
   return (
-    <BlogLayout meta={meta}>
+    <BlogLayout meta={meta} path="/blog/yolo-kan-research">
       <p>
         The goal of this research was deliberately narrow: <strong>improve YOLO11n
         accuracy while reducing network depth</strong>. Kolmogorov-Arnold Networks
@@ -48,8 +53,9 @@ export default function Page() {
       <h2>What the experiments showed</h2>
       <p>
         The baseline YOLO11n reached <strong>63.99% precision</strong>. The
-        strongest configuration, KAN-2-5, reached <strong>65.83%</strong>, while
-        KAN-2-7 produced the highest mAP@50 at <strong>54.48%</strong>. Across the
+        highest-precision configuration, KAN-2-5, reached <strong>65.83%</strong>.
+        In the full ablation table, KAN-1-7 produced the highest mAP@50 at
+        <strong> 54.51%</strong>; KAN-2-7 reached <strong>54.48%</strong>. Across the
         experiments, the largest precision gain was <strong>1.84 percentage
         points</strong>.
       </p>
@@ -78,6 +84,31 @@ export default function Page() {
         <strong> How data is reshaped before the module can determine whether the
         module works at all.</strong> In this project, flatten-layer design was as
         important as the KAN block itself.
+      </p>
+
+      <h2>Reading and reproducing the results</h2>
+      <p>
+        These figures are the observations reported in the original research
+        poster for Microsoft COCO and YOLO11n. KAN-2-5 uses two KAN modules with
+        a 5 × 5 convolutional flatten layer. Its precision gain came with
+        <strong> 49.24% recall</strong>, compared with <strong>49.49%</strong> for
+        the baseline. The poster also reports increased computational cost for
+        the KAN variants despite their reduced layer count. Accuracy, recall,
+        and computation therefore need to be assessed together.
+      </p>
+      <p>
+        The <Link href="https://github.com/shankswhite/YOLOwithKAN">public
+        YOLO-KAN repository</Link> contains model checkpoints and an entry point
+        for evaluation. In the linked revision, <Link href="https://github.com/shankswhite/YOLOwithKAN/blob/0f5e5a1fd9f4979d5aaa737a9ded39ae22ed8dd3/val.py">val.py</Link> uses
+        a 640-pixel image size, batch size 64, and JSON prediction export.
+        Before rerunning, update the local dataset and checkpoint paths,
+        verify the intended evaluation split, and review the <code>resume=True</code>{" "}
+        setting in <Link href="https://github.com/shankswhite/YOLOwithKAN/blob/0f5e5a1fd9f4979d5aaa737a9ded39ae22ed8dd3/train.py">train.py</Link>.
+        The checked-in <Link href="https://github.com/shankswhite/YOLOwithKAN/blob/0f5e5a1fd9f4979d5aaa737a9ded39ae22ed8dd3/ultralytics/cfg/datasets/coco.yaml">COCO configuration</Link>{" "}
+        points both <code>train</code> and <code>val</code> to <code>train2017.txt</code>.
+        This repository snapshot does not establish which split was used for
+        the original poster. Reproducing that table requires confirming the
+        original run configuration and matching checkpoints.
       </p>
       <p>
         <Link href="/projects/yolo-kan">

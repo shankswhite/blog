@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { authorName, siteName } from "./siteIdentity";
 
 type PageMetadataInput = {
   title: string;
+  absoluteTitle?: boolean;
   description: string;
   path: string;
   type?: "website" | "article";
@@ -27,6 +29,7 @@ const socialImage = {
 
 export function createPageMetadata({
   title,
+  absoluteTitle = false,
   description,
   path,
   type = "website",
@@ -40,14 +43,14 @@ export function createPageMetadata({
     : [socialImage];
 
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: { canonical: path },
     openGraph: {
       title,
       description,
       url: path,
-      siteName: "Levon Zhao",
+      siteName,
       type,
       images: imageMetadata,
       ...(type === "article"
@@ -55,7 +58,7 @@ export function createPageMetadata({
             publishedTime,
             modifiedTime,
             tags,
-            authors: ["Levon Zhao"],
+            authors: [authorName],
           }
         : {}),
     },

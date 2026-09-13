@@ -51,9 +51,9 @@ const CRAWL_RECOVERY_DELAY_MS = 560;
 const CRAWL_STAGE_WIDTH_SCALE = 1.5;
 
 /**
- * The model is KIRA's single draggable launcher. Until WebGL and the model are
- * ready, the same button shows the lightweight 2D portrait, so conversation
- * access never depends on the 3D runtime succeeding.
+ * Start with the lightweight portrait and load the draggable model only when
+ * a visitor first opens KIRA. Keep it mounted after closing the conversation;
+ * conversation access never depends on the 3D runtime succeeding.
  */
 export function FloatingAvatarChat({ modelUrl }: FloatingAvatarChatProps) {
   const pathname = usePathname() ?? "/";
@@ -64,6 +64,7 @@ export function FloatingAvatarChat({ modelUrl }: FloatingAvatarChatProps) {
     pathname === "/ai-companion" ||
     pathname.startsWith("/ai-companion/");
   const [isOpen, setIsOpen] = useState(false);
+  const [hasActivatedAvatar, setHasActivatedAvatar] = useState(false);
   const [avatarLoadState, setAvatarLoadState] =
     useState<AvatarLoadState>("loading");
   const [interactionMode, setInteractionMode] =
@@ -111,6 +112,11 @@ export function FloatingAvatarChat({ modelUrl }: FloatingAvatarChatProps) {
     setIsOpen(false);
     void disableMicrophone();
   }, [disableMicrophone]);
+
+  const openConversation = useCallback(() => {
+    setHasActivatedAvatar(true);
+    setIsOpen(true);
+  }, []);
 
   const measureBounds = useCallback(() => {
     const avatar = avatarRef.current;
@@ -320,7 +326,7 @@ export function FloatingAvatarChat({ modelUrl }: FloatingAvatarChatProps) {
   const activateAvatar = () => {
     if (!avatarReady) {
       if (isOpen) closeConversation();
-      else setIsOpen(true);
+      else openConversation();
       return;
     }
     if (
@@ -342,7 +348,7 @@ export function FloatingAvatarChat({ modelUrl }: FloatingAvatarChatProps) {
     interactionRunRef.current += 1;
     updateInteractionMode("idle");
     if (isOpen) closeConversation();
-    else setIsOpen(true);
+    else openConversation();
   };
 
   const startDrag = () => {
@@ -430,7 +436,9 @@ export function FloatingAvatarChat({ modelUrl }: FloatingAvatarChatProps) {
   return (
     <div
       className="pointer-events-none fixed inset-0 z-[120] select-none"
-      data-avatar-load-state={avatarLoadState}
+      data-avatar-load-state={
+        hasActivatedAvatar ? avatarLoadState : "deferred"
+      }
       data-persistent-avatar-host="true"
     >
       <AnimatePresence>
@@ -524,7 +532,7 @@ export function FloatingAvatarChat({ modelUrl }: FloatingAvatarChatProps) {
           animate={{ ...visibleModelAnimation, opacity: avatarReady ? 1 : 0 }}
           transition={visibleModelTransition}
         >
-          {!avatarFailed && (
+          {hasActivatedAvatar && !avatarFailed && (
             <AvatarStage
               interactionMode={interactionMode}
               modelUrl={modelUrl}

@@ -27,7 +27,7 @@ export const navlinks = [
   },
   {
     href: "/blog",
-    label: "Writing",
+    label: "Blog",
     icon: IconNotes,
   },
   {

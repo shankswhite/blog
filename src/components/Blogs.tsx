@@ -52,9 +52,9 @@ export function Blogs({ blogs }: { blogs: Blog[] }) {
               >
                 {formatDate(blog.date)}
               </time>
-              <h3 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.03em] text-slate-950">
+              <h2 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.03em] text-slate-950">
                 {blog.title}
-              </h3>
+              </h2>
               <p className="mt-2 flex-1 text-sm leading-6 text-slate-600">
                 {blog.description}
               </p>

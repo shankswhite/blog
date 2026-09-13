@@ -7,6 +7,9 @@ import { SiteFrame } from "@/components/SiteFrame";
 import { VoiceSessionProvider } from "@/components/companion-voice";
 import { FloatingChat } from "@/components/FloatingChat";
 import { FloatingAvatarChat } from "@/components/FloatingAvatarChat";
+import { StructuredData } from "@/components/StructuredData";
+import { siteDescription, siteName } from "@/lib/siteIdentity";
+import { createSiteStructuredData } from "@/lib/structuredData";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,11 +19,14 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Levon Zhao — Games, AI & Software",
-    template: "%s | Levon Zhao",
+    default: "Levon Blog — AI, Games & Software by Levon Zhao",
+    template: "%s | Levon Blog",
   },
-  description:
-    "Levon Zhao is a game designer turned software engineer exploring AI, games, computer graphics, and thoughtful product systems.",
+  description: siteDescription,
+  // Public ownership proof for the site's Google Search Console property.
+  verification: isProductionSite
+    ? { google: "xA4ObnaAuuthUZfhX-UYsEu7RvPsWi3SwonNoH6TUn0" }
+    : undefined,
   robots: isProductionSite
     ? { index: true, follow: true }
     : { index: false, follow: false, noarchive: true },
@@ -28,12 +34,11 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Levon Zhao — Games, AI & Software",
-    description:
-      "Research, interactive experiments, and software projects at the intersection of AI and games.",
+    title: "Levon Blog — AI, Games & Software by Levon Zhao",
+    description: siteDescription,
     type: "website",
     url: "/",
-    siteName: "Levon Zhao",
+    siteName,
     images: [
       {
         url: "/og.jpg",
@@ -45,9 +50,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Levon Zhao — Games, AI & Software",
-    description:
-      "Research, interactive experiments, and software projects at the intersection of AI and games.",
+    title: "Levon Blog — AI, Games & Software by Levon Zhao",
+    description: siteDescription,
     images: ["/og.jpg"],
   },
 };
@@ -66,6 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-[#f0eee8]" data-scroll-behavior="smooth">
       <body className={twMerge(inter.className, "min-h-dvh antialiased")}>
+        <StructuredData data={createSiteStructuredData(siteUrl)} />
         <VoiceSessionProvider avatarAudioEnabled={avatar3DEnabled}>
           <SiteFrame>{children}</SiteFrame>
           {avatar3DEnabled ? (

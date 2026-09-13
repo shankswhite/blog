@@ -3,6 +3,7 @@ export interface BlogMeta {
   title: string;
   description: string;
   date: string;
+  lastModified?: string;
   image: string;
   tags: string[];
 }
@@ -14,6 +15,7 @@ const blogs: BlogMeta[] = [
     description:
       "What 26 line pairs, five transformation studies, and several coordinate bugs taught me about image warping.",
     date: "2025-02-01",
+    lastModified: "2026-09-13",
     image: "/media/morphing/warp-study.png",
     tags: ["Computer Graphics", "C++", "Image Processing"],
   },
@@ -23,6 +25,7 @@ const blogs: BlogMeta[] = [
     description:
       "Introducing Kolmogorov-Arnold Network modules into YOLO11n and testing the architectural trade-offs.",
     date: "2024-12-08",
+    lastModified: "2026-09-13",
     image: "/media/research/yolo-kan-poster.jpg",
     tags: ["Computer Vision", "KAN", "YOLO", "Research"],
   },

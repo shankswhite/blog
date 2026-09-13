@@ -14,7 +14,7 @@ export default function AboutPage() {
   return (
     <Container>
       <PageHeader
-        eyebrow="About"
+        eyebrow="About Levon Zhao"
         title="From game systems to intelligent software."
         description={
           <p>

@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "sync:notion": "tsx scripts/sync-notion.ts",
     "write:runtime-env": "tsx scripts/write-runtime-env.ts",
-    "test:unit": "tsx --test src/lib/*.test.ts"
+    "test:unit": "tsx --test src/lib/*.test.ts",
+    "audit:seo": "node scripts/audit-seo.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1108.0",
@@ -23,7 +24,7 @@
     "framer-motion": "^10.16.1",
     "livekit-client": "^2.21.0",
     "livekit-server-sdk": "^2.17.0",
-    "next": "15.5.23",
+    "next": "15.5.25",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^10.1.0",
@@ -47,7 +48,7 @@
     "constructs": "^10.3.0",
     "esbuild": "^0.23.1",
     "eslint": "9.39.5",
-    "eslint-config-next": "15.5.23",
+    "eslint-config-next": "15.5.25",
     "postcss": "^8.5.2",
     "sass": "^1.97.2",
     "tailwindcss": "^3.4.17",
@@ -58,7 +59,7 @@
     "nanoid": "3.3.18",
     "next": {
       "postcss": "8.5.23",
-      "sharp": "0.35.3"
+      "sharp": "0.35.4"
     }
   }
 }

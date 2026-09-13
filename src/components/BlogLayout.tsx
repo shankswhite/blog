@@ -1,13 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { IconArrowLeft } from "@tabler/icons-react";
 import { formatDate } from "../../lib/formatDate";
 import { Container } from "./Container";
 import { Prose } from "./Prose";
+import { StructuredData } from "./StructuredData";
+import { createArticleStructuredData } from "@/lib/structuredData";
+import { siteUrl } from "@/lib/siteUrl";
 
 type BlogMeta = {
   title: string;
   date: string;
+  modifiedDate?: string;
   image?: string;
   description?: string;
   tags?: string[];
@@ -16,21 +19,26 @@ type BlogMeta = {
 export function BlogLayout({
   children,
   meta,
+  path,
 }: {
   children: React.ReactNode;
   meta: BlogMeta;
+  path: string;
 }) {
   return (
     <Container>
+      <StructuredData data={createArticleStructuredData(siteUrl, { ...meta, path })} />
       <article>
         <header className="flex flex-col">
-          <Link
-            href="/blog"
-            aria-label="Go back to articles"
-            className="group mb-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-slate-300 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500"
-          >
-            <IconArrowLeft size={17} />
-          </Link>
+          <nav aria-label="Breadcrumb" className="mb-5 text-xs leading-6 text-slate-500">
+            <ol className="flex flex-wrap items-center gap-x-2">
+              <li><Link href="/" className="hover:text-slate-950">Levon Blog</Link></li>
+              <li aria-hidden="true">/</li>
+              <li><Link href="/blog" className="hover:text-slate-950">Blog</Link></li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page">{meta.title}</li>
+            </ol>
+          </nav>
 
           <h1 className="max-w-3xl py-3 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-slate-950 sm:text-5xl">
             {meta.title}
@@ -41,9 +49,17 @@ export function BlogLayout({
             </p>
           )}
           <div className="mt-4 flex flex-wrap items-center gap-3">
+            <Link href="/about" rel="author" className="text-sm font-medium text-sky-700 hover:text-slate-950">
+              By Levon Zhao
+            </Link>
             <time dateTime={meta.date} className="text-sm text-slate-600">
               {formatDate(meta.date)}
             </time>
+            {meta.modifiedDate && meta.modifiedDate !== meta.date && (
+              <span className="text-xs text-slate-500">
+                Updated <time dateTime={meta.modifiedDate}>{formatDate(meta.modifiedDate)}</time>
+              </span>
+            )}
             {meta.tags?.map((tag) => (
               <span
                 key={tag}

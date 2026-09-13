@@ -42,9 +42,9 @@ export function LegacyClassicHome() {
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <div className={styles.upperElements}>
-            <motion.span {...fade(-100, 0, 0.2)} className={styles.primaryText}>
+            <motion.h1 {...fade(-100, 0, 0.2)} className={styles.primaryText}>
               Hey There, <br />I&apos;m Levon.
-            </motion.span>
+            </motion.h1>
             <motion.span {...fade(100, 0, 0.2)} className={styles.secondaryText}>
               I focus on <br />AI and Game Devlopment.
             </motion.span>
