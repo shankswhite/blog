@@ -10,6 +10,15 @@ export interface BlogMeta {
 
 const blogs: BlogMeta[] = [
   {
+    slug: "deferred-3d-avatar",
+    title: "Deferring KIRA’s 3D Avatar Until the First Conversation",
+    description:
+      "How two React states defer KIRA’s WebGL avatar until first use, preserve it after closing, and make its lifecycle observable in the browser.",
+    date: "2026-09-13",
+    image: "/images/ai-companion/ai-companion-og.jpg",
+    tags: ["React", "Next.js", "WebGL", "Performance"],
+  },
+  {
     slug: "beier-neely-image-morphing",
     title: "Debugging a Beier-Neely Image Morph",
     description:

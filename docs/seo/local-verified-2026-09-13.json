@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-13T10:50:46.332Z",
+  "checkedAt": "2026-09-13T11:07:01.122Z",
   "pages": [
     {
       "url": "https://www.levon.blog/",
@@ -54,6 +54,20 @@
       "status": 200,
       "title": "Debugging a Beier-Neely Image Morph | Levon Blog",
       "description": "What 26 line pairs, five transformation studies, and several coordinate bugs taught me about image warping.",
+      "h1Count": 1,
+      "noindex": false,
+      "schemaTypes": [
+        "WebSite",
+        "Person",
+        "BlogPosting",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "url": "https://www.levon.blog/blog/deferred-3d-avatar",
+      "status": 200,
+      "title": "Deferring KIRA’s 3D Avatar Until the First Conversation | Levon Blog",
+      "description": "How two React states defer KIRA’s WebGL avatar until first use, preserve it after closing, and make its lifecycle observable in the browser.",
       "h1Count": 1,
       "noindex": false,
       "schemaTypes": [
@@ -336,8 +350,8 @@
   "expectedOrigin": "https://www.levon.blog",
   "mode": "production",
   "summary": {
-    "sitemapPages": 27,
-    "auditedPages": 27,
+    "sitemapPages": 28,
+    "auditedPages": 28,
     "failures": 0,
     "warnings": 0,
     "passed": true

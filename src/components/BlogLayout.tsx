@@ -12,6 +12,7 @@ type BlogMeta = {
   date: string;
   modifiedDate?: string;
   image?: string;
+  imageFit?: "cover" | "contain";
   description?: string;
   tags?: string[];
 };
@@ -76,7 +77,7 @@ export function BlogLayout({
                   src={meta.image}
                   alt={`${meta.title} cover`}
                   fill
-                  className="object-cover object-left-top"
+                  className={meta.imageFit === "contain" ? "object-contain" : "object-cover object-left-top"}
                   sizes="(max-width: 1024px) 100vw, 900px"
                   priority
                 />
@@ -85,7 +86,7 @@ export function BlogLayout({
                 <img
                   src={meta.image}
                   alt={`${meta.title} cover`}
-                  className="h-full w-full object-cover object-left-top"
+                  className={meta.imageFit === "contain" ? "h-full w-full object-contain" : "h-full w-full object-cover object-left-top"}
                 />
               )}
             </div>

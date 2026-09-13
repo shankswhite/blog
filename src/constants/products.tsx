@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Product } from "@/types/products";
 
 export const products: Product[] = [
@@ -146,9 +147,14 @@ export const products: Product[] = [
           The current public mode uses one persistent LiveKit session for text
           and voice. It gives KIRA bounded context from the page a visitor is
           viewing, then uses Gemini and ElevenLabs to answer and speak. The
-          first production release uses a lightweight 2D KIRA launcher; the
-          licensed 3D avatar stays outside the deploy artifact until its
-          animation and performance work is complete.
+          floating companion starts with a lightweight 2D KIRA launcher. Its
+          3D avatar loads from the model CDN when a visitor first opens the
+          conversation, then stays mounted when the panel closes. This keeps
+          the model and rendering work out of an ordinary first visit. The{" "}
+          <Link href="/blog/deferred-3d-avatar">
+            engineering note on deferred avatar loading
+          </Link>{" "}
+          explains the state changes, browser checks, and remaining limits.
         </p>
         <p>
           The interface is available as both a focused full-page experience and

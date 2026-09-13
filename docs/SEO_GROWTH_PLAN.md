@@ -16,7 +16,7 @@
 | P2 | 0.50 小时 | 建立查询测量口径、14/28 天复盘安排和后续内容提纲；记录下一步依赖。 |
 | **合计上限** | **8.00 小时** | 先保证可发现、身份清楚、页面正确且可用，再评估搜索结果。 |
 
-某项提前完成，可把余额投入失败检查和真实瓶颈；不得为用满预算制造内容、重复重抓取或刷搜索点击。未来三篇文章是后续选题，不预设能在本轮预算内全部研究并发布。
+某项提前完成，可把余额投入失败检查和真实瓶颈；不得为用满预算制造内容、重复重抓取或刷搜索点击。后续深入选题按证据准备程度推进，不预设能在本轮预算内全部研究并发布。
 
 ## 已完成与后续观察
 
@@ -29,7 +29,7 @@
 - 生产浏览器确认：首访无 Three.js canvas，首次打开 KIRA 后模型 ready；关闭聊天和内部导航后仍保持挂载。未取得 CWV 改善幅度。
 - GSC 已完成 HTML 标签所有权验证；站图处理成功，Google 发现 27 个页面。首页、博客列表和两篇文章已收录，Google 选择的 canonical 正确；首页和博客列表重新索引请求均已成功进入队列。
 
-**验收记录：** 首轮通过 Node 22 生产构建、31 项自动测试、类型检查、ESLint；生产域名 27 个站图页面 SEO 验证为 0 failures / 0 warnings，8 条旧路径和不存在页面的真实 404 正常，390px 手机博客与导航没有横向溢出。生产依赖审计为 0 个已知漏洞。两篇文章均已依据原始材料实质修订并保留原始发布日期。Google Rich Results 首次实测成功识别 Article 和 Breadcrumbs，但提示日期缺少时间/时区；已增加统一日期输出及防回归检查，35 项自动测试、生产构建、类型检查、ESLint 和本地 27 页审计通过。最终日期补丁的生产复验见最终交付记录。
+**验收记录：** 首轮通过 Node 22 生产构建、31 项自动测试、类型检查、ESLint；生产域名 27 个站图页面 SEO 验证为 0 failures / 0 warnings，8 条旧路径和不存在页面的真实 404 正常，390px 手机博客与导航没有横向溢出。生产依赖审计为 0 个已知漏洞。两篇文章均已依据原始材料实质修订并保留原始发布日期。Google Rich Results 首次实测成功识别 Article 和 Breadcrumbs，但提示日期缺少时间/时区；已增加统一日期输出及防回归检查，35 项自动测试、生产构建、类型检查、ESLint 和本地 27 页审计通过。日期补丁上线后，Google 于 03:59（页面显示时间）复验确认 Article 和 Breadcrumbs 均有效，4 条提示全部消除。新增 KIRA 工程笔记已实现并接入首页、博客列表、站图和项目页，本地 28 页审计通过。新文章桌面版通过阅读与来源复核；后续手机视口设置未生效，未将这个失败的预览当作新文章的手机验收。最终生产版本和页面数量见交付记录。
 
 **后续观察：** GSC 新属性正在处理展示与点击数据，尚无可用查询基线。需要确认 Google 重新抓取并处理新版后，再评估目标查询的曝光、点击和位置。已收录、重新索引请求成功和站图处理成功均不等于排名已提升。
 
@@ -54,15 +54,15 @@ PSI API 本轮返回配额限制；网页真实用户区显示 `No Data`，未�
 
 口径依据：[GSC Performance](https://support.google.com/webmasters/answer/7576553)、[Google sitemap 指南](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)。
 
-## 下一批三篇原创选题
+## 后续深入选题
 
 | 选题 | 已有公开依据 | 发布前必须补齐的原创材料 |
 | --- | --- | --- |
 | **YOLO-KAN 消融实验：精度、网络深度与特征展平的取舍** | [研究项目](https://www.levon.blog/projects/yolo-kan)、[现有文章](https://www.levon.blog/blog/yolo-kan-research)、[研究海报](https://www.levon.blog/media/research/levon-yolo-kan-poster.pdf) | 从原始实验记录核对设置与指标；明确数据划分、训练条件、参数/层数、precision 与 mAP 的区别，解释失败配置。重跑才报告新结果；没有重跑时标为对既有公开实验的复盘，不虚构多次试验或置信区间。 |
 | **Beier–Neely 图像变形：定位坐标、取整和旋转错误** | [图形项目](https://www.levon.blog/projects/beier-neely-morphing)、[调试文章](https://www.levon.blog/blog/beier-neely-image-morphing) | 用自制几何图形建立最小可复现样例，展示统一坐标/取整前后、边界采样与尚未修好的旋转结果；提供代码、参数和失败解释。算法来源核实后引用；不重新发布缺少授权记录的旧角色图。 |
-| **让 3D AI 作品集按需加载：KIRA 的加载与交互实验** | [公开项目案例](https://www.levon.blog/projects/portfolio-companion)、[AI Companion](https://www.levon.blog/ai-companion)、[公开源码](https://github.com/shankswhite/blog) | 在相同移动/桌面条件下重复冷启动，保存前后版本、资源请求和实验室报告；验证首访不加载模型、首次开启、关闭保留、无 WebGL 降级。记录样本和波动，区分资源减少、实验室指标与真实用户体验；不宣称尚未测到的排名或 CWV 改善。 |
+| **KIRA 按需加载的后续性能量化** | [公开项目案例](https://www.levon.blog/projects/portfolio-companion)、[本轮新增工程笔记](https://www.levon.blog/blog/deferred-3d-avatar)、[公开源码](https://github.com/shankswhite/blog) | 在相同移动/桌面条件下重复冷启动，保存前后版本、资源请求和实验室报告；验证首访不加载模型、首次开启、关闭保留、无 WebGL 降级。记录样本和波动，区分资源减少、实验室指标与真实用户体验；不宣称尚未测到的排名或 CWV 改善。 |
 
-三篇都围绕已有公开工作发展。新增履历、业务收益、实验数字、论文结论和引用必须有来源；不披露雇主机密，也不把通用模型生成内容当作本人做过的实验。Google 更看重原创信息、作者背景与对读者有帮助的亲身经验，没有偏好的固定字数。[Google 有用内容指南](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
+本轮已把实际实现和生产验证整理成 KIRA 按需加载工程笔记，提供可重复的浏览器检查；不把它当作性能量化实验。后续三项深入研究仍围绕已有公开工作发展。新增履历、业务收益、实验数字、论文结论和引用必须有来源；不披露雇主机密，也不把通用模型生成内容当作本人做过的实验。Google 更看重原创信息、作者背景与对读者有帮助的亲身经验，没有偏好的固定字数。[Google 有用内容指南](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
 
 ## 站外发现入口
 
