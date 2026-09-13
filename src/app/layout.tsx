@@ -19,7 +19,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Levon Blog — AI, Games & Software by Levon Zhao",
+    default: "Levon's Blog | AllBlue",
     template: "%s | Levon Blog",
   },
   description: siteDescription,
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Levon Blog — AI, Games & Software by Levon Zhao",
+    title: "Levon's Blog | AllBlue",
     description: siteDescription,
     type: "website",
     url: "/",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Levon Blog — AI, Games & Software by Levon Zhao",
+    title: "Levon's Blog | AllBlue",
     description: siteDescription,
     images: ["/og.jpg"],
   },

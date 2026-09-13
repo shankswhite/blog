@@ -12,7 +12,7 @@ import { createPageMetadata } from "@/lib/siteMetadata";
 import { formatDate } from "../../lib/formatDate";
 
 export const metadata = createPageMetadata({
-  title: "Levon Blog — AI, Games & Software by Levon Zhao",
+  title: "Levon's Blog | AllBlue",
   absoluteTitle: true,
   description:
     "Levon Blog by Levon Zhao, an AI / ML engineer. Explore notes on AI, computer graphics, and games, plus engineering projects and research.",
