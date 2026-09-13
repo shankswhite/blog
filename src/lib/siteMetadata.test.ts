@@ -60,3 +60,33 @@ test("keeps the legacy string image API backward compatible", () => {
     { url: "/example.jpg", alt: "Example page" },
   ]);
 });
+
+test("article Open Graph dates include an explicit time and timezone", () => {
+  const metadata = createPageMetadata({
+    title: "An experiment",
+    description: "Research notes",
+    path: "/blog/example",
+    type: "article",
+    publishedTime: "2024-12-08",
+    modifiedTime: "2026-09-13",
+  });
+  const graph = metadata.openGraph;
+  assert.ok(graph && "publishedTime" in graph && "modifiedTime" in graph);
+  assert.equal(graph.publishedTime, "2024-12-08T00:00:00Z");
+  assert.equal(graph.modifiedTime, "2026-09-13T00:00:00Z");
+});
+
+test("article Open Graph preserves supplied timestamp precision and timezone", () => {
+  const metadata = createPageMetadata({
+    title: "A Notion note",
+    description: "Research notes",
+    path: "/blog/notion-example",
+    type: "article",
+    publishedTime: "2026-09-12T23:45:12.123-07:00",
+    modifiedTime: "2026-09-13T06:55:00Z",
+  });
+  const graph = metadata.openGraph;
+  assert.ok(graph && "publishedTime" in graph && "modifiedTime" in graph);
+  assert.equal(graph.publishedTime, "2026-09-12T23:45:12.123-07:00");
+  assert.equal(graph.modifiedTime, "2026-09-13T06:55:00Z");
+});

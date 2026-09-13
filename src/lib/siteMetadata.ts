@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { authorName, siteName } from "./siteIdentity";
+import { toMetadataDateTime } from "./metadataDate";
 
 type PageMetadataInput = {
   title: string;
@@ -55,8 +56,8 @@ export function createPageMetadata({
       images: imageMetadata,
       ...(type === "article"
         ? {
-            publishedTime,
-            modifiedTime,
+            publishedTime: toMetadataDateTime(publishedTime),
+            modifiedTime: toMetadataDateTime(modifiedTime),
             tags,
             authors: [authorName],
           }

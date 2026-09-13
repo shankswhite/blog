@@ -228,6 +228,15 @@ function authorHasName(author, nodes) {
   });
 }
 
+function isZonedDateTime(value) {
+  if (typeof value !== 'string') return false;
+  const match = value.match(/^(\d{4}-\d{2}-\d{2})T(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d(?:\.\d+)?)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)$/i);
+  if (!match || !Number.isFinite(Date.parse(value))) return false;
+  // Date.parse accepts impossible calendar days by rolling into the next month.
+  const calendarDay = new Date(`${match[1]}T00:00:00Z`);
+  return Number.isFinite(calendarDay.getTime()) && calendarDay.toISOString().slice(0, 10) === match[1];
+}
+
 function auditHtml(path, response, groups) {
   const url = expectedUrl(path);
   if (response.status !== 200) {
@@ -287,8 +296,16 @@ function auditHtml(path, response, groups) {
     for (const article of articles) {
       if (!authorHasName(article.author, schema)) fail(url, 'Article structured data is missing a named author.');
       if (typeof article.headline !== 'string' || !article.headline.trim()) fail(url, 'Article structured data is missing a headline.');
-      if (!article.datePublished || !Number.isFinite(Date.parse(article.datePublished))) {
-        fail(url, 'Article structured data is missing a valid publication date.');
+      if (!isZonedDateTime(article.datePublished)) {
+        fail(url, 'Article datePublished must be a valid ISO date-time with an explicit timezone.');
+      }
+      if ('dateModified' in article && !isZonedDateTime(article.dateModified)) {
+        fail(url, 'Article dateModified must be a valid ISO date-time with an explicit timezone.');
+      }
+    }
+    for (const meta of metas.filter((item) => ['article:published_time', 'article:modified_time'].includes(item.property?.toLowerCase()))) {
+      if (!isZonedDateTime(meta.content)) {
+        fail(url, `${meta.property} must be a valid ISO date-time with an explicit timezone.`);
       }
     }
     const articleText = elements(html, 'article').map((match) => textContent(match[2])).join(' ');

@@ -1,4 +1,5 @@
 import { authorName, authorProfiles, siteDescription, siteName } from "./siteIdentity";
+import { toMetadataDateTime } from "./metadataDate";
 
 export function serializeStructuredData(value: unknown): string {
   // CMS titles and descriptions must never terminate the JSON-LD script tag.
@@ -54,8 +55,10 @@ export function createArticleStructuredData(origin: string, article: ArticleInpu
         mainEntityOfPage: { "@type": "WebPage", "@id": url },
         headline: article.title,
         description: article.description,
-        datePublished: article.date,
-        ...(article.modifiedDate ? { dateModified: article.modifiedDate } : {}),
+        datePublished: toMetadataDateTime(article.date),
+        ...(article.modifiedDate
+          ? { dateModified: toMetadataDateTime(article.modifiedDate) }
+          : {}),
         author: {
           "@type": "Person",
           "@id": `${home}#person`,
